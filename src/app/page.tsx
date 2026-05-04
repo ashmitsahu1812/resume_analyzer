@@ -5,38 +5,58 @@ import Footer from "@/components/layout/Footer";
 import Hero from "@/components/landing/Hero";
 import Features from "@/components/landing/Features";
 import Link from "next/link";
-import { ArrowRight, Zap } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+
+const stats = [
+  { value: "98%", label: "ATS accuracy" },
+  { value: "2s", label: "Analysis time" },
+  { value: "12+", label: "Improvements per resume" },
+  { value: "Free", label: "To get started" },
+];
 
 export default function Home() {
   return (
-    <main>
+    <main className="bg-white">
       <Navbar />
       <Hero />
+
+      {/* Stats strip */}
+      <section className="bg-white border-y border-black/5 py-16">
+        <div className="max-w-[980px] mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {stats.map((s, i) => (
+              <motion.div key={i}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.08 }}>
+                <p className="text-[2.5rem] font-bold text-[#1d1d1f] tracking-tight mb-1">{s.value}</p>
+                <p className="text-[14px] text-[#6e6e73]">{s.label}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <Features />
 
-      {/* CTA */}
-      <section className="py-32 px-6">
-        <div className="max-w-4xl mx-auto text-center">
+      {/* CTA section */}
+      <section className="section bg-[#f5f5f7]">
+        <div className="max-w-[680px] mx-auto px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="panel p-16 rounded-sm relative"
+            transition={{ duration: 0.6 }}
           >
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-b from-cyan-400/5 to-transparent pointer-events-none" />
-
-            <p className="cyber-label text-cyan-400/70 mb-6">// Ready to begin?</p>
-            <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-white uppercase mb-6">
-              Run Your First<br />
-              <span className="neon">Analysis Free</span>
+            <p className="eyebrow mb-4">Get started today</p>
+            <h2 className="headline mb-5">
+              Ready to land<br />your dream job?
             </h2>
-            <p className="text-slate-500 mb-10 max-w-lg mx-auto">
-              Upload your resume and get a full diagnostic report in under 2 seconds. No signup required.
+            <p className="subheadline mb-10" style={{ fontSize: "1.1rem" }}>
+              Upload your resume and get a full AI analysis in seconds. No account required.
             </p>
-            <Link href="/dashboard" className="btn-cyber-solid inline-flex">
-              <Zap className="w-4 h-4" />
-              Start Now
+            <Link href="/dashboard" className="btn-primary text-[15px] px-8 py-4">
+              Analyze my resume for free
               <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.div>

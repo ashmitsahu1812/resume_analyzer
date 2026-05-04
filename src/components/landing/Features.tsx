@@ -1,106 +1,103 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Activity, Target, MessageSquare, Zap, Shield, BarChart3 } from "lucide-react";
+import { Zap, Target, MessageSquare, BarChart3, Shield, Sparkles } from "lucide-react";
 
 const features = [
   {
-    icon: Activity,
-    id: "01",
-    title: "ATS Diagnostics",
-    desc: "Deep-scan your resume against 50+ ATS parsing rules. Identify formatting issues, keyword gaps, and structural problems before they cost you the interview.",
-    tags: ["Parsing", "Keywords", "Format"],
+    icon: Zap,
+    color: "#0071e3",
+    bg: "rgba(0,113,227,0.08)",
+    title: "Instant ATS Scoring",
+    desc: "Get a precise ATS compatibility score in seconds. Understand exactly how recruiters' systems see your resume.",
   },
   {
     icon: Target,
-    id: "02",
-    title: "Neural Job Match",
-    desc: "Semantic similarity analysis between your resume and any job description. Get a precise match score with actionable gap analysis.",
-    tags: ["Semantic AI", "Gap Analysis", "Scoring"],
+    color: "#ff9500",
+    bg: "rgba(255,149,0,0.08)",
+    title: "Job Match Analysis",
+    desc: "Paste any job description and see how well your resume aligns. Get a match percentage with gap analysis.",
+  },
+  {
+    icon: Sparkles,
+    color: "#af52de",
+    bg: "rgba(175,82,222,0.08)",
+    title: "AI-Powered Rewrites",
+    desc: "Our AI rewrites your bullet points to be more impactful — adding metrics, action verbs, and clarity.",
   },
   {
     icon: MessageSquare,
-    id: "03",
-    title: "Interview Simulator",
-    desc: "AI-generated behavioral and technical questions based on your resume and target role. Practice with real-time feedback.",
-    tags: ["STAR Method", "Behavioral", "Technical"],
-  },
-  {
-    icon: Zap,
-    id: "04",
-    title: "Smart Rewrites",
-    desc: "Bullet-by-bullet AI rewrites that inject impact metrics, action verbs, and quantifiable achievements into your experience.",
-    tags: ["GPT-4", "Impact", "Metrics"],
+    color: "#34c759",
+    bg: "rgba(52,199,89,0.08)",
+    title: "Interview Prep",
+    desc: "Generate tailored interview questions based on your resume and target role. Practice with AI feedback.",
   },
   {
     icon: Shield,
-    id: "05",
-    title: "Keyword Injection",
-    desc: "Identify missing industry keywords and get contextual suggestions for naturally integrating them into your resume.",
-    tags: ["NLP", "Industry Terms", "Context"],
+    color: "#ff3b30",
+    bg: "rgba(255,59,48,0.08)",
+    title: "Keyword Optimization",
+    desc: "Identify missing keywords from job descriptions and get suggestions to integrate them naturally.",
   },
   {
     icon: BarChart3,
-    id: "06",
+    color: "#5ac8fa",
+    bg: "rgba(90,200,250,0.08)",
     title: "Score Tracking",
-    desc: "Track your resume score across multiple versions and job applications. See exactly what changes moved the needle.",
-    tags: ["Analytics", "Versioning", "Trends"],
+    desc: "Track your resume score across versions. See exactly which changes improved your chances.",
   },
 ];
 
 export default function Features() {
   return (
-    <section id="features" className="py-32 px-6 relative">
-      <div className="max-w-7xl mx-auto">
+    <section id="features" className="section bg-white">
+      <div className="max-w-[980px] mx-auto">
         {/* Header */}
-        <div className="mb-20">
+        <div className="text-center mb-20">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            className="cyber-label text-cyan-400/70 mb-4"
+            className="eyebrow mb-3"
           >
-            // Core Modules
+            Features
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-7xl font-black tracking-tighter text-white uppercase leading-none"
+            className="headline mb-5"
           >
-            System<br />
-            <span className="neon">Capabilities</span>
+            Everything you need<br />to land the job.
           </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            className="subheadline max-w-[500px] mx-auto"
+            style={{ fontSize: "1.1rem" }}
+          >
+            Aura combines multiple AI models to give you the most comprehensive resume analysis available.
+          </motion.p>
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-cyan-400/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {features.map((f, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
-              className="bg-[#020408] p-8 group hover:bg-[#060d14] transition-colors relative"
+              transition={{ delay: i * 0.07, duration: 0.5 }}
+              className="card p-8"
             >
-              {/* Corner accent */}
-              <div className="absolute top-0 left-0 w-4 h-px bg-cyan-400/60" />
-              <div className="absolute top-0 left-0 w-px h-4 bg-cyan-400/60" />
-
-              <div className="flex items-start justify-between mb-6">
-                <div className="w-10 h-10 border border-cyan-400/20 flex items-center justify-center group-hover:border-cyan-400/50 transition-colors">
-                  <f.icon className="w-5 h-5 text-cyan-400/60 group-hover:text-cyan-400 transition-colors" />
-                </div>
-                <span className="font-mono text-xs text-slate-700 group-hover:text-slate-500 transition-colors">{f.id}</span>
+              <div
+                className="w-12 h-12 rounded-[14px] flex items-center justify-center mb-5"
+                style={{ background: f.bg }}
+              >
+                <f.icon className="w-6 h-6" style={{ color: f.color }} />
               </div>
-
-              <h3 className="text-lg font-bold text-white mb-3 tracking-tight">{f.title}</h3>
-              <p className="text-sm text-slate-500 leading-relaxed mb-6">{f.desc}</p>
-
-              <div className="flex flex-wrap gap-2">
-                {f.tags.map((t) => (
-                  <span key={t} className="tag-cyber">{t}</span>
-                ))}
-              </div>
+              <h3 className="text-[17px] font-semibold text-[#1d1d1f] mb-2 tracking-tight">{f.title}</h3>
+              <p className="text-[14px] text-[#6e6e73] leading-relaxed">{f.desc}</p>
             </motion.div>
           ))}
         </div>

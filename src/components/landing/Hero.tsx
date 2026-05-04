@@ -3,154 +3,125 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Zap, Shield, Cpu, Activity } from "lucide-react";
-
-const stats = [
-  { label: "Accuracy Rate", value: "98.4%" },
-  { label: "Avg. Score Boost", value: "+34pts" },
-  { label: "Models Active", value: "7" },
-  { label: "Latency", value: "<2s" },
-];
+import { ArrowRight, ChevronRight } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex flex-col justify-center pt-28 pb-20 px-6 overflow-hidden">
-      {/* Glow orbs */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-blue-600/10 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-cyan-400/5 blur-[100px] rounded-full pointer-events-none" />
+    <section className="relative overflow-hidden bg-[#fbfbfd] pt-28 pb-0">
+      {/* Subtle gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white via-[#fbfbfd] to-[#f5f5f7] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto w-full">
-        {/* System status bar */}
+      <div className="relative max-w-[980px] mx-auto px-6 text-center">
+        {/* Eyebrow */}
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-6 mb-16 flex-wrap"
+          transition={{ duration: 0.5 }}
+          className="mb-5"
         >
-          <div className="status-online">
-            <div className="status-dot" />
-            System Online
-          </div>
-          <div className="cyber-divider w-8 h-px" />
-          <span className="cyber-label text-slate-600">v4.2.1 // Neural Engine Active</span>
-          <div className="cyber-divider w-8 h-px" />
-          <span className="cyber-label text-slate-600">7 AI Models Loaded</span>
+          <Link href="/dashboard"
+            className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#0071e3] hover:underline">
+            Introducing AI Resume Analysis
+            <ChevronRight className="w-3.5 h-3.5" />
+          </Link>
         </motion.div>
 
-        {/* Main heading */}
-        <div className="mb-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
-            <p className="cyber-label text-cyan-400/70 mb-4">// Resume Intelligence Platform</p>
-            <h1 className="text-[clamp(3rem,10vw,9rem)] font-black leading-[0.85] tracking-tighter text-white uppercase">
-              Analyze.<br />
-              <span className="neon animate-flicker">Optimize.</span><br />
-              <span className="text-slate-600">Dominate.</span>
-            </h1>
-          </motion.div>
-        </div>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="text-slate-400 text-lg max-w-xl mb-12 leading-relaxed"
+        {/* Headline */}
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="headline-xl mb-6"
         >
-          AI-powered resume analysis that decodes ATS systems, maps skill gaps,
-          and generates precision rewrites — in under 2 seconds.
+          Your resume,<br />
+          <span style={{ color: "#0071e3" }}>perfected by AI.</span>
+        </motion.h1>
+
+        {/* Subheadline */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="subheadline max-w-[600px] mx-auto mb-10"
+        >
+          Aura analyzes your resume against any job description, scores it against ATS systems, and rewrites it — in seconds.
         </motion.p>
 
         {/* CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="flex flex-wrap items-center gap-4 mb-20"
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
         >
-          <Link href="/dashboard" className="btn-cyber-solid">
-            <Zap className="w-4 h-4" />
-            Run Analysis
+          <Link href="/dashboard" className="btn-primary text-[15px] px-7 py-3.5">
+            Analyze my resume
             <ArrowRight className="w-4 h-4" />
           </Link>
-          <Link href="#features" className="btn-cyber">
-            <Cpu className="w-4 h-4" />
-            View System
+          <Link href="#features" className="btn-secondary text-[15px]">
+            Learn more
+            <ChevronRight className="w-4 h-4" />
           </Link>
         </motion.div>
 
-        {/* Stats row */}
+        {/* Dashboard screenshot */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-px bg-cyan-400/10 border border-cyan-400/10 mb-20"
+          initial={{ opacity: 0, y: 60, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.9, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+          className="relative mx-auto max-w-5xl"
         >
-          {stats.map((s, i) => (
-            <div key={i} className="bg-[#020408] px-6 py-5">
-              <div className="text-2xl font-black text-white mb-1 font-mono">{s.value}</div>
-              <div className="cyber-label">{s.label}</div>
-            </div>
-          ))}
-        </motion.div>
-
-        {/* Dashboard preview */}
-        <motion.div
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="relative"
-        >
-          <div className="panel rounded-sm overflow-hidden">
-            {/* Top bar */}
-            <div className="flex items-center justify-between px-4 py-2 border-b border-cyan-400/10 bg-cyan-400/[0.02]">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-red-500/60" />
-                <div className="w-2 h-2 rounded-full bg-yellow-500/60" />
-                <div className="w-2 h-2 rounded-full bg-green-500/60" />
+          <div className="rounded-[20px] overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.15)] border border-black/5">
+            {/* Fake browser bar */}
+            <div className="bg-[#f0f0f0] px-4 py-3 flex items-center gap-2 border-b border-black/5">
+              <div className="flex gap-1.5">
+                <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
+                <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
+                <div className="w-3 h-3 rounded-full bg-[#28c840]" />
               </div>
-              <span className="cyber-label">aura.ai // dashboard</span>
-              <div className="status-online text-[9px]">
-                <div className="status-dot" />
-                Live
+              <div className="flex-1 mx-4">
+                <div className="bg-white rounded-md px-3 py-1 text-[11px] text-[#6e6e73] text-center max-w-[300px] mx-auto">
+                  aura.ai/dashboard
+                </div>
               </div>
             </div>
             <Image
               src="/premium_dashboard_mockup_1777913264636.png"
-              alt="AURA Dashboard"
+              alt="Aura Dashboard"
               width={1920}
               height={1080}
-              className="w-full h-auto opacity-80"
+              className="w-full h-auto"
+              priority
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#020408] via-transparent to-transparent pointer-events-none" />
           </div>
 
-          {/* Floating metric */}
+          {/* Floating cards */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 }}
-            className="absolute -right-4 top-16 panel px-5 py-4 hidden lg:block"
+            initial={{ opacity: 0, x: 30, y: 10 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            transition={{ delay: 0.9, duration: 0.5 }}
+            className="absolute -right-6 top-16 card p-4 w-44 hidden lg:block"
           >
-            <div className="cyber-label mb-2">ATS Score</div>
-            <div className="text-3xl font-black text-cyan-400 font-mono">94<span className="text-lg text-slate-500">/100</span></div>
-            <div className="progress-track mt-2 w-32">
-              <div className="progress-fill" style={{ width: "94%" }} />
+            <p className="label mb-1">ATS Score</p>
+            <p className="text-2xl font-bold text-[#1d1d1f] mb-2">94<span className="text-sm font-normal text-[#6e6e73]">/100</span></p>
+            <div className="progress-track">
+              <div className="progress-fill green" style={{ width: "94%" }} />
             </div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5 }}
-            className="absolute -left-4 bottom-24 panel px-5 py-4 hidden lg:block"
+            initial={{ opacity: 0, x: -30, y: 10 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            transition={{ delay: 1.0, duration: 0.5 }}
+            className="absolute -left-6 bottom-20 card p-4 w-52 hidden lg:block"
           >
             <div className="flex items-center gap-3">
-              <Activity className="w-4 h-4 text-cyan-400" />
+              <div className="w-9 h-9 rounded-full bg-[#34c759]/10 flex items-center justify-center shrink-0">
+                <span className="text-[#34c759] text-lg">✓</span>
+              </div>
               <div>
-                <div className="cyber-label mb-1">Analysis Complete</div>
-                <div className="text-xs text-white font-semibold">12 improvements found</div>
+                <p className="text-[13px] font-semibold text-[#1d1d1f]">Analysis complete</p>
+                <p className="label">12 improvements found</p>
               </div>
             </div>
           </motion.div>

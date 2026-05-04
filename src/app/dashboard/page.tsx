@@ -5,10 +5,11 @@ import { motion } from "framer-motion";
 import FileUpload from "@/components/dashboard/FileUpload";
 import { AnalysisPanel, SuggestionsPanel, KeywordsPanel } from "@/components/dashboard/AnalysisPanel";
 import { AnalysisResult } from "@/lib/types";
-import { Zap, Trophy, BarChart3, Target, RotateCcw, Activity } from "lucide-react";
+import { Zap, Trophy, BarChart3, Target, RotateCcw } from "lucide-react";
 import { AnalysisSkeleton } from "@/components/dashboard/Skeleton";
 import { cn } from "@/lib/utils";
-import { motion as m } from "framer-motion";
+
+const scoreColor = (v: number) => v >= 80 ? "#34c759" : v >= 60 ? "#ff9500" : "#ff3b30";
 
 export default function Dashboard() {
   const [analyzing, setAnalyzing] = useState(false);
@@ -44,101 +45,90 @@ export default function Dashboard() {
   };
 
   const scores = result ? [
-    { label: "ATS Score", val: result.ats_score, icon: Zap },
-    { label: "Content", val: result.content_score, icon: Trophy },
-    { label: "Format", val: result.format_score, icon: BarChart3 },
-    { label: "Job Match", val: result.job_match_percentage, icon: Target },
+    { label: "ATS Score", val: result.ats_score, icon: Zap, desc: "Applicant tracking" },
+    { label: "Content", val: result.content_score, icon: Trophy, desc: "Impact & clarity" },
+    { label: "Format", val: result.format_score, icon: BarChart3, desc: "Structure & layout" },
+    { label: "Job Match", val: result.job_match_percentage, icon: Target, desc: "Role alignment" },
   ] : [];
 
   return (
-    <div className="p-8 max-w-6xl mx-auto">
+    <div className="max-w-4xl mx-auto px-8 py-10">
       {/* Header */}
-      <div className="flex items-start justify-between mb-10 pb-6 border-b border-cyan-400/10">
-        <div>
-          <p className="cyber-label text-cyan-400/60 mb-2">// Resume Intelligence</p>
-          <h1 className="text-3xl font-black tracking-tight text-white uppercase">
-            Analysis <span className="neon">Engine</span>
-          </h1>
-        </div>
-        <div className="status-online">
-          <div className="status-dot" />
-          AI Ready
-        </div>
+      <div className="mb-10">
+        <h1 className="text-[28px] font-bold text-[#1d1d1f] tracking-tight mb-1">Resume Analysis</h1>
+        <p className="text-[15px] text-[#6e6e73]">Upload your resume to get an instant AI-powered analysis.</p>
       </div>
 
       {/* Upload state */}
       {!result && !analyzing && (
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="grid grid-cols-1 lg:grid-cols-5 gap-5"
+        >
           <div className="lg:col-span-2">
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-              className="panel rounded-sm p-6 h-full">
-              <p className="cyber-label mb-4">01 // Upload Resume</p>
+            <div className="bg-white rounded-[18px] border border-black/5 shadow-sm p-6 h-full">
+              <p className="text-[13px] font-semibold text-[#1d1d1f] mb-1">Upload Resume</p>
+              <p className="label mb-5">PDF or DOCX, up to 10MB</p>
               <FileUpload onFileSelect={handleFile} />
-            </motion.div>
+            </div>
           </div>
           <div className="lg:col-span-3">
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }} className="panel rounded-sm p-6 h-full">
-              <p className="cyber-label mb-4">02 // Target Job Description <span className="text-slate-700 normal-case tracking-normal font-normal">(optional)</span></p>
+            <div className="bg-white rounded-[18px] border border-black/5 shadow-sm p-6 h-full">
+              <p className="text-[13px] font-semibold text-[#1d1d1f] mb-1">Job Description</p>
+              <p className="label mb-5">Optional — improves match scoring</p>
               <textarea
                 value={jobDesc}
                 onChange={(e) => setJobDesc(e.target.value)}
-                placeholder="Paste the job description here for precision match scoring..."
-                className="input-cyber rounded-sm h-48 font-mono text-sm"
+                placeholder="Paste the job description here..."
+                className="input-apple h-52 text-[14px]"
               />
-              <p className="text-xs text-slate-700 mt-3">
-                Adding a job description enables semantic match scoring and targeted keyword analysis.
-              </p>
-            </motion.div>
+            </div>
           </div>
-        </div>
+        </motion.div>
       )}
 
       {analyzing && <AnalysisSkeleton />}
 
       {result && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-5">
           {/* Score cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-cyan-400/10 border border-cyan-400/10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {scores.map((s, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08 }}
-                className="bg-[#020408] p-6 relative group hover:bg-[#060d14] transition-colors"
+                transition={{ delay: i * 0.07 }}
+                className="bg-white rounded-[18px] border border-black/5 shadow-sm p-5"
               >
-                <div className="absolute top-0 left-0 w-3 h-px bg-cyan-400/50" />
-                <div className="absolute top-0 left-0 w-px h-3 bg-cyan-400/50" />
-                <div className="flex items-center justify-between mb-3">
-                  <span className="cyber-label">{s.label}</span>
-                  <s.icon className="w-3.5 h-3.5 text-cyan-400/40" />
-                </div>
-                <div className="text-4xl font-black font-mono text-white mb-3">
-                  {s.val}<span className="text-lg text-slate-600">%</span>
-                </div>
-                <div className="progress-track">
+                <p className="label mb-3">{s.label}</p>
+                <p className="text-[2rem] font-bold tracking-tight mb-0.5"
+                  style={{ color: scoreColor(s.val) }}>
+                  {s.val}<span className="text-[1rem] font-normal text-[#aeaeb2]">%</span>
+                </p>
+                <p className="text-[12px] text-[#aeaeb2]">{s.desc}</p>
+                <div className="progress-track mt-3">
                   <motion.div
                     className="progress-fill"
+                    style={{ background: scoreColor(s.val) }}
                     initial={{ width: 0 }}
                     animate={{ width: `${s.val}%` }}
-                    transition={{ duration: 1.2, ease: "easeOut", delay: i * 0.1 }}
+                    transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1], delay: i * 0.1 }}
                   />
                 </div>
               </motion.div>
             ))}
           </div>
 
-          {/* Panels */}
           <AnalysisPanel data={result} />
           <SuggestionsPanel suggestions={result.suggestions} />
           <KeywordsPanel keywords={result.missing_keywords} />
 
-          {/* Reset */}
-          <div className="flex justify-center pt-8">
-            <button onClick={() => setResult(null)} className="btn-cyber">
+          <div className="flex justify-center pt-6 pb-10">
+            <button onClick={() => setResult(null)} className="btn-ghost">
               <RotateCcw className="w-4 h-4" />
-              New Analysis
+              Start new analysis
             </button>
           </div>
         </motion.div>
