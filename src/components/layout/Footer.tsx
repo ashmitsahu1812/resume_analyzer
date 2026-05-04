@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { Gem, Twitter, Github, Linkedin } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -10,8 +9,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-20">
           <div className="col-span-1 md:col-span-2 space-y-8">
             <Link href="/" className="flex items-center gap-4 group">
-              <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center">
-                <Gem className="w-6 h-6 text-black" />
+              <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center font-black text-black">
+                A
               </div>
               <div className="flex flex-col">
                 <span className="text-2xl font-bold tracking-tighter text-white">Aura.</span>
@@ -21,11 +20,6 @@ export default function Footer() {
             <p className="text-white/30 max-w-sm leading-relaxed font-medium">
               The precision-engineered standard for modern career architecture. Built for high-stakes professional transitions and neural matching.
             </p>
-            <div className="flex gap-6">
-              <Twitter className="w-5 h-5 text-white/20 hover:text-white transition-colors cursor-pointer" />
-              <Github className="w-5 h-5 text-white/20 hover:text-white transition-colors cursor-pointer" />
-              <Linkedin className="w-5 h-5 text-white/20 hover:text-white transition-colors cursor-pointer" />
-            </div>
           </div>
 
           <div className="space-y-6">

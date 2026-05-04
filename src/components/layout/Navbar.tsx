@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Menu, X, Gem, ArrowRight } from "lucide-react";
+import { Menu, X, Zap, ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
@@ -25,7 +25,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
             <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center group-hover:scale-110 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-              <Gem className="w-5 h-5 text-black" />
+              <Zap className="w-5 h-5 text-black" />
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-bold tracking-tighter text-white">Aura.</span>

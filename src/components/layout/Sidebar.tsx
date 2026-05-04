@@ -8,7 +8,7 @@ import {
   Settings, 
   Sparkles,
   FileText,
-  Gem
+  Zap
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -27,7 +27,7 @@ export default function Sidebar() {
       <div className="p-12">
         <Link href="/" className="flex items-center gap-4 group">
           <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center group-hover:scale-110 transition-all shadow-[0_0_30px_rgba(255,255,255,0.2)]">
-            <Gem className="w-6 h-6 text-black" />
+            <Zap className="w-6 h-6 text-black" />
           </div>
           <div className="flex flex-col">
             <span className="text-2xl font-bold tracking-tighter text-white">Aura.</span>
