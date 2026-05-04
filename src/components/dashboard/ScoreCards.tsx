@@ -9,12 +9,10 @@ import {
   CartesianGrid, 
   Tooltip, 
   ResponsiveContainer,
-  Cell,
-  PieChart,
-  Pie
+  Cell
 } from "recharts";
 import { AnalysisResult } from "@/lib/types";
-import { CheckCircle2, TrendingUp, AlertTriangle } from "lucide-react";
+import { Target, TrendingUp } from "lucide-react";
 
 export default function ScoreCards({ data }: { data: AnalysisResult }) {
   const chartData = [
@@ -25,140 +23,118 @@ export default function ScoreCards({ data }: { data: AnalysisResult }) {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-      {chartData.map((item, i) => (
+    <div className="space-y-12">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Main Stats Card */}
         <motion.div
-          key={i}
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: i * 0.1 }}
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="lg:col-span-2 p-8 rounded-xl glass border-white/5"
-      >
-        <div 
-          className="absolute top-0 right-0 w-24 h-24 blur-[60px] -mr-12 -mt-12 rounded-full transition-all group-hover:blur-[40px]"
-          style={{ backgroundColor: `#fbbf2420` }}
-        />
-        <div className="flex-1 grid grid-cols-2 gap-8">
-          {chartData.map((item) => (
-            <div key={item.name} className="space-y-3">
-              <div className="flex justify-between items-end">
-                <span className="mono text-[10px] text-white/40">{item.name}</span>
-                <span className="text-xl font-bold font-heading">{item.value}%</span>
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="lg:col-span-2 p-8 rounded-xl glass border-white/5 relative overflow-hidden"
+        >
+          <div 
+            className="absolute top-0 right-0 w-64 h-64 blur-[100px] -mr-32 -mt-32 rounded-full opacity-20"
+            style={{ backgroundColor: `#fbbf24` }}
+          />
+          
+          <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+            {chartData.map((item) => (
+              <div key={item.name} className="space-y-3">
+                <div className="flex justify-between items-end">
+                  <span className="mono text-[10px] text-white/40">{item.name}</span>
+                  <span className="text-xl font-bold font-heading">{item.value}%</span>
+                </div>
+                <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${item.value}%` }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
+                    className="h-full rounded-full"
+                    style={{ backgroundColor: item.color }}
+                  />
+                </div>
               </div>
-              <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: `${item.value}%` }}
-                  transition={{ duration: 1.5, ease: "easeOut" }}
-                  className="h-full rounded-full"
-                  style={{ backgroundColor: item.color }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      </motion.div>
+            ))}
+          </div>
+        </motion.div>
 
-      {/* Match Rate Card */}
-      <motion.div
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        className="p-8 rounded-xl glass flex flex-col justify-between border-primary/20"
+        {/* Match Rate Card */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="p-8 rounded-xl glass flex flex-col justify-between border-primary/20 relative overflow-hidden group"
+        >
+          <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-3xl rounded-full -mr-16 -mt-16 group-hover:bg-primary/10 transition-colors" />
+          
+          <div className="relative z-10 flex items-center justify-between mb-8">
+            <span className="mono text-primary font-bold">Role Match</span>
+            <Target className="w-5 h-5 text-primary gold-glow" />
+          </div>
+          
+          <div className="relative z-10 space-y-6">
+            <div className="text-6xl font-bold tracking-tighter font-heading text-primary gold-glow">
+              {data.skills_match}%
+            </div>
+            <p className="text-sm text-white/40 font-body leading-relaxed">
+              System analysis shows a high-confidence alignment with the target role parameters.
+            </p>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Breakdown Chart */}
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="p-8 rounded-xl glass border-white/5 h-[400px]"
       >
-        <div className="flex items-center justify-between mb-8">
-          <span className="mono text-primary font-bold">Role Match</span>
-          <Target className="w-5 h-5 text-primary gold-glow" />
+        <div className="flex items-center justify-between mb-10">
+          <h3 className="text-xl font-bold font-heading flex items-center gap-2">
+            <TrendingUp className="text-primary w-5 h-5" />
+            Performance Matrix
+          </h3>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-primary" />
+              <span className="mono text-[10px] text-white/40">Score Value</span>
+            </div>
+          </div>
         </div>
         
-        <div className="space-y-6">
-          <div className="text-6xl font-bold tracking-tighter font-heading text-primary gold-glow">
-            {data.skills_match}%
-          </div>
-          <p className="text-sm text-white/40 font-body leading-relaxed">
-            Your profile alignment with the target role requirements.
-          </p>
-        </div>
-      </motion.div>
-
-      {/* Main Analysis Chart */}
-      <div className="lg:col-span-3 p-8 rounded-[2rem] glass border-white/5 h-[400px]">
-        <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-          Score Breakdown
-        </h3>
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height="80%">
           <BarChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" vertical={false} />
             <XAxis 
               dataKey="name" 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fill: "#a3a3a3", fontSize: 10, fontFamily: "monospace" }}
+              tick={{ fill: "#525252", fontSize: 10, fontFamily: "monospace" }}
             />
             <YAxis 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fill: "#a3a3a3", fontSize: 12 }}
+              tick={{ fill: "#525252", fontSize: 10, fontFamily: "monospace" }}
               domain={[0, 100]}
             />
             <Tooltip 
-              cursor={{ fill: "rgba(255,255,255,0.05)" }}
+              cursor={{ fill: "rgba(251,191,36,0.05)" }}
               contentStyle={{ 
-                backgroundColor: "#1a1a1a", 
-                border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: "16px",
-                color: "#fff"
+                backgroundColor: "#0a0a0a", 
+                border: "1px solid rgba(251,191,36,0.1)",
+                borderRadius: "8px",
+                padding: "12px"
               }}
+              labelStyle={{ color: "#fbbf24", fontWeight: "bold", marginBottom: "4px" }}
+              itemStyle={{ color: "#fff", fontSize: "12px" }}
             />
-            <Bar dataKey="value" radius={[8, 8, 0, 0]} barSize={60}>
+            <Bar dataKey="value" radius={[2, 2, 0, 0]} barSize={40}>
               {chartData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
             </Bar>
           </BarChart>
         </ResponsiveContainer>
-      </div>
-
-      {/* Match Percentage Card */}
-      <div className="lg:col-span-1 p-8 rounded-[2rem] glass border-white/5 flex flex-col items-center justify-center text-center">
-        <h3 className="text-lg font-bold mb-6">Job Match</h3>
-        <div className="relative w-40 h-40 flex items-center justify-center">
-          <svg className="w-full h-full -rotate-90">
-            <circle
-              cx="80"
-              cy="80"
-              r="70"
-              stroke="currentColor"
-              strokeWidth="8"
-              fill="transparent"
-              className="text-white/5"
-            />
-            <motion.circle
-              cx="80"
-              cy="80"
-              r="70"
-              stroke="currentColor"
-              strokeWidth="8"
-              fill="transparent"
-              strokeDasharray={440}
-              initial={{ strokeDashoffset: 440 }}
-              animate={{ strokeDashoffset: 440 - (440 * data.job_match_percentage) / 100 }}
-              transition={{ duration: 1.5, ease: "easeOut" }}
-              className="text-primary"
-            />
-          </svg>
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-4xl font-bold">{data.job_match_percentage}%</span>
-            <span className="text-xs text-muted-foreground font-semibold">Match Rate</span>
-          </div>
-        </div>
-        <p className="mt-6 text-sm text-muted-foreground leading-relaxed px-4">
-          Based on the provided job description and your technical skills.
-        </p>
-      </div>
+      </motion.div>
     </div>
   );
 }
