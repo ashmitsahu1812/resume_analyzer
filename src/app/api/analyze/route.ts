@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { parseResume } from "@/lib/ai/parser";
-import { analyzeResumeWithAI } from "@/lib/ai/gemini";
+import { analyzeResumeWithAI } from "@/lib/ai/huggingface";
 
 export async function POST(req: NextRequest) {
   try {

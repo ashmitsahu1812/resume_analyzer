@@ -17,10 +17,9 @@ export async function GET() {
 
   return NextResponse.json({
     status: "online",
-    hasGeminiKey: !!geminiKey,
-    geminiKeyPrefix: geminiKey ? geminiKey.substring(0, 7) : "none",
+    hasHuggingFaceKey: !!process.env.HUGGINGFACE_API_KEY,
+    hasGeminiKey: !!process.env.GEMINI_API_KEY,
     hasOpenAIKey: !!process.env.OPENAI_API_KEY,
-    geminiError,
     environment: process.env.NODE_ENV
   });
 }
