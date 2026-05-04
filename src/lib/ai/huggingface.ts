@@ -6,15 +6,19 @@ export async function analyzeResumeWithAI(
 ): Promise<AnalysisResult> {
   const apiKey = process.env.HUGGINGFACE_API_KEY;
   
-  const model = "mistralai/Mistral-7B-Instruct-v0.2";
+  // Using Llama-3-8B which is very stable on the free tier
+  const model = "meta-llama/Meta-Llama-3-8B-Instruct";
   const apiUrl = `https://api-inference.huggingface.co/models/${model}`;
 
-  const prompt = `<s>[INST] You are a Resume Analyzer. 
-  Resume: ${resumeText.substring(0, 4000)}
-  ${jobDescription ? `Job: ${jobDescription}` : ""}
+  const prompt = `<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+  You are an expert ATS Resume Analyzer. You only respond with valid JSON.
+  <|eot_id|><|start_header_id|>user<|end_header_id|>
+  Analyze this resume. ${jobDescription ? `Compare it to this job: ${jobDescription}` : ""}
+  Resume Text: ${resumeText.substring(0, 5000)}
   
-  Return ONLY a JSON object:
-  { "ats_score": number, "content_score": number, "format_score": number, "skills_match": number, "strengths": string[], "weaknesses": string[], "suggestions": [{"original": string, "improved": string}], "missing_keywords": string[], "job_match_percentage": number, "summary": string } [/INST]`;
+  Return a JSON object exactly like this:
+  { "ats_score": 85, "content_score": 90, "format_score": 80, "skills_match": 75, "strengths": ["list"], "weaknesses": ["list"], "suggestions": [{"original": "line", "improved": "new line"}], "missing_keywords": ["keyword"], "job_match_percentage": 70, "summary": "brief summary" }
+  <|eot_id|><|start_header_id|>assistant<|end_header_id|>`;
 
   try {
     const response = await fetch(apiUrl, {
