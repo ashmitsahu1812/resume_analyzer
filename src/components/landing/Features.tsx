@@ -7,7 +7,8 @@ import {
   FileText, 
   Cpu, 
   Search, 
-  MessageSquare 
+  MessageSquare,
+  ArrowRight
 } from "lucide-react";
 
 const features = [
