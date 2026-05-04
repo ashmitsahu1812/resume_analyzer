@@ -10,25 +10,23 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-8">
-      <div className="max-w-7xl mx-auto flex items-center justify-between glass px-10 py-5">
-        <Link href="/" className="flex items-center gap-3 group">
+    <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-10">
+      <div className="max-w-7xl mx-auto flex items-center justify-between border-b border-white/5 pb-6 bg-background/50 backdrop-blur-xl">
+        <Link href="/" className="flex items-center gap-4 group">
+          <div className="w-1.5 h-10 bg-primary gold-glow" />
           <div className="flex flex-col">
-            <span className="text-xl font-bold tracking-tighter uppercase font-heading gold-glow">Aura</span>
-            <span className="mono text-[8px] -mt-1 text-primary font-black opacity-80">Resume Engine</span>
+            <span className="text-2xl font-bold tracking-tighter uppercase font-heading">Aura</span>
+            <span className="mono text-[7px] text-white/30 tracking-[0.4em] -mt-1">Neural Labs</span>
           </div>
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-10">
-          <Link href="#features" className="mono hover:text-primary transition-colors">
+        <div className="hidden md:flex items-center gap-12">
+          <Link href="#features" className="mono text-white/40 hover:text-primary transition-colors">
             Analysis
           </Link>
-          <Link href="#how-it-works" className="mono hover:text-primary transition-colors">
-            Methodology
-          </Link>
-          <Link href="/dashboard" className="px-6 py-2.5 button-primary rounded-sm text-xs uppercase tracking-widest">
-            Enter Platform
+          <Link href="/dashboard" className="px-8 py-3 button-primary text-[10px] uppercase tracking-[0.2em]">
+            Enter
           </Link>
         </div>
 

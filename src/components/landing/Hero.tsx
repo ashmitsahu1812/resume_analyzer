@@ -6,59 +6,59 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative pt-60 pb-40 px-6 min-h-screen flex items-center">
-      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-        <div className="text-left space-y-10">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-4"
-          >
-            <div className="h-[1px] w-12 bg-secondary" />
-            <span className="mono text-secondary font-bold">Ver 4.2 // Human-Centric AI</span>
-          </motion.div>
+    <section className="relative pt-80 pb-60 px-6 min-h-screen flex items-center justify-center text-center">
+      <div className="max-w-5xl mx-auto space-y-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-col items-center gap-6"
+        >
+          <div className="mono text-primary font-bold tracking-[0.4em] flex items-center gap-3">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+            Neural Evolution v4.0
+          </div>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-7xl md:text-8xl font-bold tracking-tighter leading-[0.9] font-heading"
+            transition={{ duration: 1, delay: 0.1 }}
+            className="text-8xl md:text-[140px] font-bold tracking-tighter leading-[0.8] font-heading"
           >
-            Precision <br />
-            <span className="text-secondary italic">Engineering</span> <br />
-            for your career.
+            Engineering <br />
+            <span className="gradient-text italic tracking-tighter">Impact.</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="max-w-xl text-lg text-white/50 leading-relaxed font-body"
+            transition={{ duration: 1, delay: 0.3 }}
+            className="max-w-2xl mx-auto text-xl text-white/40 leading-relaxed font-body"
           >
-            Aura is a designer-led resume optimization platform. We combine structural data analysis with high-impact storytelling to ensure your profile resonates with top-tier executives.
+            A high-fidelity analysis platform designed to refine your professional narrative and bypass initial automated gatekeepers with mathematical precision.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center gap-6"
+            transition={{ duration: 1, delay: 0.4 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-8 pt-8"
           >
             <Link 
               href="/dashboard"
-              className="w-full sm:w-auto px-10 py-5 button-primary rounded-sm text-sm uppercase tracking-[0.2em] flex items-center justify-center gap-3 group"
+              className="px-16 py-6 button-primary rounded-sm text-xs uppercase tracking-[0.3em] flex items-center justify-center gap-4 group"
             >
               Analyze Resume
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
             </Link>
             <Link 
               href="#features"
-              className="w-full sm:w-auto px-10 py-5 button-secondary rounded-sm text-sm uppercase tracking-[0.2em] font-bold"
+              className="px-16 py-6 button-secondary rounded-sm text-xs uppercase tracking-[0.3em] font-bold"
             >
-              Documentation
+              Methodology
             </Link>
           </motion.div>
-        </div>
+        </motion.div>
+      </div>
 
         {/* Graphical Element */}
         <motion.div 

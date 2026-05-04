@@ -2,12 +2,12 @@
 
 import { motion } from "framer-motion";
 import { 
-  BarChart3, 
-  Brain, 
-  CheckCircle2, 
+  Target, 
+  Sparkles, 
   FileText, 
-  Zap, 
-  Target 
+  Cpu, 
+  Search, 
+  MessageSquare 
 } from "lucide-react";
 
 const features = [
@@ -64,14 +64,21 @@ const features = [
 
 export default function Features() {
   return (
-    <section id="features" className="py-40 px-6 relative border-t border-white/5">
+    <section id="features" className="py-60 px-6 relative border-t border-white/5">
       <div className="max-w-7xl mx-auto">
-        <div className="text-left mb-24 space-y-4">
-          <span className="mono text-secondary">Core Capabilities</span>
-          <h2 className="text-5xl font-bold tracking-tighter font-heading">The platform <br /> infrastructure.</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-end mb-32">
+          <div className="space-y-6">
+            <span className="mono text-primary font-bold tracking-[0.3em]">Module Overview</span>
+            <h2 className="text-6xl md:text-8xl font-bold tracking-tighter font-heading leading-tight">
+              Platform <br /> Infrastructure.
+            </h2>
+          </div>
+          <p className="text-xl text-white/40 max-w-lg leading-relaxed font-body">
+            A precision-engineered ecosystem designed to bypass automated filters and resonate with human gatekeepers.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-px gap-y-px bg-white/5">
           {features.map((feature, i) => (
             <motion.div
               key={i}
@@ -79,19 +86,23 @@ export default function Features() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="p-12 border-white/5 border-r border-b group hover:bg-white/[0.02] transition-colors relative"
+              className="bg-background p-16 group hover:bg-white/[0.02] transition-colors relative"
             >
-              <div className="absolute top-4 left-4 mono text-[10px] text-white/20 group-hover:text-secondary transition-colors">
-                0{i + 1} //
+              <div className="absolute top-8 left-8 mono text-[10px] text-white/10 group-hover:text-primary transition-colors">
+                MOD-0{i + 1}
               </div>
               
-              <div className={`w-12 h-12 mb-8 flex items-center justify-center transition-transform group-hover:scale-110`}>
-                <feature.icon className={`w-6 h-6 text-white/40 group-hover:text-secondary transition-colors`} />
+              <div className={`w-14 h-14 mb-10 flex items-center justify-center border border-white/5 group-hover:border-primary/30 transition-all duration-500`}>
+                <feature.icon className={`w-6 h-6 text-white/20 group-hover:text-primary group-hover:gold-glow transition-all`} />
               </div>
-              <h3 className="text-xl font-bold mb-4 tracking-tight font-heading">{feature.title}</h3>
-              <p className="text-white/40 text-sm leading-relaxed font-body">
+              <h3 className="text-2xl font-bold mb-6 tracking-tight font-heading">{feature.title}</h3>
+              <p className="text-white/40 leading-relaxed font-body text-sm group-hover:text-white/60 transition-colors">
                 {feature.description}
               </p>
+              
+              <div className="mt-10 flex items-center gap-2 mono text-[9px] text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0">
+                Execute Module <ArrowRight className="w-3 h-3" />
+              </div>
             </motion.div>
           ))}
         </div>

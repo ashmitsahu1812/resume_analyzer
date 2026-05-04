@@ -9,7 +9,8 @@ import {
   Settings, 
   HelpCircle,
   FileSearch,
-  LogOut
+  LogOut,
+  Sparkles
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
