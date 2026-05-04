@@ -49,7 +49,7 @@ export async function analyzeResumeWithAI(
     }
 
     const response = await openai.chat.completions.create({
-      model: "gpt-4o",
+      model: "gpt-4o-mini",
       messages: [
         { role: "system", content: "You are a senior executive recruiter. You always return valid JSON matching the requested schema." },
         { role: "user", content: prompt }
