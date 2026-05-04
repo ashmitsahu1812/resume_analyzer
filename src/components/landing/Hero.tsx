@@ -68,32 +68,32 @@ export default function Hero() {
           className="hidden lg:block relative"
         >
           <div className="w-[500px] h-[500px] border border-white/5 relative p-8">
-             <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-secondary/50" />
-             <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-secondary/50" />
-             <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-secondary/50" />
-             <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-secondary/50" />
+             <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary/50" />
+             <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-primary/50" />
+             <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-primary/50" />
+             <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-primary/50" />
              
-             <div className="space-y-6 opacity-30">
-                <div className="h-8 w-1/3 bg-white/10 rounded-sm" />
+             <div className="space-y-6 opacity-20">
+                <div className="h-8 w-1/3 bg-primary/20 rounded-sm" />
                 <div className="h-4 w-full bg-white/5 rounded-sm" />
                 <div className="h-4 w-5/6 bg-white/5 rounded-sm" />
                 <div className="h-4 w-full bg-white/5 rounded-sm" />
                 <div className="h-4 w-2/3 bg-white/5 rounded-sm" />
                 <div className="grid grid-cols-2 gap-4 mt-12">
-                   <div className="h-32 bg-secondary/10 rounded-sm border border-secondary/20" />
-                   <div className="h-32 bg-white/5 rounded-sm border border-white/10" />
+                   <div className="h-32 bg-primary/10 rounded-sm border border-primary/20" />
+                   <div className="h-32 bg-white/5 rounded-sm border border-white/5" />
                 </div>
              </div>
              
              <div className="absolute inset-0 flex items-center justify-center">
                 <motion.div 
                   animate={{ rotate: 360 }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                  className="w-64 h-64 border-[0.5px] border-white/10 rounded-full border-dashed" 
+                  transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                  className="w-64 h-64 border-[1px] border-primary/10 rounded-full border-dashed" 
                 />
                 <div className="absolute flex flex-col items-center">
-                   <span className="mono text-secondary text-[10px] mb-2">Platform Status</span>
-                   <span className="text-3xl font-black font-heading">ACTIVE</span>
+                   <span className="mono text-primary text-[10px] mb-2 gold-glow">System Core</span>
+                   <span className="text-4xl font-black font-heading tracking-tight">PLATINUM</span>
                 </div>
              </div>
           </div>

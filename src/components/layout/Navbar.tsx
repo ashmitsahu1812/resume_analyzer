@@ -14,17 +14,17 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto flex items-center justify-between glass px-10 py-5">
         <Link href="/" className="flex items-center gap-3 group">
           <div className="flex flex-col">
-            <span className="text-xl font-bold tracking-tighter uppercase font-heading">Aura</span>
-            <span className="mono text-[8px] -mt-1 text-secondary font-black">Resume Engine</span>
+            <span className="text-xl font-bold tracking-tighter uppercase font-heading gold-glow">Aura</span>
+            <span className="mono text-[8px] -mt-1 text-primary font-black opacity-80">Resume Engine</span>
           </div>
         </Link>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-10">
-          <Link href="#features" className="mono hover:text-secondary transition-colors">
+          <Link href="#features" className="mono hover:text-primary transition-colors">
             Analysis
           </Link>
-          <Link href="#how-it-works" className="mono hover:text-secondary transition-colors">
+          <Link href="#how-it-works" className="mono hover:text-primary transition-colors">
             Methodology
           </Link>
           <Link href="/dashboard" className="px-6 py-2.5 button-primary rounded-sm text-xs uppercase tracking-widest">
