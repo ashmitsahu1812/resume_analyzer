@@ -15,8 +15,9 @@ import { cn } from "@/lib/utils";
 
 const menuItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
-  { icon: FileText, label: "My Resumes", href: "/dashboard/resumes" },
   { icon: Target, label: "Job Matching", href: "/dashboard/match" },
+  { icon: Sparkles, label: "Interview Prep", href: "/dashboard/interview" },
+  { icon: FileText, label: "Resume Vault", href: "/dashboard/resumes" },
   { icon: Settings, label: "Settings", href: "/dashboard/settings" },
 ];
 
