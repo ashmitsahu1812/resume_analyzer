@@ -31,7 +31,10 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     console.error("CRITICAL API ERROR:", error);
     return NextResponse.json(
-      { error: error.message || "Something went wrong during analysis" }, 
+      { 
+        error: error.message || "Something went wrong during analysis",
+        details: error.stack || "No stack trace available"
+      }, 
       { status: 500 }
     );
   }

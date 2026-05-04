@@ -4,9 +4,9 @@ export async function parseResume(buffer: Buffer, fileType: string): Promise<str
   console.log(`Processing file type: ${fileType}`);
   try {
     if (fileType === "application/pdf") {
-      // PDF parsing
-      const pdf = await import("pdf-parse/lib/pdf-parse.js");
-      const data = await pdf.default(buffer);
+      // Use pdf-parse-fork for better serverless compatibility
+      const pdf = require("pdf-parse-fork");
+      const data = await pdf(buffer);
       return data.text;
     } else if (fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
       // DOCX parsing
@@ -15,8 +15,8 @@ export async function parseResume(buffer: Buffer, fileType: string): Promise<str
     } else {
       throw new Error(`Unsupported file type: ${fileType}`);
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error("Parsing error:", error);
-    throw new Error("Failed to parse document");
+    throw new Error(`Document parsing failed: ${error.message || "Unknown error"}`);
   }
 }
