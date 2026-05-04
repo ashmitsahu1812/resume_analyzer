@@ -7,7 +7,7 @@ import ScoreCards from "@/components/dashboard/ScoreCards";
 import { AnalysisPanel, SuggestionsPanel, KeywordsPanel } from "@/components/dashboard/AnalysisPanel";
 import { AnalysisResult, mockAnalysisData } from "@/lib/types";
 import { LayoutDashboard, Sparkles, Target, FileText } from "lucide-react";
-import { parsePDFOnClient, parseDOCXOnClient } from "@/lib/utils/client-parser";
+import { AnalysisSkeleton } from "@/components/dashboard/Skeleton";
 
 export default function Dashboard() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -19,6 +19,9 @@ export default function Dashboard() {
     
     try {
       let resumeText = "";
+      console.log("Loading parsers...");
+      const { parsePDFOnClient, parseDOCXOnClient } = await import("@/lib/utils/client-parser");
+      
       console.log("Parsing on client...");
       
       if (file.type === "application/pdf") {
