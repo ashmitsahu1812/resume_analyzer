@@ -45,9 +45,10 @@ export default function Dashboard() {
 
       const data = await response.json();
       setResult(data);
-    } catch (error) {
-      console.error(error);
-      alert("An error occurred during analysis. Using mock data for demo.");
+    } catch (error: any) {
+      console.error("ANALYSIS ERROR:", error);
+      alert(`Neural Analysis Failed: ${error.message}\n\nCheck the console for full details.`);
+      // Fallback to mock data only if user confirms or for visual stability
       setResult(mockAnalysisData);
     } finally {
       setIsAnalyzing(false);

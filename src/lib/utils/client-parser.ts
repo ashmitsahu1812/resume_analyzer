@@ -1,8 +1,8 @@
 import * as pdfjs from "pdfjs-dist";
 import mammoth from "mammoth";
 
-// Initialize PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+// Initialize PDF.js worker locally to avoid CDN blocking issues
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 export async function parsePDFOnClient(file: File): Promise<string> {
   const arrayBuffer = await file.arrayBuffer();
