@@ -22,8 +22,6 @@ export const metadata: Metadata = {
   description: "A precision-engineered platform for modern career optimization.",
 };
 
-import FogLayer from "@/components/layout/FogLayer";
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,7 +30,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${jakarta.variable} ${jetbrains.variable} antialiased dark`}>
       <body className="min-h-screen bg-background text-foreground selection:bg-primary/30 relative">
-        <FogLayer />
         {children}
       </body>
     </html>
