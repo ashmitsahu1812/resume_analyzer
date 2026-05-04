@@ -41,7 +41,10 @@ export default function Dashboard() {
         }),
       });
 
-      if (!response.ok) throw new Error("Neural Engine failed to respond.");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Neural Engine failed to respond.");
+      }
 
       const data = await response.json();
       setResult(data);
