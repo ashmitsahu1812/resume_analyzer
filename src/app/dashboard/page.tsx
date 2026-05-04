@@ -7,7 +7,7 @@ import ScoreCards from "@/components/dashboard/ScoreCards";
 import { AnalysisPanel, SuggestionsPanel, KeywordsPanel } from "@/components/dashboard/AnalysisPanel";
 import { AnalysisResult, mockAnalysisData } from "@/lib/types";
 import { LayoutDashboard, Sparkles, Target, FileText } from "lucide-react";
-import { AnalysisSkeleton } from "@/components/dashboard/Skeleton";
+import { parsePDFOnClient, parseDOCXOnClient } from "@/lib/utils/client-parser";
 
 export default function Dashboard() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -18,16 +18,27 @@ export default function Dashboard() {
     setIsAnalyzing(true);
     
     try {
-      const formData = new FormData();
-      formData.append("file", file);
-      if (jobDescription) formData.append("jobDescription", jobDescription);
+      let resumeText = "";
+      console.log("Parsing on client...");
+      
+      if (file.type === "application/pdf") {
+        resumeText = await parsePDFOnClient(file);
+      } else {
+        resumeText = await parseDOCXOnClient(file);
+      }
+
+      console.log("Text extracted, sending to AI...");
 
       const response = await fetch("/api/analyze", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          resumeText,
+          jobDescription
+        }),
       });
 
-      if (!response.ok) throw new Error("Failed to analyze resume");
+      if (!response.ok) throw new Error("Neural Engine failed to respond.");
 
       const data = await response.json();
       setResult(data);
