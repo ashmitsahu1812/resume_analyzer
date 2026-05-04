@@ -1,6 +1,7 @@
 "use client";
 
 import Navbar from "@/components/layout/Navbar";
+// Aura v4.1 - Production Release
 import Hero from "@/components/landing/Hero";
 import Features from "@/components/landing/Features";
 import Link from "next/link";
