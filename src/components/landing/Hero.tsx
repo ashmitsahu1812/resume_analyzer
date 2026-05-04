@@ -2,63 +2,68 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { ArrowRight, Star } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center pt-20 px-6 architect-grid overflow-hidden">
-      <div className="max-w-5xl mx-auto text-center space-y-12 relative z-10">
+    <section className="relative min-h-screen flex flex-col items-center justify-center pt-20 px-6 overflow-hidden">
+      {/* Background Silk */}
+      <div className="silk-blob silk-1" />
+      <div className="silk-blob silk-2" />
+
+      <div className="max-w-6xl mx-auto text-center space-y-12 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-3 px-4 py-2 border border-white/10 rounded-full bg-white/5"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="inline-flex items-center gap-2 px-6 py-2 glass-card rounded-full"
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-          <span className="text-[10px] uppercase tracking-[0.3em] font-medium text-white/60">Professional Analytics v2.0</span>
+          <Star className="w-3 h-3 text-emerald-400 fill-emerald-400" />
+          <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-white/80">World Class Performance</span>
         </motion.div>
 
-        <div className="space-y-6">
+        <div className="space-y-8">
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-7xl md:text-9xl font-bold tracking-tight leading-[0.85]"
+            className="text-7xl md:text-[10rem] font-bold leading-[0.8] tracking-tighter text-gradient"
           >
-            Precision <br />
-            <span className="italic text-white/40 font-serif">Career Labs.</span>
+            Aura <br />
+            <span className="opacity-40">Intelligence.</span>
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="max-w-2xl mx-auto text-lg text-white/50 font-light leading-relaxed"
+            className="max-w-3xl mx-auto text-xl md:text-2xl text-white/50 font-light leading-relaxed px-4"
           >
-            Advanced resume diagnostics and alignment engineering. We transform career documents into high-performance professional assets.
+            The premium standard for career optimization. Transform your professional narrative with institutional-grade diagnostics.
           </motion.p>
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-6"
         >
-          <Link href="/dashboard" className="button-premium">
-            Access Dashboard
+          <Link href="/dashboard" className="btn-rich group">
+            Open Dashboard
+            <ArrowRight className="inline-block ml-3 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
-          <Link href="#features" className="button-outline group">
-            Explore Features
-            <ChevronRight className="inline-block ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          <Link href="#features" className="btn-glass">
+            Learn More
           </Link>
         </motion.div>
-      </div>
 
-      {/* Structured Architectural Elements */}
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white/5" />
-        <div className="absolute top-0 left-1/4 w-[1px] h-full bg-white/5" />
-        <div className="absolute top-0 right-1/4 w-[1px] h-full bg-white/5" />
+        {/* Floating Premium Badge */}
+        <motion.div 
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="pt-20 opacity-20"
+        >
+          <div className="text-[8px] uppercase tracking-[1em] font-black">Trusted by Executive Labs Worldwide</div>
+        </motion.div>
       </div>
     </section>
   );
