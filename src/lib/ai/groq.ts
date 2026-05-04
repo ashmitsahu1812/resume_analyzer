@@ -28,7 +28,18 @@ export async function analyzeResumeWithAI(
   ${resumeText.substring(0, 8000)}
 
   Return ONLY a valid JSON object. 
-  Format: { "ats_score": number, "content_score": number, "format_score": number, "skills_match": number, "strengths": string[], "weaknesses": string[], "suggestions": [{"original": string, "improved": string}], "missing_keywords": string[], "job_match_percentage": number, "summary": string }`;
+  Format: { 
+    "ats_score": INTEGER (0-100), 
+    "content_score": INTEGER (0-100), 
+    "format_score": INTEGER (0-100), 
+    "skills_match": INTEGER (0-100), 
+    "strengths": string[], 
+    "weaknesses": string[], 
+    "suggestions": [{"original": string, "improved": string}], 
+    "missing_keywords": string[], 
+    "job_match_percentage": INTEGER (0-100), 
+    "summary": string 
+  }`;
 
   try {
     const response = await fetch(apiUrl, {
@@ -40,7 +51,7 @@ export async function analyzeResumeWithAI(
       body: JSON.stringify({
         model: model,
         messages: [
-          { role: "system", content: "You always return valid JSON." },
+          { role: "system", content: "You always return valid JSON. All scores are integers 0-100." },
           { role: "user", content: prompt }
         ],
         temperature: 0.1,
@@ -55,7 +66,17 @@ export async function analyzeResumeWithAI(
     }
 
     const content = data.choices[0].message.content;
-    return JSON.parse(content) as AnalysisResult;
+    const result = JSON.parse(content) as AnalysisResult;
+
+    // Safety clamping to 0-100
+    const clamp = (val: number) => Math.min(100, Math.max(0, Math.round(val)));
+    result.ats_score = clamp(result.ats_score);
+    result.content_score = clamp(result.content_score);
+    result.format_score = clamp(result.format_score);
+    result.skills_match = clamp(result.skills_match);
+    result.job_match_percentage = clamp(result.job_match_percentage);
+
+    return result;
   } catch (error: any) {
     console.error("Groq Analysis Failure:", error);
     throw new Error(`Groq Engine Offline: ${error.message}`);
