@@ -5,32 +5,25 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Sparkles, CheckCircle } from "lucide-react";
 
-const perks = ["Free to start", "No signup required", "Results in 2 seconds"];
-
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center pt-24 pb-0 px-6 overflow-hidden">
-      {/* Background orbs */}
-      <div className="orb w-[600px] h-[600px] bg-indigo-600/20 top-[-100px] left-1/2 -translate-x-1/2" />
-      <div className="orb w-[400px] h-[400px] bg-violet-600/15 top-[20%] right-[-100px]" />
-      <div className="orb w-[300px] h-[300px] bg-sky-600/10 bottom-[10%] left-[-50px]" />
+    <section className="relative min-h-screen flex flex-col items-center justify-center pt-24 pb-0 px-6 overflow-hidden bg-[#09090b]">
+      {/* Glow orbs */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] rounded-full opacity-20 pointer-events-none"
+        style={{ background: "radial-gradient(ellipse, #6366f1 0%, transparent 70%)", filter: "blur(60px)" }} />
+      <div className="absolute top-1/3 right-0 w-[400px] h-[400px] rounded-full opacity-10 pointer-events-none"
+        style={{ background: "radial-gradient(ellipse, #8b5cf6 0%, transparent 70%)", filter: "blur(80px)" }} />
 
-      {/* Noise texture overlay */}
-      <div className="absolute inset-0 opacity-[0.015] pointer-events-none"
-        style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")" }} />
-
-      <div className="relative z-10 max-w-5xl mx-auto text-center">
-        {/* Pill badge */}
+      <div className="relative z-10 max-w-4xl mx-auto text-center w-full">
+        {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 text-[13px] font-medium mb-8"
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 text-[12px] font-medium mb-8"
         >
           <Sparkles className="w-3.5 h-3.5" />
-          AI-powered resume analysis
-          <span className="w-1 h-1 rounded-full bg-indigo-400" />
-          Free
+          AI-powered resume analysis · Free to start
         </motion.div>
 
         {/* Headline */}
@@ -38,18 +31,25 @@ export default function Hero() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="display mb-6"
+          className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1.0] text-white mb-6"
         >
-          Your resume,<br />
-          <span className="gradient-text">optimized by AI.</span>
+          Your resume,{" "}
+          <span style={{
+            background: "linear-gradient(135deg, #a78bfa 0%, #6366f1 50%, #38bdf8 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+          }}>
+            perfected.
+          </span>
         </motion.h1>
 
-        {/* Subheadline */}
+        {/* Sub */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="subtitle max-w-[560px] mx-auto mb-10 text-[1.1rem]"
+          className="text-lg md:text-xl text-zinc-400 max-w-[560px] mx-auto mb-10 leading-relaxed"
         >
           Upload your resume, paste a job description, and get an instant AI analysis — ATS score, keyword gaps, and rewritten bullet points.
         </motion.p>
@@ -61,11 +61,13 @@ export default function Hero() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8"
         >
-          <Link href="/dashboard" className="btn btn-primary btn-lg">
+          <Link href="/dashboard"
+            className="flex items-center gap-2 px-7 py-3.5 text-[15px] font-semibold text-white rounded-xl bg-indigo-500 hover:bg-indigo-400 transition-all shadow-xl shadow-indigo-500/30 hover:shadow-indigo-500/40 hover:-translate-y-0.5">
             Analyze my resume
             <ArrowRight className="w-4 h-4" />
           </Link>
-          <Link href="#features" className="btn btn-secondary btn-lg">
+          <Link href="#features"
+            className="flex items-center gap-2 px-7 py-3.5 text-[15px] font-medium text-zinc-300 rounded-xl border border-white/10 hover:border-white/20 hover:bg-white/5 transition-all">
             See how it works
           </Link>
         </motion.div>
@@ -75,36 +77,37 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.45 }}
-          className="flex flex-wrap items-center justify-center gap-5 mb-20"
+          className="flex flex-wrap items-center justify-center gap-6 mb-20"
         >
-          {perks.map((p) => (
-            <span key={p} className="flex items-center gap-1.5 text-[13px] text-[#6e6e73]">
-              <CheckCircle className="w-3.5 h-3.5 text-[#22c55e]" />
+          {["Free to start", "No signup required", "Results in 2 seconds"].map((p) => (
+            <span key={p} className="flex items-center gap-1.5 text-[13px] text-zinc-500">
+              <CheckCircle className="w-3.5 h-3.5 text-emerald-500" />
               {p}
             </span>
           ))}
         </motion.div>
 
-        {/* Dashboard screenshot */}
+        {/* Screenshot */}
         <motion.div
-          initial={{ opacity: 0, y: 50, scale: 0.98 }}
+          initial={{ opacity: 0, y: 60, scale: 0.97 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.9, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mx-auto"
+          transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="relative mx-auto max-w-5xl"
         >
-          {/* Glow behind image */}
-          <div className="absolute -inset-4 bg-indigo-500/10 blur-3xl rounded-3xl" />
+          <div className="absolute -inset-8 rounded-3xl opacity-30 pointer-events-none"
+            style={{ background: "radial-gradient(ellipse, #6366f1 0%, transparent 70%)", filter: "blur(40px)" }} />
 
-          <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-[0_40px_100px_rgba(0,0,0,0.6)]">
-            {/* Browser chrome */}
-            <div className="bg-[#1a1a1a] px-4 py-3 flex items-center gap-3 border-b border-white/5">
+          <div className="relative rounded-2xl overflow-hidden border border-white/10"
+            style={{ boxShadow: "0 40px 100px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05)" }}>
+            {/* Browser bar */}
+            <div className="bg-zinc-900 px-4 py-3 flex items-center gap-3 border-b border-white/5">
               <div className="flex gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-                <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
-                <div className="w-3 h-3 rounded-full bg-[#28c840]" />
+                <div className="w-3 h-3 rounded-full bg-red-500/70" />
+                <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
+                <div className="w-3 h-3 rounded-full bg-green-500/70" />
               </div>
               <div className="flex-1 flex justify-center">
-                <div className="bg-[#2a2a2a] rounded-md px-4 py-1 text-[11px] text-[#666] max-w-[240px] w-full text-center">
+                <div className="bg-zinc-800 rounded-md px-4 py-1 text-[11px] text-zinc-500 max-w-[220px] w-full text-center">
                   aura.ai/dashboard
                 </div>
               </div>
@@ -117,38 +120,41 @@ export default function Hero() {
               className="w-full h-auto"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d] via-transparent to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-transparent to-transparent pointer-events-none" />
           </div>
 
-          {/* Floating cards */}
+          {/* Floating ATS card */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 1.1 }}
-            className="absolute -right-5 top-20 card p-4 w-48 hidden lg:block shadow-2xl"
+            className="absolute -right-4 top-16 hidden lg:block rounded-xl border border-white/10 bg-zinc-900/90 p-4 w-44"
+            style={{ backdropFilter: "blur(20px)", boxShadow: "0 20px 40px rgba(0,0,0,0.5)" }}
           >
-            <p className="label-xs mb-2">ATS Score</p>
+            <p className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider mb-2">ATS Score</p>
             <p className="text-3xl font-bold text-white mb-2">
-              94<span className="text-base font-normal text-[#555]">/100</span>
+              94<span className="text-base font-normal text-zinc-600">/100</span>
             </p>
-            <div className="progress-bar">
-              <div className="progress-fill bg-[#22c55e]" style={{ width: "94%" }} />
+            <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+              <div className="h-full bg-emerald-500 rounded-full" style={{ width: "94%" }} />
             </div>
           </motion.div>
 
+          {/* Floating complete card */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 1.2 }}
-            className="absolute -left-5 bottom-28 card p-4 w-56 hidden lg:block shadow-2xl"
+            className="absolute -left-4 bottom-24 hidden lg:block rounded-xl border border-white/10 bg-zinc-900/90 p-4 w-52"
+            style={{ backdropFilter: "blur(20px)", boxShadow: "0 20px 40px rgba(0,0,0,0.5)" }}
           >
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-[#22c55e]/15 flex items-center justify-center shrink-0">
-                <CheckCircle className="w-4.5 h-4.5 text-[#22c55e]" />
+              <div className="w-9 h-9 rounded-full bg-emerald-500/15 flex items-center justify-center shrink-0">
+                <CheckCircle className="w-4 h-4 text-emerald-400" />
               </div>
               <div>
                 <p className="text-[13px] font-semibold text-white">Analysis complete</p>
-                <p className="text-[11px] text-[#666] mt-0.5">12 improvements found</p>
+                <p className="text-[11px] text-zinc-500 mt-0.5">12 improvements found</p>
               </div>
             </div>
           </motion.div>
