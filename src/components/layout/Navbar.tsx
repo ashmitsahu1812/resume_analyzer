@@ -1,96 +1,73 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { Menu, X, Crown, ArrowRight, Sparkles } from "lucide-react";
 import { useState, useEffect } from "react";
+import { Menu, X, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const fn = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", fn);
+    return () => window.removeEventListener("scroll", fn);
   }, []);
 
   return (
-    <nav className="fixed top-8 left-0 right-0 z-50 px-6">
-      <div className={cn(
-        "max-w-6xl mx-auto glass-nav transition-all duration-700",
-        scrolled ? "px-8 py-4 rounded-[2rem]" : "px-12 py-8 rounded-[3rem]"
-      )}>
-        <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-4 group">
-            <div className="w-14 h-14 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-3xl flex items-center justify-center group-hover:rotate-12 transition-all shadow-[0_0_30px_rgba(212,175,55,0.4)] luxury-glow">
-              <Crown className="w-7 h-7 text-black fill-black" />
+    <nav className={cn(
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+      scrolled ? "py-3" : "py-5"
+    )}>
+      <div className="max-w-7xl mx-auto px-6">
+        <div className={cn(
+          "panel flex items-center justify-between px-6 py-4 transition-all",
+          scrolled ? "rounded-none" : "rounded-sm"
+        )}>
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-8 h-8 border border-cyan-400/60 flex items-center justify-center relative">
+              <Zap className="w-4 h-4 text-cyan-400" />
+              <div className="absolute inset-0 bg-cyan-400/10 group-hover:bg-cyan-400/20 transition-colors" />
             </div>
-            <div className="flex flex-col">
-              <span className="text-3xl font-luxury font-black tracking-tighter gold-text-static">AURA</span>
-              <span className="text-[8px] uppercase tracking-[0.5em] text-yellow-400/80 font-black">Luxury Intelligence</span>
+            <div>
+              <span className="text-sm font-black tracking-[0.3em] text-white uppercase">AURA</span>
+              <span className="block text-[9px] tracking-[0.4em] text-cyan-400/60 uppercase font-mono">Neural Intelligence</span>
             </div>
           </Link>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-12">
-            <Link href="#features" className="text-[11px] uppercase tracking-[0.3em] font-bold text-white/60 hover:text-yellow-400 transition-colors relative group">
-              Platform
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-yellow-400 to-yellow-600 group-hover:w-full transition-all duration-300"></div>
-            </Link>
-            <Link href="#how-it-works" className="text-[11px] uppercase tracking-[0.3em] font-bold text-white/60 hover:text-yellow-400 transition-colors relative group">
-              Intelligence
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-yellow-400 to-yellow-600 group-hover:w-full transition-all duration-300"></div>
-            </Link>
-            <Link href="/dashboard" className="btn-gold text-[11px] flex items-center gap-2">
-              <Crown className="w-4 h-4" />
-              Elite Access
+          {/* Desktop */}
+          <div className="hidden md:flex items-center gap-8">
+            {[["#features", "Platform"], ["#how-it-works", "System"]].map(([href, label]) => (
+              <Link key={href} href={href}
+                className="cyber-label text-slate-500 hover:text-cyan-400 transition-colors">
+                {label}
+              </Link>
+            ))}
+            <Link href="/dashboard" className="btn-cyber-solid text-xs px-6 py-3">
+              <Zap className="w-3.5 h-3.5" />
+              Launch
             </Link>
           </div>
 
-          {/* Mobile Toggle */}
-          <button
-            className="md:hidden p-3 text-white hover:text-yellow-400 transition-colors rounded-2xl hover:bg-yellow-400/10"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
+          <button className="md:hidden text-slate-400 hover:text-cyan-400 transition-colors"
+            onClick={() => setOpen(!open)}>
+            {open ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
 
-        {/* Mobile Menu */}
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="md:hidden mt-8 pt-8 border-t border-yellow-400/20"
-          >
-            <div className="flex flex-col gap-6">
-              <Link
-                href="#features"
-                className="text-sm uppercase tracking-[0.2em] font-bold text-white/60 hover:text-yellow-400 transition-colors py-2"
-                onClick={() => setIsOpen(false)}
-              >
-                Platform
+        {/* Mobile */}
+        {open && (
+          <div className="panel mt-1 px-6 py-4 space-y-3 rounded-sm">
+            {[["#features", "Platform"], ["#how-it-works", "System"], ["/dashboard", "Launch"]].map(([href, label]) => (
+              <Link key={href} href={href}
+                className="block cyber-label text-slate-400 hover:text-cyan-400 transition-colors py-2"
+                onClick={() => setOpen(false)}>
+                {label}
               </Link>
-              <Link
-                href="#how-it-works"
-                className="text-sm uppercase tracking-[0.2em] font-bold text-white/60 hover:text-yellow-400 transition-colors py-2"
-                onClick={() => setIsOpen(false)}
-              >
-                Intelligence
-              </Link>
-              <Link
-                href="/dashboard"
-                className="btn-gold text-sm flex items-center gap-2 justify-center mt-4"
-                onClick={() => setIsOpen(false)}
-              >
-                <Crown className="w-4 h-4" />
-                Elite Access
-              </Link>
-            </div>
-          </motion.div>
+            ))}
+          </div>
         )}
       </div>
     </nav>

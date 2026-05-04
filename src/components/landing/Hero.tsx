@@ -1,157 +1,161 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Star, ShieldCheck, Zap, Crown, Sparkles } from "lucide-react";
+import { ArrowRight, Zap, Shield, Cpu, Activity } from "lucide-react";
+
+const stats = [
+  { label: "Accuracy Rate", value: "98.4%" },
+  { label: "Avg. Score Boost", value: "+34pts" },
+  { label: "Models Active", value: "7" },
+  { label: "Latency", value: "<2s" },
+];
 
 export default function Hero() {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
-
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -300]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, -600]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.9]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-
   return (
-    <section ref={containerRef} className="relative min-h-[180vh] flex flex-col pt-60 px-6 overflow-hidden">
-      <motion.div
-        style={{ scale, opacity }}
-        className="max-w-7xl mx-auto w-full text-center space-y-24 relative z-10"
-      >
+    <section className="relative min-h-screen flex flex-col justify-center pt-28 pb-20 px-6 overflow-hidden">
+      {/* Glow orbs */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-blue-600/10 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-cyan-400/5 blur-[100px] rounded-full pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto w-full">
+        {/* System status bar */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center gap-6 mb-16 flex-wrap"
+        >
+          <div className="status-online">
+            <div className="status-dot" />
+            System Online
+          </div>
+          <div className="cyber-divider w-8 h-px" />
+          <span className="cyber-label text-slate-600">v4.2.1 // Neural Engine Active</span>
+          <div className="cyber-divider w-8 h-px" />
+          <span className="cyber-label text-slate-600">7 AI Models Loaded</span>
+        </motion.div>
+
+        {/* Main heading */}
+        <div className="mb-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            <p className="cyber-label text-cyan-400/70 mb-4">// Resume Intelligence Platform</p>
+            <h1 className="text-[clamp(3rem,10vw,9rem)] font-black leading-[0.85] tracking-tighter text-white uppercase">
+              Analyze.<br />
+              <span className="neon animate-flicker">Optimize.</span><br />
+              <span className="text-slate-600">Dominate.</span>
+            </h1>
+          </motion.div>
+        </div>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          className="text-slate-400 text-lg max-w-xl mb-12 leading-relaxed"
+        >
+          AI-powered resume analysis that decodes ATS systems, maps skill gaps,
+          and generates precision rewrites — in under 2 seconds.
+        </motion.p>
+
+        {/* CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-4 px-10 py-4 glass-card rounded-full border-2"
+          transition={{ delay: 0.4 }}
+          className="flex flex-wrap items-center gap-4 mb-20"
         >
-          <Crown className="w-4 h-4 text-yellow-400" />
-          <span className="text-[14px] uppercase tracking-[0.6em] font-black gold-text-static">Premium Intelligence</span>
-          <Sparkles className="w-4 h-4 text-yellow-400" />
-        </motion.div>
-
-        <div className="space-y-8">
-          <motion.h1
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-[8rem] md:text-[16rem] lg:text-[20rem] font-luxury font-bold leading-[0.7] tracking-tighter gold-text py-10"
-          >
-            AURA
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="max-w-5xl mx-auto text-2xl md:text-4xl lg:text-5xl text-white/70 font-elegant font-light leading-tight tracking-wide px-10"
-          >
-            Where <span className="gold-text-static font-medium italic">sophistication</span> meets artificial intelligence.
-            <br />
-            The pinnacle of career optimization.
-          </motion.p>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="flex flex-col items-center gap-16"
-        >
-          <Link href="/dashboard" className="group relative">
-            <div className="absolute -inset-6 bg-gradient-to-r from-yellow-400/20 via-yellow-500/30 to-yellow-400/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="btn-action relative z-10">
-              <Crown className="w-6 h-6" />
-              Enter the Elite
-              <ArrowRight size={24} className="group-hover:translate-x-3 transition-transform duration-300" />
-            </div>
+          <Link href="/dashboard" className="btn-cyber-solid">
+            <Zap className="w-4 h-4" />
+            Run Analysis
+            <ArrowRight className="w-4 h-4" />
           </Link>
-
-          <div className="flex items-center gap-16 text-[12px] font-black uppercase tracking-[0.5em] text-white/40">
-            <span className="flex items-center gap-4">
-              <ShieldCheck className="w-6 h-6 text-yellow-400" />
-              <span className="gold-text-static">Verified Excellence</span>
-            </span>
-            <span className="flex items-center gap-4">
-              <Zap className="w-6 h-6 text-yellow-400" />
-              <span className="gold-text-static">Neural Precision</span>
-            </span>
-            <span className="flex items-center gap-4">
-              <Crown className="w-6 h-6 text-yellow-400" />
-              <span className="gold-text-static">Luxury Standard</span>
-            </span>
-          </div>
+          <Link href="#features" className="btn-cyber">
+            <Cpu className="w-4 h-4" />
+            View System
+          </Link>
         </motion.div>
-      </motion.div>
 
-      {/* Premium Dashboard Preview */}
-      <motion.div
-        style={{ y: y1 }}
-        className="max-w-8xl mx-auto w-full mt-60 relative z-20 px-10"
-      >
+        {/* Stats row */}
         <motion.div
-          initial={{ opacity: 0, y: 200 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-          className="card-premium overflow-hidden shadow-[0_100px_200px_rgba(0,0,0,1)]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-px bg-cyan-400/10 border border-cyan-400/10 mb-20"
         >
-          <div className="relative">
+          {stats.map((s, i) => (
+            <div key={i} className="bg-[#020408] px-6 py-5">
+              <div className="text-2xl font-black text-white mb-1 font-mono">{s.value}</div>
+              <div className="cyber-label">{s.label}</div>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* Dashboard preview */}
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="relative"
+        >
+          <div className="panel rounded-sm overflow-hidden">
+            {/* Top bar */}
+            <div className="flex items-center justify-between px-4 py-2 border-b border-cyan-400/10 bg-cyan-400/[0.02]">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-red-500/60" />
+                <div className="w-2 h-2 rounded-full bg-yellow-500/60" />
+                <div className="w-2 h-2 rounded-full bg-green-500/60" />
+              </div>
+              <span className="cyber-label">aura.ai // dashboard</span>
+              <div className="status-online text-[9px]">
+                <div className="status-dot" />
+                Live
+              </div>
+            </div>
             <Image
               src="/premium_dashboard_mockup_1777913264636.png"
-              alt="Luxury Dashboard Interface"
+              alt="AURA Dashboard"
               width={1920}
               height={1080}
-              className="w-full h-auto scale-105"
+              className="w-full h-auto opacity-80"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#020408] via-transparent to-transparent pointer-events-none" />
+          </div>
 
-            {/* Floating Golden Accent */}
-            <div className="absolute top-8 right-8 glass-card p-4 rounded-2xl border-2 border-yellow-400/30">
-              <div className="flex items-center gap-3">
-                <Crown className="w-6 h-6 text-yellow-400" />
-                <span className="text-sm font-bold gold-text-static">PREMIUM</span>
+          {/* Floating metric */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 }}
+            className="absolute -right-4 top-16 panel px-5 py-4 hidden lg:block"
+          >
+            <div className="cyber-label mb-2">ATS Score</div>
+            <div className="text-3xl font-black text-cyan-400 font-mono">94<span className="text-lg text-slate-500">/100</span></div>
+            <div className="progress-track mt-2 w-32">
+              <div className="progress-fill" style={{ width: "94%" }} />
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5 }}
+            className="absolute -left-4 bottom-24 panel px-5 py-4 hidden lg:block"
+          >
+            <div className="flex items-center gap-3">
+              <Activity className="w-4 h-4 text-cyan-400" />
+              <div>
+                <div className="cyber-label mb-1">Analysis Complete</div>
+                <div className="text-xs text-white font-semibold">12 improvements found</div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </motion.div>
-
-        {/* Floating Statistics Card */}
-        <motion.div
-          style={{ y: y2 }}
-          className="absolute -top-40 right-20 card-premium p-16 border-2 border-yellow-400/30 hidden lg:block"
-        >
-          <div className="text-center space-y-4">
-            <div className="text-8xl font-luxury font-black gold-text">98%</div>
-            <div className="text-sm font-black uppercase tracking-[0.5em] text-white/60">Success Rate</div>
-            <div className="flex justify-center">
-              <div className="flex gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                ))}
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Additional Floating Element */}
-        <motion.div
-          style={{ y: y1 }}
-          className="absolute -bottom-20 left-20 glass-card p-8 rounded-3xl border border-yellow-400/20 hidden lg:block"
-        >
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-600 flex items-center justify-center">
-              <Sparkles className="w-6 h-6 text-black" />
-            </div>
-            <div>
-              <div className="text-lg font-bold gold-text-static">AI Powered</div>
-              <div className="text-xs text-white/50 uppercase tracking-wider">Next Generation</div>
-            </div>
-          </div>
-        </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 }

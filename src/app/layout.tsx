@@ -1,52 +1,22 @@
 import type { Metadata } from "next";
-import { Inter, Plus_Jakarta_Sans, JetBrains_Mono, Playfair_Display, Cormorant_Garamond } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
-
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--font-jakarta",
-});
-
-const jetbrains = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-});
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-luxury",
-});
-
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  variable: "--font-elegant",
-});
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
 export const metadata: Metadata = {
-  title: "Aura Resume | Luxury AI Career Intelligence",
-  description: "Premium AI-powered career optimization platform. Where sophistication meets intelligence.",
+  title: "AURA // Neural Resume Intelligence",
+  description: "Next-generation AI resume analysis platform.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jakarta.variable} ${jetbrains.variable} ${playfair.variable} ${cormorant.variable} antialiased dark`}>
+    <html lang="en" className={`${inter.variable} ${mono.variable}`}>
       <body className="min-h-screen relative">
-        {/* Luxury Background */}
-        <div className="luxury-bg">
-          <div className="luxury-blob"></div>
-          <div className="luxury-blob"></div>
-          <div className="luxury-blob"></div>
-        </div>
-        {children}
+        <div className="grid-bg" />
+        <div className="scanline" />
+        <div className="relative z-10">{children}</div>
       </body>
     </html>
   );

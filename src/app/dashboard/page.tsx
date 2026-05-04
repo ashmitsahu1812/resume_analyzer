@@ -5,156 +5,139 @@ import { motion } from "framer-motion";
 import FileUpload from "@/components/dashboard/FileUpload";
 import { AnalysisPanel, SuggestionsPanel, KeywordsPanel } from "@/components/dashboard/AnalysisPanel";
 import { AnalysisResult } from "@/lib/types";
-import { LayoutDashboard, FileText, ChevronRight, Zap, Trophy, ShieldCheck, BarChart3, Crown, Sparkles, Award } from "lucide-react";
+import { Zap, Trophy, BarChart3, Target, RotateCcw, Activity } from "lucide-react";
 import { AnalysisSkeleton } from "@/components/dashboard/Skeleton";
 import { cn } from "@/lib/utils";
+import { motion as m } from "framer-motion";
 
 export default function Dashboard() {
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analyzing, setAnalyzing] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
-  const [jobDescription, setJobDescription] = useState("");
+  const [jobDesc, setJobDesc] = useState("");
 
-  const handleFileSelect = async (file: File) => {
-    setIsAnalyzing(true);
+  const handleFile = async (file: File) => {
+    setAnalyzing(true);
     setResult(null);
-
     try {
       let resumeText = "";
       const { parsePDFOnClient, parseDOCXOnClient } = await import("@/lib/utils/client-parser");
-
       if (file.type === "application/pdf") {
         resumeText = await parsePDFOnClient(file);
       } else {
         resumeText = await parseDOCXOnClient(file);
       }
-
-      const response = await fetch("/api/analyze", {
+      const res = await fetch("/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ resumeText, jobDescription }),
+        body: JSON.stringify({ resumeText, jobDescription: jobDesc }),
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Analysis failed.");
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "Analysis failed.");
       }
-
-      const data = await response.json();
-      setResult(data);
-    } catch (error: any) {
-      console.error("ANALYSIS ERROR:", error);
-      alert(`Analysis Failed: ${error.message}`);
+      setResult(await res.json());
+    } catch (e: any) {
+      alert(`Error: ${e.message}`);
     } finally {
-      setIsAnalyzing(false);
+      setAnalyzing(false);
     }
   };
 
+  const scores = result ? [
+    { label: "ATS Score", val: result.ats_score, icon: Zap },
+    { label: "Content", val: result.content_score, icon: Trophy },
+    { label: "Format", val: result.format_score, icon: BarChart3 },
+    { label: "Job Match", val: result.job_match_percentage, icon: Target },
+  ] : [];
+
   return (
-    <div className="space-y-12 max-w-7xl mx-auto px-4 md:px-10 pb-20">
-      <header className="pt-10 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-yellow-400/20 pb-10">
-        <div className="space-y-4">
-          <div className="flex items-center gap-3 text-yellow-400">
-            <Crown className="w-5 h-5" />
-            <span className="text-[10px] uppercase tracking-widest font-black">Premium Intelligence</span>
-            <Sparkles className="w-4 h-4" />
-          </div>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-luxury font-bold tracking-tighter">
-            <span className="gold-text">Elite</span> <span className="text-white/30 font-light italic">Analysis</span>
+    <div className="p-8 max-w-6xl mx-auto">
+      {/* Header */}
+      <div className="flex items-start justify-between mb-10 pb-6 border-b border-cyan-400/10">
+        <div>
+          <p className="cyber-label text-cyan-400/60 mb-2">// Resume Intelligence</p>
+          <h1 className="text-3xl font-black tracking-tight text-white uppercase">
+            Analysis <span className="neon">Engine</span>
           </h1>
         </div>
-        <div className="hidden md:flex gap-4">
-          <div className="glass-card px-6 py-4 rounded-2xl border border-yellow-400/30">
-            <span className="text-[9px] text-white/40 block mb-1 uppercase font-bold tracking-widest">System Status</span>
-            <span className="text-sm font-bold gold-text-static flex items-center gap-2">
-              <div className="status-dot" />
-              OPERATIONAL
-            </span>
-          </div>
-          <div className="glass-card px-6 py-4 rounded-2xl border border-yellow-400/30">
-            <span className="text-[9px] text-white/40 block mb-1 uppercase font-bold tracking-widest">Premium Tier</span>
-            <span className="text-sm font-bold gold-text-static flex items-center gap-2">
-              <Award className="w-4 h-4" />
-              ACTIVE
-            </span>
-          </div>
+        <div className="status-online">
+          <div className="status-dot" />
+          AI Ready
         </div>
-      </header>
+      </div>
 
-      {!result && !isAnalyzing && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-          <div className="lg:col-span-5">
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="card-premium p-10 relative overflow-hidden">
-              <div className="absolute -top-24 -right-24 w-64 h-64 bg-yellow-400/10 blur-[80px] rounded-full" />
-              <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-6">
-                  <FileText className="text-yellow-400 w-6 h-6" />
-                  <h2 className="text-2xl font-luxury font-bold gold-text-static">Document Upload</h2>
-                </div>
-                <p className="text-white/60 mb-10 leading-relaxed text-sm font-elegant">
-                  Upload your professional document for comprehensive AI analysis. Our luxury-grade algorithms evaluate every nuance.
-                </p>
-                <FileUpload onFileSelect={handleFileSelect} />
-              </div>
+      {/* Upload state */}
+      {!result && !analyzing && (
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+          <div className="lg:col-span-2">
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+              className="panel rounded-sm p-6 h-full">
+              <p className="cyber-label mb-4">01 // Upload Resume</p>
+              <FileUpload onFileSelect={handleFile} />
             </motion.div>
           </div>
-          <div className="lg:col-span-7">
-            <div className="card-premium p-10 space-y-6">
-              <div className="flex items-center gap-3 mb-4">
-                <Trophy className="w-6 h-6 text-yellow-400" />
-                <h3 className="text-lg font-luxury font-bold gold-text-static">Target Position (Optional)</h3>
-              </div>
+          <div className="lg:col-span-3">
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }} className="panel rounded-sm p-6 h-full">
+              <p className="cyber-label mb-4">02 // Target Job Description <span className="text-slate-700 normal-case tracking-normal font-normal">(optional)</span></p>
               <textarea
-                value={jobDescription}
-                onChange={(e) => setJobDescription(e.target.value)}
-                placeholder="Paste the target position description for precision alignment analysis..."
-                className="input-luxury w-full h-64 resize-none font-elegant text-base leading-relaxed"
+                value={jobDesc}
+                onChange={(e) => setJobDesc(e.target.value)}
+                placeholder="Paste the job description here for precision match scoring..."
+                className="input-cyber rounded-sm h-48 font-mono text-sm"
               />
-              <div className="text-xs text-white/40 font-elegant">
-                Providing a target position enhances our neural matching algorithms for superior results.
-              </div>
-            </div>
+              <p className="text-xs text-slate-700 mt-3">
+                Adding a job description enables semantic match scoring and targeted keyword analysis.
+              </p>
+            </motion.div>
           </div>
         </div>
       )}
 
-      {isAnalyzing && <AnalysisSkeleton />}
+      {analyzing && <AnalysisSkeleton />}
 
       {result && (
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="space-y-16">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {[
-              { label: "ATS COMPATIBILITY", val: result.ats_score, icon: Zap, color: "text-yellow-400" },
-              { label: "CONTENT EXCELLENCE", val: result.content_score, icon: Trophy, color: "text-yellow-500" },
-              { label: "STRUCTURAL FLOW", val: result.format_score, icon: BarChart3, color: "text-yellow-300" },
-              { label: "ROLE ALIGNMENT", val: result.job_match_percentage, icon: Crown, color: "text-yellow-600" }
-            ].map((stat, i) => (
-              <div key={i} className="card-premium p-8 relative group">
-                <div className={cn("absolute top-8 right-8", stat.color)}>
-                  <stat.icon className="w-6 h-6 opacity-60" />
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
+          {/* Score cards */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-cyan-400/10 border border-cyan-400/10">
+            {scores.map((s, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.08 }}
+                className="bg-[#020408] p-6 relative group hover:bg-[#060d14] transition-colors"
+              >
+                <div className="absolute top-0 left-0 w-3 h-px bg-cyan-400/50" />
+                <div className="absolute top-0 left-0 w-px h-3 bg-cyan-400/50" />
+                <div className="flex items-center justify-between mb-3">
+                  <span className="cyber-label">{s.label}</span>
+                  <s.icon className="w-3.5 h-3.5 text-cyan-400/40" />
                 </div>
-                <span className="text-[10px] font-bold text-white/50 tracking-[0.2em] block mb-4 uppercase">{stat.label}</span>
-                <div className="text-5xl font-luxury font-bold tracking-tighter gold-text mb-4">{stat.val}%</div>
-                <div className="h-2 bg-black/40 rounded-full overflow-hidden">
+                <div className="text-4xl font-black font-mono text-white mb-3">
+                  {s.val}<span className="text-lg text-slate-600">%</span>
+                </div>
+                <div className="progress-track">
                   <motion.div
+                    className="progress-fill"
                     initial={{ width: 0 }}
-                    animate={{ width: `${stat.val}%` }}
-                    className="h-full bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full"
-                    transition={{ duration: 1.5, ease: "easeOut" }}
+                    animate={{ width: `${s.val}%` }}
+                    transition={{ duration: 1.2, ease: "easeOut", delay: i * 0.1 }}
                   />
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
 
-          <div className="grid grid-cols-1 gap-10">
-            <AnalysisPanel data={result} />
-            <SuggestionsPanel suggestions={result.suggestions} />
-            <KeywordsPanel keywords={result.missing_keywords} />
-          </div>
+          {/* Panels */}
+          <AnalysisPanel data={result} />
+          <SuggestionsPanel suggestions={result.suggestions} />
+          <KeywordsPanel keywords={result.missing_keywords} />
 
-          <div className="flex justify-center pt-20">
-            <button onClick={() => setResult(null)} className="btn-outline-gold">
-              <Crown className="w-5 h-5" />
+          {/* Reset */}
+          <div className="flex justify-center pt-8">
+            <button onClick={() => setResult(null)} className="btn-cyber">
+              <RotateCcw className="w-4 h-4" />
               New Analysis
             </button>
           </div>
