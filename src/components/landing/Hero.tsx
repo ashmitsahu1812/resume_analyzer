@@ -1,107 +1,112 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, CheckCircle2, ShieldCheck, Zap } from "lucide-react";
+import { ArrowRight, Star, ShieldCheck, Zap } from "lucide-react";
 
 export default function Hero() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+
+  const y1 = useTransform(scrollYProgress, [0, 1], [0, -200]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [0, -400]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
   return (
-    <section className="relative min-h-screen flex flex-col pt-32 pb-20 px-6 overflow-hidden">
-      {/* Background Ambient Light */}
-      <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-violet-500/5 blur-[120px] rounded-full pointer-events-none" />
+    <section ref={containerRef} className="relative min-h-[150vh] flex flex-col pt-40 px-6 overflow-hidden">
+      {/* Liquid Elements */}
+      <div className="liquid-blob w-[800px] h-[800px] bg-emerald-500/20 -top-40 -right-40" />
+      <div className="liquid-blob w-[600px] h-[600px] bg-violet-500/20 bottom-40 -left-40" />
 
-      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
-        {/* Left: Content */}
-        <div className="lg:col-span-6 space-y-10 relative z-10 text-center lg:text-left">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="inline-flex items-center gap-3 px-5 py-2 glass-panel rounded-full"
+      <motion.div 
+        style={{ scale, opacity }}
+        className="max-w-7xl mx-auto w-full text-center space-y-16 relative z-10"
+      >
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="inline-flex items-center gap-4 px-8 py-3 luxury-card rounded-full"
+        >
+          <Star className="w-4 h-4 text-emerald-400 fill-emerald-400" />
+          <span className="text-[12px] uppercase tracking-[0.5em] font-black text-white">The Final Standard</span>
+        </motion.div>
+
+        <div className="space-y-10">
+          <motion.h1
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-8xl md:text-[14rem] font-bold leading-[0.75] tracking-tighter metallic-text py-10"
           >
-            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[10px] uppercase tracking-[0.4em] font-black text-white/60">Institutional Grade v2.4</span>
-          </motion.div>
+            Aura <br />
+            <span className="opacity-10 text-[0.8em]">Architect.</span>
+          </motion.h1>
 
-          <div className="space-y-6">
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-6xl md:text-8xl font-bold leading-[0.9] tracking-tighter text-gradient-rich"
-            >
-              Elite Career <br />
-              <span className="text-emerald-500">Architecture.</span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="max-w-xl text-lg md:text-xl text-white/40 leading-relaxed font-medium mx-auto lg:mx-0"
-            >
-              Precision-engineered resume diagnostics and neural matching. Built for high-stakes professional transitions.
-            </motion.p>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="flex flex-col sm:flex-row items-center gap-6"
+            className="max-w-3xl mx-auto text-2xl md:text-3xl text-white/40 font-light leading-relaxed tracking-tight"
           >
-            <Link href="/dashboard" className="btn-action w-full sm:w-auto">
-              Access Engine
-              <ArrowRight className="inline-block ml-3 w-5 h-5" />
-            </Link>
-            <div className="flex items-center gap-6 text-[10px] font-black uppercase tracking-[0.2em] text-white/30">
-              <span className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                Verified Results
-              </span>
-              <span className="flex items-center gap-2">
-                <Zap className="w-4 h-4 text-violet-500" />
-                Instant Response
-              </span>
-            </div>
-          </motion.div>
-
-          {/* Social Proof */}
-          <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            transition={{ delay: 0.5 }}
-            className="pt-10 flex flex-wrap items-center justify-center lg:justify-start gap-10 opacity-20 grayscale"
-          >
-            <span className="text-xs font-black tracking-widest uppercase">Trusted by</span>
-            <div className="text-xl font-bold italic tracking-tighter">Goldman Sachs</div>
-            <div className="text-xl font-bold italic tracking-tighter">McKinsey</div>
-            <div className="text-xl font-bold italic tracking-tighter">Apple</div>
-          </motion.div>
+            Precision engineering for high-stakes career transitions. Where neural matching meets institutional excellence.
+          </motion.p>
         </div>
 
-        {/* Right: Product Visual */}
-        <div className="lg:col-span-6 relative">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, rotateY: -10 }}
-            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-            transition={{ type: "spring", stiffness: 50, delay: 0.3 }}
-            className="relative z-10 hero-visual-shadow rounded-[3rem] overflow-hidden border border-white/10"
-          >
-            <Image 
-              src="/premium_dashboard_mockup_1777913264636.png" 
-              alt="Aura Dashboard" 
-              width={1024} 
-              height={1024} 
-              className="w-full h-auto"
-            />
-          </motion.div>
-          
-          {/* Decorative Elements */}
-          <div className="absolute -top-10 -left-10 w-40 h-40 bg-emerald-500/20 blur-[60px] rounded-full" />
-          <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-violet-500/20 blur-[60px] rounded-full" />
-        </div>
-      </div>
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-8"
+        >
+          <Link href="/dashboard" className="btn-luxury group">
+            Open Interface
+            <ArrowRight className="inline-block ml-4 w-6 h-6 group-hover:translate-x-2 transition-transform" />
+          </Link>
+          <div className="flex items-center gap-10 text-[10px] font-black uppercase tracking-[0.4em] text-white/20">
+            <span className="flex items-center gap-3">
+              <ShieldCheck className="w-5 h-5 text-emerald-500/50" />
+              Verified Engine
+            </span>
+            <span className="flex items-center gap-3">
+              <Zap className="w-5 h-5 text-violet-500/50" />
+              Realtime Synapse
+            </span>
+          </div>
+        </motion.div>
+      </motion.div>
+
+      {/* Cinematic Parallax Visual */}
+      <motion.div 
+        style={{ y: y1 }}
+        className="max-w-7xl mx-auto w-full mt-32 relative z-20"
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 100 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="luxury-card rounded-[4rem] overflow-hidden border border-white/10 relative"
+        >
+          <Image 
+            src="/premium_dashboard_mockup_1777913264636.png" 
+            alt="Cinematic Dashboard" 
+            width={1600} 
+            height={900} 
+            className="w-full h-auto"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
+        </motion.div>
+        
+        {/* Floating Accents */}
+        <motion.div style={{ y: y2 }} className="absolute -top-20 -right-20 w-80 h-80 luxury-card rounded-[3rem] p-10 hidden lg:block">
+          <div className="text-4xl font-black mb-4">98%</div>
+          <div className="text-xs font-black uppercase tracking-widest text-white/40">Alignment Accuracy</div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { 
   Target, 
   Sparkles, 
@@ -10,101 +10,107 @@ import {
   MessageSquare,
   ArrowRight
 } from "lucide-react";
+import { useRef } from "react";
+
+function FeatureCard({ feature, index }: { feature: any, index: number }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseX = useSpring(x, { stiffness: 150, damping: 20 });
+  const mouseY = useSpring(y, { stiffness: 150, damping: 20 });
+
+  const rotateX = useTransform(mouseY, [-0.5, 0.5], [10, -10]);
+  const rotateY = useTransform(mouseX, [-0.5, 0.5], [-10, 10]);
+
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    x.set(mouseX / width - 0.5);
+    y.set(mouseY / height - 0.5);
+  }
+
+  function handleMouseLeave() {
+    x.set(0);
+    y.set(0);
+  }
+
+  return (
+    <motion.div
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1 }}
+      className="luxury-card p-12 rounded-[3rem] group relative overflow-hidden h-[450px]"
+    >
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+      
+      <div style={{ transform: "translateZ(50px)" }} className="relative z-10 space-y-8">
+        <div className="w-20 h-20 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-white/30 group-hover:bg-white/10 transition-all duration-700">
+          <feature.icon className="w-8 h-8 text-white/40 group-hover:text-white transition-colors" />
+        </div>
+        
+        <div className="space-y-4">
+          <h3 className="text-3xl font-black tracking-tighter text-white">{feature.title}</h3>
+          <p className="text-lg text-white/30 font-medium leading-relaxed group-hover:text-white/60 transition-colors">
+            {feature.description}
+          </p>
+        </div>
+
+        <div className="pt-10 flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.4em] text-white/20 group-hover:text-white transition-all">
+          Initiate Protocol <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+        </div>
+      </div>
+
+      {/* Glossy Overlay */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none bg-gradient-to-tr from-white/0 via-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity" />
+    </motion.div>
+  );
+}
 
 const features = [
   {
-    title: "Neural Job Match",
-    description: "Our proprietary alignment engine calculates semantic proximity between your experience and any target job description.",
+    title: "Neural Match",
+    description: "Calculates precise semantic alignment between your profile and institutional requirements.",
     icon: Target,
-    color: "text-primary",
-    bg: "bg-primary/10",
   },
   {
     title: "Interview Intel",
-    description: "Generate high-probability interview questions and response blueprints tailored specifically to your unique profile.",
+    description: "Generates high-stakes behavioral simulations and STAR-method response blueprints.",
     icon: Sparkles,
-    color: "text-secondary",
-    bg: "bg-secondary/10",
   },
   {
-    title: "Smart Vault",
-    description: "Securely archive and manage multiple resume iterations. Track your progress and iteration quality over time.",
-    icon: FileText,
-    color: "text-emerald-500",
-    bg: "bg-emerald-500/10",
-  },
-  {
-    title: "ATS Infiltration",
-    description: "Reverse-engineered algorithms that score your resume exactly how top-tier ATS systems perceive your data.",
+    title: "Infiltration Logic",
+    description: "Reverse-engineered algorithms that score your narrative through the lens of modern gatekeepers.",
     icon: Cpu,
-    color: "text-amber-500",
-    bg: "bg-amber-500/10",
-  },
-  {
-    title: "Keyword Gap Logic",
-    description: "Automatically identify critical technical and soft skill gaps required to bypass initial automated filters.",
-    icon: Search,
-    color: "text-blue-500",
-    bg: "bg-blue-500/10",
-  },
-  {
-    title: "High-Impact Rewrites",
-    description: "AI-driven phrasing optimization that converts passive responsibilities into active, data-driven achievements.",
-    icon: MessageSquare,
-    color: "text-rose-500",
-    bg: "bg-rose-500/10",
-  },
-  {
-    title: "Multi-Format Support",
-    description: "Seamlessly upload PDF and DOCX files. Our parser extracts every detail with precision.",
-    icon: FileText,
-    color: "text-indigo-500",
-    bg: "bg-indigo-500/10",
-  },
+  }
 ];
 
 export default function Features() {
   return (
-    <section id="features" className="py-60 px-6 relative border-t border-white/5">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-end mb-32">
+    <section className="py-60 px-6 relative">
+      <div className="max-w-7xl mx-auto space-y-32">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-12 border-b border-white/5 pb-20">
           <div className="space-y-6">
-            <span className="mono text-primary font-bold tracking-[0.3em]">Module Overview</span>
-            <h2 className="text-6xl md:text-8xl font-bold tracking-tighter font-heading leading-tight">
-              Platform <br /> Infrastructure.
+            <span className="text-[10px] uppercase tracking-[0.5em] font-black text-white/30">System Infrastructure</span>
+            <h2 className="text-6xl md:text-9xl font-black tracking-tighter metallic-text">
+              Precision <br /> 
+              <span className="opacity-20 italic">Architect.</span>
             </h2>
           </div>
-          <p className="text-xl text-white/40 max-w-lg leading-relaxed font-body">
-            A precision-engineered ecosystem designed to bypass automated filters and resonate with human gatekeepers.
+          <p className="max-w-md text-2xl text-white/30 font-light leading-relaxed">
+            Every module is engineered for zero-latency career diagnostics. No fluff. Just institutional results.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-px gap-y-px bg-white/5">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {features.map((feature, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="bg-background p-16 group hover:bg-white/[0.02] transition-colors relative"
-            >
-              <div className="absolute top-8 left-8 mono text-[10px] text-white/10 group-hover:text-primary transition-colors">
-                MOD-0{i + 1}
-              </div>
-              
-              <div className={`w-14 h-14 mb-10 flex items-center justify-center border border-white/5 group-hover:border-primary/30 transition-all duration-500`}>
-                <feature.icon className={`w-6 h-6 text-white/20 group-hover:text-primary group-hover:gold-glow transition-all`} />
-              </div>
-              <h3 className="text-2xl font-bold mb-6 tracking-tight font-heading">{feature.title}</h3>
-              <p className="text-white/40 leading-relaxed font-body text-sm group-hover:text-white/60 transition-colors">
-                {feature.description}
-              </p>
-              
-              <div className="mt-10 flex items-center gap-2 mono text-[9px] text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0">
-                Execute Module <ArrowRight className="w-3 h-3" />
-              </div>
-            </motion.div>
+            <FeatureCard key={i} feature={feature} index={i} />
           ))}
         </div>
       </div>
