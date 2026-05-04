@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Upload, X, FileText, CheckCircle2, Loader2, AlertCircle } from "lucide-react";
+import { Upload, X, FileText, CheckCircle2, Loader2, AlertCircle, Crown, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface FileUploadProps {
@@ -47,7 +47,7 @@ export default function FileUpload({ onFileSelect, isLoading }: FileUploadProps)
       setFile(selectedFile);
       onFileSelect(selectedFile);
     } else {
-      alert("Please upload a PDF or DOCX file.");
+      alert("Please upload a PDF or DOCX file for premium analysis.");
     }
   };
 
@@ -61,17 +61,17 @@ export default function FileUpload({ onFileSelect, isLoading }: FileUploadProps)
       <div
         className={cn(
           "relative border-2 border-dashed rounded-[3rem] p-16 transition-all duration-500 flex flex-col items-center justify-center text-center overflow-hidden",
-          dragActive ? "border-primary bg-primary/10 scale-[1.05] neo-shadow" : "border-white/10 hover:border-white/20 glass-hover",
-          file ? "bg-white/5 border-primary/50 neo-shadow" : ""
+          dragActive ? "border-yellow-400 bg-yellow-400/10 scale-[1.02] luxury-glow" : "border-yellow-400/30 hover:border-yellow-400/50",
+          file ? "bg-yellow-400/5 border-yellow-400/60 luxury-glow" : ""
         )}
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
         onDragOver={handleDrag}
         onDrop={handleDrop}
       >
-        {/* Animated Background for upload */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(217,70,239,0.05),transparent_70%)] pointer-events-none" />
-        
+        {/* Luxury Background Effect */}
+        <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/5 via-transparent to-yellow-600/5 pointer-events-none" />
+
         <input
           ref={inputRef}
           type="file"
@@ -90,27 +90,41 @@ export default function FileUpload({ onFileSelect, isLoading }: FileUploadProps)
               exit={{ opacity: 0, scale: 1.2 }}
               className="space-y-6 relative z-10"
             >
-              <motion.div 
-                animate={{ 
+              <motion.div
+                animate={{
                   y: [0, -10, 0],
-                  filter: ["drop-shadow(0 0 0px rgba(217,70,239,0))", "drop-shadow(0 0 20px rgba(217,70,239,0.5))", "drop-shadow(0 0 0px rgba(217,70,239,0))"]
+                  boxShadow: [
+                    "0 0 0px rgba(212,175,55,0)",
+                    "0 0 30px rgba(212,175,55,0.4)",
+                    "0 0 0px rgba(212,175,55,0)"
+                  ]
                 }}
                 transition={{ duration: 3, repeat: Infinity }}
-                className="w-24 h-24 gradient-bg rounded-[2rem] flex items-center justify-center mx-auto mb-8 shadow-2xl"
+                className="w-24 h-24 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-[2rem] flex items-center justify-center mx-auto mb-8 shadow-2xl"
               >
-                <Upload className="w-12 h-12 text-white" />
+                <Upload className="w-12 h-12 text-black" />
               </motion.div>
-              <h3 className="text-3xl font-black uppercase tracking-tight">Deploy Resume</h3>
-              <p className="text-white/60 max-w-sm mx-auto font-medium">
-                Drop your PDF/DOCX here to begin hyper-analysis.
-              </p>
-              <div className="flex items-center justify-center gap-6 pt-6 text-xs font-black uppercase tracking-widest text-primary">
-                <span className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" /> PDF
-                </span>
-                <span className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-secondary animate-ping" /> DOCX
-                </span>
+
+              <div className="space-y-4">
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <Crown className="w-5 h-5 text-yellow-400" />
+                  <span className="text-xs uppercase tracking-[0.3em] font-black gold-text-static">Premium Upload</span>
+                </div>
+                <h3 className="text-3xl font-luxury font-black tracking-tight gold-text-static">Deploy Document</h3>
+                <p className="text-white/60 max-w-sm mx-auto font-elegant leading-relaxed">
+                  Upload your professional document for luxury-grade AI analysis and optimization.
+                </p>
+              </div>
+
+              <div className="flex items-center justify-center gap-8 pt-6">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-yellow-400">
+                  <div className="status-dot" />
+                  <span>PDF</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-yellow-400">
+                  <div className="status-dot" />
+                  <span>DOCX</span>
+                </div>
               </div>
             </motion.div>
           ) : (
@@ -120,18 +134,19 @@ export default function FileUpload({ onFileSelect, isLoading }: FileUploadProps)
               animate={{ opacity: 1, y: 0 }}
               className="space-y-6"
             >
-              <div className="w-20 h-20 bg-primary/20 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl border border-primary/30">
-                <FileText className="w-10 h-10 text-primary" />
+              <div className="w-20 h-20 bg-gradient-to-br from-yellow-400/20 to-yellow-600/10 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl border-2 border-yellow-400/30 luxury-glow">
+                <FileText className="w-10 h-10 text-yellow-400" />
               </div>
-              <div>
-                <h3 className="text-xl font-bold truncate max-w-[300px] mx-auto">{file.name}</h3>
-                <p className="text-sm text-muted-foreground">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+
+              <div className="space-y-2">
+                <h3 className="text-xl font-luxury font-bold truncate max-w-[300px] mx-auto gold-text-static">{file.name}</h3>
+                <p className="text-sm text-white/50 font-elegant">{(file.size / 1024 / 1024).toFixed(2)} MB • Premium Ready</p>
               </div>
 
               {isLoading ? (
-                <div className="flex items-center justify-center gap-2 text-primary font-bold">
+                <div className="flex items-center justify-center gap-3 text-yellow-400 font-bold">
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  Analyzing with AI...
+                  <span className="font-elegant">Analyzing with Elite AI...</span>
                 </div>
               ) : (
                 <button
@@ -139,9 +154,10 @@ export default function FileUpload({ onFileSelect, isLoading }: FileUploadProps)
                     e.stopPropagation();
                     clearFile();
                   }}
-                  className="px-6 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-sm font-bold flex items-center gap-2 mx-auto transition-all"
+                  className="btn-outline-gold text-sm flex items-center gap-2 mx-auto"
                 >
-                  <X className="w-4 h-4" /> Change File
+                  <X className="w-4 h-4" />
+                  Change Document
                 </button>
               )}
             </motion.div>

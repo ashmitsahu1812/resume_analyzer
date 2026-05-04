@@ -1,17 +1,20 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { 
-  Target, 
-  Sparkles, 
-  FileText, 
-  Cpu, 
-  Search, 
+import {
+  Target,
+  Sparkles,
+  FileText,
+  Cpu,
+  Search,
   MessageSquare,
   ArrowRight,
   ShieldCheck,
   Zap,
-  Activity
+  Activity,
+  Crown,
+  Award,
+  TrendingUp
 } from "lucide-react";
 import { useRef } from "react";
 
@@ -49,72 +52,112 @@ function FeatureCard({ feature, index }: { feature: any, index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 1, delay: index * 0.1 }}
-      className="luxury-card p-16 rounded-[4rem] group relative overflow-hidden h-[600px] flex flex-col justify-between"
+      className="card-premium p-16 group relative overflow-hidden h-[600px] flex flex-col justify-between"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700" />
-      
+      <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 via-yellow-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700" />
+
       <div style={{ transform: "translateZ(80px)" }} className="relative z-10 space-y-12">
-        <div className="w-24 h-24 rounded-[2rem] bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-emerald-500/40 group-hover:bg-emerald-500/10 transition-all duration-700 shadow-2xl">
-          <feature.icon className="w-10 h-10 text-white/20 group-hover:text-emerald-400 transition-colors" />
+        <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-yellow-400/20 to-yellow-600/10 border-2 border-yellow-400/30 flex items-center justify-center group-hover:border-yellow-400/60 group-hover:bg-gradient-to-br group-hover:from-yellow-400/30 group-hover:to-yellow-600/20 transition-all duration-700 shadow-2xl luxury-glow">
+          <feature.icon className="w-12 h-12 text-yellow-400 group-hover:text-yellow-300 transition-colors" />
         </div>
-        
+
         <div className="space-y-6">
-          <h3 className="text-4xl font-black tracking-tighter text-white uppercase">{feature.title}</h3>
-          <p className="text-xl text-white/30 font-medium leading-relaxed group-hover:text-white/60 transition-colors">
+          <h3 className="text-4xl font-luxury font-black tracking-tighter text-white uppercase">{feature.title}</h3>
+          <p className="text-xl text-white/60 font-elegant font-light leading-relaxed group-hover:text-white/80 transition-colors">
             {feature.description}
           </p>
         </div>
       </div>
 
-      <div style={{ transform: "translateZ(40px)" }} className="pt-10 flex items-center gap-6 text-[12px] font-black uppercase tracking-[0.5em] text-white/20 group-hover:text-emerald-400 transition-all">
-        Execute Protocol <ArrowRight className="w-5 h-5 group-hover:translate-x-4 transition-transform" />
+      <div style={{ transform: "translateZ(40px)" }} className="pt-10 flex items-center gap-6 text-[12px] font-black uppercase tracking-[0.5em] text-white/40 group-hover:text-yellow-400 transition-all">
+        <Crown className="w-5 h-5" />
+        Premium Access
+        <ArrowRight className="w-5 h-5 group-hover:translate-x-4 transition-transform" />
       </div>
 
-      {/* Internal Reflection */}
-      <div className="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-gradient-to-tr from-transparent via-white/5 to-transparent rotate-45 pointer-events-none group-hover:translate-x-full transition-transform duration-1000" />
+      {/* Luxury Reflection Effect */}
+      <div className="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-gradient-to-tr from-transparent via-yellow-400/10 to-transparent rotate-45 pointer-events-none group-hover:translate-x-full transition-transform duration-1000" />
+
+      {/* Golden Border Accent */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
     </motion.div>
   );
 }
 
 const features = [
   {
-    title: "Diagnostics",
-    description: "Multi-layered semantic evaluation of your professional narrative across institutional rubrics.",
+    title: "Elite Diagnostics",
+    description: "Multi-dimensional analysis of your professional narrative using advanced AI algorithms and luxury-grade precision metrics.",
     icon: Activity,
   },
   {
-    title: "Alignment",
-    description: "Neural proximity mapping between your core competencies and high-stakes role requirements.",
+    title: "Neural Alignment",
+    description: "Sophisticated matching between your core competencies and premium role requirements using proprietary intelligence systems.",
     icon: Target,
   },
   {
-    title: "Intelligence",
-    description: "Generative behavioral simulations designed to test and optimize your interview performance.",
-    icon: Zap,
+    title: "Executive Intelligence",
+    description: "Advanced behavioral simulations and interview optimization designed for C-suite and executive-level positions.",
+    icon: Crown,
   }
 ];
 
 export default function Features() {
   return (
-    <section id="features" className="py-80 px-6 relative bg-black">
+    <section id="features" className="py-80 px-6 relative">
       <div className="max-w-8xl mx-auto space-y-40">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-end border-b border-white/10 pb-32">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-end">
           <div className="space-y-10 text-center lg:text-left">
-            <span className="text-[14px] uppercase tracking-[0.8em] font-black text-emerald-500">Infrastructure</span>
-            <h2 className="text-8xl md:text-[12rem] font-black tracking-tighter metallic-text uppercase leading-[0.8]">
-              Standard <br /> 
-              <span className="opacity-20 italic">Elite.</span>
+            <div className="flex items-center gap-3 justify-center lg:justify-start">
+              <Crown className="w-6 h-6 text-yellow-400" />
+              <span className="text-[14px] uppercase tracking-[0.8em] font-black gold-text-static">Premium Suite</span>
+            </div>
+            <h2 className="text-6xl md:text-[8rem] lg:text-[12rem] font-luxury font-black tracking-tighter gold-text leading-[0.8]">
+              Luxury <br />
+              <span className="opacity-30 italic font-light">Standard.</span>
             </h2>
           </div>
-          <p className="max-w-xl text-3xl text-white/30 font-light leading-relaxed text-center lg:text-left">
-            Our proprietary engine is engineered for high-stakes career transitions. Every module is built for zero-latency diagnostics.
-          </p>
+          <div className="space-y-8 text-center lg:text-left">
+            <p className="max-w-xl text-2xl md:text-3xl text-white/60 font-elegant font-light leading-relaxed">
+              Our proprietary intelligence engine is crafted for the most discerning professionals. Every algorithm is optimized for excellence.
+            </p>
+            <div className="flex items-center gap-8 justify-center lg:justify-start">
+              <div className="flex items-center gap-3">
+                <Award className="w-5 h-5 text-yellow-400" />
+                <span className="text-sm font-bold gold-text-static">Award Winning</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <TrendingUp className="w-5 h-5 text-yellow-400" />
+                <span className="text-sm font-bold gold-text-static">98% Success Rate</span>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <div className="divider-gold"></div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {features.map((feature, i) => (
             <FeatureCard key={i} feature={feature} index={i} />
           ))}
+        </div>
+
+        {/* Premium Statistics Section */}
+        <div className="glass-panel rounded-[4rem] p-20 text-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+            <div className="space-y-4">
+              <div className="text-6xl font-luxury font-black gold-text">500K+</div>
+              <div className="text-lg font-elegant text-white/60">Elite Professionals</div>
+            </div>
+            <div className="space-y-4">
+              <div className="text-6xl font-luxury font-black gold-text">98%</div>
+              <div className="text-lg font-elegant text-white/60">Success Rate</div>
+            </div>
+            <div className="space-y-4">
+              <div className="text-6xl font-luxury font-black gold-text">24/7</div>
+              <div className="text-lg font-elegant text-white/60">Premium Support</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
