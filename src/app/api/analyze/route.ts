@@ -13,20 +13,25 @@ export async function POST(req: NextRequest) {
     }
 
     // Convert file to buffer
+    console.log("Converting file to buffer...");
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
     // Parse the resume
+    console.log("Parsing resume text...");
     const resumeText = await parseResume(buffer, file.type);
+    console.log("Resume parsed, length:", resumeText.length);
 
     // Analyze with AI
+    console.log("Analyzing with AI...");
     const analysis = await analyzeResumeWithAI(resumeText, jobDescription);
+    console.log("AI Analysis complete");
 
     return NextResponse.json(analysis);
   } catch (error: any) {
-    console.error("API Route error:", error);
+    console.error("CRITICAL API ERROR:", error);
     return NextResponse.json(
-      { error: error.message || "Something went wrong" }, 
+      { error: error.message || "Something went wrong during analysis" }, 
       { status: 500 }
     );
   }

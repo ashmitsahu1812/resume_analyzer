@@ -44,19 +44,36 @@ export async function analyzeResumeWithAI(
   `;
 
   try {
+    if (!process.env.OPENAI_API_KEY) {
+      throw new Error("OpenAI API Key is missing. Please check your .env.local file.");
+    }
+
     const response = await openai.chat.completions.create({
-      model: "gpt-4o", // Using gpt-4o for best results
+      model: "gpt-4o",
       messages: [
-        { role: "system", content: "You are a senior executive recruiter." },
+        { role: "system", content: "You are a senior executive recruiter. You always return valid JSON matching the requested schema." },
         { role: "user", content: prompt }
       ],
       response_format: { type: "json_object" }
     });
 
-    const result = JSON.parse(response.choices[0].message.content || "{}");
-    return result as AnalysisResult;
-  } catch (error) {
+    const content = response.choices[0].message.content;
+    if (!content) {
+      throw new Error("AI returned an empty response.");
+    }
+
+    try {
+      const result = JSON.parse(content);
+      return result as AnalysisResult;
+    } catch (parseError) {
+      console.error("JSON PARSE ERROR. Raw Content:", content);
+      throw new Error("Failed to parse AI response into a valid analysis format.");
+    }
+  } catch (error: any) {
     console.error("AI Analysis error:", error);
-    throw new Error("Failed to analyze resume with AI");
+    if (error.status === 401) {
+      throw new Error("Invalid OpenAI API Key. Please verify your credentials.");
+    }
+    throw new Error(error.message || "Failed to analyze resume with AI");
   }
 }
