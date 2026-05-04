@@ -7,9 +7,12 @@ import { AnalysisPanel, SuggestionsPanel, KeywordsPanel } from "@/components/das
 import { AnalysisResult } from "@/lib/types";
 import { Zap, Trophy, BarChart3, Target, RotateCcw } from "lucide-react";
 import { AnalysisSkeleton } from "@/components/dashboard/Skeleton";
-import { cn } from "@/lib/utils";
 
-const scoreColor = (v: number) => v >= 80 ? "#34c759" : v >= 60 ? "#ff9500" : "#ff3b30";
+const scoreColor = (v: number) =>
+  v >= 80 ? "#22c55e" : v >= 60 ? "#f59e0b" : "#ef4444";
+
+const scoreBg = (v: number) =>
+  v >= 80 ? "rgba(34,197,94,0.1)" : v >= 60 ? "rgba(245,158,11,0.1)" : "rgba(239,68,68,0.1)";
 
 export default function Dashboard() {
   const [analyzing, setAnalyzing] = useState(false);
@@ -52,36 +55,36 @@ export default function Dashboard() {
   ] : [];
 
   return (
-    <div className="max-w-4xl mx-auto px-8 py-10">
+    <div className="max-w-5xl mx-auto px-8 py-10">
       {/* Header */}
       <div className="mb-10">
-        <h1 className="text-[28px] font-bold text-[#1d1d1f] tracking-tight mb-1">Resume Analysis</h1>
-        <p className="text-[15px] text-[#6e6e73]">Upload your resume to get an instant AI-powered analysis.</p>
+        <h1 className="text-[26px] font-bold text-white tracking-tight mb-1.5">Resume Analysis</h1>
+        <p className="text-[14px] text-[#6e6e73]">Upload your resume to get an instant AI-powered analysis and optimization report.</p>
       </div>
 
       {/* Upload state */}
       {!result && !analyzing && (
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           className="grid grid-cols-1 lg:grid-cols-5 gap-5"
         >
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-[18px] border border-black/5 shadow-sm p-6 h-full">
-              <p className="text-[13px] font-semibold text-[#1d1d1f] mb-1">Upload Resume</p>
-              <p className="label mb-5">PDF or DOCX, up to 10MB</p>
+            <div className="card p-6 h-full">
+              <p className="text-[13px] font-semibold text-white mb-0.5">Upload Resume</p>
+              <p className="label-xs mb-5">PDF or DOCX · Max 10MB</p>
               <FileUpload onFileSelect={handleFile} />
             </div>
           </div>
           <div className="lg:col-span-3">
-            <div className="bg-white rounded-[18px] border border-black/5 shadow-sm p-6 h-full">
-              <p className="text-[13px] font-semibold text-[#1d1d1f] mb-1">Job Description</p>
-              <p className="label mb-5">Optional — improves match scoring</p>
+            <div className="card p-6 h-full flex flex-col">
+              <p className="text-[13px] font-semibold text-white mb-0.5">Job Description</p>
+              <p className="label-xs mb-5">Optional — enables match scoring</p>
               <textarea
                 value={jobDesc}
                 onChange={(e) => setJobDesc(e.target.value)}
-                placeholder="Paste the job description here..."
-                className="input-apple h-52 text-[14px]"
+                placeholder="Paste the job description here to get a precise match score and targeted keyword analysis..."
+                className="input flex-1 min-h-[200px] text-[13.5px] leading-relaxed"
               />
             </div>
           </div>
@@ -100,21 +103,27 @@ export default function Dashboard() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.07 }}
-                className="bg-white rounded-[18px] border border-black/5 shadow-sm p-5"
+                className="card p-5"
               >
-                <p className="label mb-3">{s.label}</p>
+                <div className="flex items-center justify-between mb-4">
+                  <p className="label-xs">{s.label}</p>
+                  <div className="w-7 h-7 rounded-lg flex items-center justify-center"
+                    style={{ background: scoreBg(s.val) }}>
+                    <s.icon className="w-3.5 h-3.5" style={{ color: scoreColor(s.val) }} />
+                  </div>
+                </div>
                 <p className="text-[2rem] font-bold tracking-tight mb-0.5"
                   style={{ color: scoreColor(s.val) }}>
-                  {s.val}<span className="text-[1rem] font-normal text-[#aeaeb2]">%</span>
+                  {s.val}<span className="text-[1rem] font-normal text-[#444]">%</span>
                 </p>
-                <p className="text-[12px] text-[#aeaeb2]">{s.desc}</p>
-                <div className="progress-track mt-3">
+                <p className="text-[11px] text-[#555] mb-3">{s.desc}</p>
+                <div className="progress-bar">
                   <motion.div
                     className="progress-fill"
                     style={{ background: scoreColor(s.val) }}
                     initial={{ width: 0 }}
                     animate={{ width: `${s.val}%` }}
-                    transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1], delay: i * 0.1 }}
+                    transition={{ duration: 1.3, ease: [0.4, 0, 0.2, 1], delay: i * 0.1 }}
                   />
                 </div>
               </motion.div>
@@ -126,7 +135,7 @@ export default function Dashboard() {
           <KeywordsPanel keywords={result.missing_keywords} />
 
           <div className="flex justify-center pt-6 pb-10">
-            <button onClick={() => setResult(null)} className="btn-ghost">
+            <button onClick={() => setResult(null)} className="btn btn-ghost">
               <RotateCcw className="w-4 h-4" />
               Start new analysis
             </button>

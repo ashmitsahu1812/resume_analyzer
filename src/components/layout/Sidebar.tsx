@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Target, Sparkles, Settings } from "lucide-react";
+import { LayoutDashboard, Target, Sparkles, Settings, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const nav = [
@@ -16,21 +16,25 @@ export default function Sidebar() {
   const path = usePathname();
 
   return (
-    <aside className="w-56 fixed left-0 top-0 bottom-0 z-40 flex flex-col bg-[#f5f5f7] border-r border-black/5">
+    <aside className="w-56 fixed left-0 top-0 bottom-0 z-40 flex flex-col bg-[#111] border-r border-white/5">
       {/* Logo */}
-      <div className="px-5 pt-6 pb-4">
-        <Link href="/" className="text-[17px] font-semibold text-[#1d1d1f] tracking-tight">
-          Aura
+      <div className="px-5 py-5 border-b border-white/5">
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="w-7 h-7 rounded-lg bg-indigo-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+            <Zap className="w-4 h-4 text-white fill-white" />
+          </div>
+          <span className="text-[15px] font-bold text-white tracking-tight">Aura</span>
         </Link>
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-3 py-2 space-y-0.5">
+      <nav className="flex-1 p-3 space-y-0.5">
+        <p className="label-xs px-3 py-2 mt-1">Navigation</p>
         {nav.map((item) => (
           <Link
             key={item.href}
             href={item.href}
-            className={cn("sidebar-item", path === item.href && "active")}
+            className={cn("sidebar-link", path === item.href && "active")}
           >
             <item.icon className="w-4 h-4 shrink-0" />
             {item.label}
@@ -38,17 +42,17 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      {/* Bottom */}
-      <div className="p-4 border-t border-black/5">
-        <div className="bg-white rounded-[14px] p-4 shadow-sm border border-black/5">
-          <div className="flex justify-between items-center mb-2">
-            <p className="text-[12px] font-medium text-[#1d1d1f]">Credits</p>
-            <p className="text-[12px] font-semibold text-[#1d1d1f]">97/100</p>
+      {/* Credits */}
+      <div className="p-4 border-t border-white/5">
+        <div className="card p-4 space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-[12px] font-medium text-[#a0a0a0]">Credits</span>
+            <span className="text-[12px] font-semibold text-white">97/100</span>
           </div>
-          <div className="progress-track">
-            <div className="progress-fill" style={{ width: "97%" }} />
+          <div className="progress-bar">
+            <div className="progress-fill bg-indigo-500" style={{ width: "97%" }} />
           </div>
-          <p className="label mt-2">Free plan</p>
+          <p className="label-xs">Free plan</p>
         </div>
       </div>
     </aside>

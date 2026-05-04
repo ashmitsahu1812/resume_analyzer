@@ -10,55 +10,57 @@ import { motion } from "framer-motion";
 
 const stats = [
   { value: "98%", label: "ATS accuracy" },
-  { value: "2s", label: "Analysis time" },
-  { value: "12+", label: "Improvements per resume" },
+  { value: "<2s", label: "Analysis time" },
+  { value: "12+", label: "Improvements found" },
   { value: "Free", label: "To get started" },
 ];
 
 export default function Home() {
   return (
-    <main className="bg-white">
+    <main>
       <Navbar />
       <Hero />
 
-      {/* Stats strip */}
-      <section className="bg-white border-y border-black/5 py-16">
-        <div className="max-w-[980px] mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {stats.map((s, i) => (
-              <motion.div key={i}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08 }}>
-                <p className="text-[2.5rem] font-bold text-[#1d1d1f] tracking-tight mb-1">{s.value}</p>
-                <p className="text-[14px] text-[#6e6e73]">{s.label}</p>
-              </motion.div>
-            ))}
-          </div>
+      {/* Stats */}
+      <section className="py-20 px-6 border-y border-white/5">
+        <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          {stats.map((s, i) => (
+            <motion.div key={i}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.08 }}>
+              <p className="text-[2.4rem] font-bold text-white tracking-tight mb-1">{s.value}</p>
+              <p className="text-[13px] text-[#555]">{s.label}</p>
+            </motion.div>
+          ))}
         </div>
       </section>
 
       <Features />
 
-      {/* CTA section */}
-      <section className="section bg-[#f5f5f7]">
-        <div className="max-w-[680px] mx-auto px-6 text-center">
+      {/* CTA */}
+      <section className="py-32 px-6">
+        <div className="max-w-3xl mx-auto text-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
+            className="card p-16 relative overflow-hidden"
           >
-            <p className="eyebrow mb-4">Get started today</p>
-            <h2 className="headline mb-5">
-              Ready to land<br />your dream job?
-            </h2>
-            <p className="subheadline mb-10" style={{ fontSize: "1.1rem" }}>
-              Upload your resume and get a full AI analysis in seconds. No account required.
-            </p>
-            <Link href="/dashboard" className="btn-primary text-[15px] px-8 py-4">
-              Analyze my resume for free
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            <div className="orb w-[400px] h-[400px] bg-indigo-600/20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+            <div className="relative z-10">
+              <p className="label-xs text-indigo-400 mb-4">Get started today</p>
+              <h2 className="title mb-5">
+                Ready to land<br />your dream job?
+              </h2>
+              <p className="subtitle mb-10 text-[1rem]">
+                Upload your resume and get a full AI analysis in seconds. No account required.
+              </p>
+              <Link href="/dashboard" className="btn btn-primary btn-lg inline-flex">
+                Analyze my resume — it's free
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>
