@@ -9,7 +9,6 @@ import {
   Settings, 
   HelpCircle,
   FileSearch,
-  LogOut,
   Sparkles
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -18,7 +17,6 @@ const menuItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
   { icon: Target, label: "Job Matching", href: "/dashboard/match" },
   { icon: Sparkles, label: "Interview Prep", href: "/dashboard/interview" },
-  { icon: FileText, label: "Resume Vault", href: "/dashboard/resumes" },
   { icon: Settings, label: "Settings", href: "/dashboard/settings" },
 ];
 
@@ -65,12 +63,6 @@ export default function Sidebar() {
           <HelpCircle className="w-5 h-5" />
           Support
         </Link>
-        <button 
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-rose-500 hover:bg-rose-500/10 transition-all"
-        >
-          <LogOut className="w-5 h-5" />
-          Logout
-        </button>
       </div>
     </aside>
   );

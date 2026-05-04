@@ -1,180 +1,163 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Target, FileText, ArrowRight, CheckCircle, AlertTriangle, Cpu } from "lucide-react";
-import FileUpload from "@/components/dashboard/FileUpload";
-import { AnalysisResult, mockAnalysisData } from "@/lib/types";
+import { motion } from "framer-motion";
+import { Target, Search, Upload, FileText, CheckCircle2, AlertCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { parsePDFOnClient, parseDOCXOnClient } from "@/lib/utils/client-parser";
 
 export default function JobMatchPage() {
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [jobDescription, setJobDescription] = useState("");
-  const [result, setResult] = useState<AnalysisResult | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [matchResult, setMatchResult] = useState<any>(null);
 
   const handleMatch = async () => {
-    if (!file || !jobDescription) return;
-    
+    if (!resumeFile || !jobDescription) return;
     setIsAnalyzing(true);
+
     try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("jobDescription", jobDescription);
+      let resumeText = "";
+      const { parsePDFOnClient, parseDOCXOnClient } = await import("@/lib/utils/client-parser");
+      
+      if (resumeFile.type === "application/pdf") {
+        resumeText = await parsePDFOnClient(resumeFile);
+      } else {
+        resumeText = await parseDOCXOnClient(resumeFile);
+      }
 
       const response = await fetch("/api/analyze", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ resumeText, jobDescription }),
       });
 
-      if (!response.ok) throw new Error("Match analysis failed");
+      if (!response.ok) throw new Error("Match Engine failed");
       const data = await response.json();
-      setResult(data);
-    } catch (error) {
-      console.error(error);
-      setResult(mockAnalysisData);
+      setMatchResult(data);
+    } catch (error: any) {
+      alert(`Matching failed: ${error.message}`);
     } finally {
       setIsAnalyzing(false);
     }
   };
 
   return (
-    <div className="space-y-12 pb-20">
-      <header className="border-b border-white/5 pb-10">
-        <div className="mono text-primary mb-2 flex items-center gap-2">
-            <Cpu className="w-3 h-3" />
-            Neural Match Engine
+    <div className="space-y-12 max-w-5xl mx-auto py-10">
+      <header>
+        <div className="flex items-center gap-3 text-amber-500 mb-4">
+          <Target className="w-5 h-5" />
+          <span className="mono text-xs uppercase tracking-[0.3em]">Neural System / Alignment</span>
         </div>
-        <h1 className="text-5xl font-bold tracking-tighter font-heading">
-          Job <br /> Alignment.
-        </h1>
-        <p className="text-white/40 max-w-md mt-4">
-          Upload your resume and paste the target job description to calculate your structural alignment score.
-        </p>
+        <h1 className="text-6xl font-bold tracking-tighter text-white">Neural Job <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">Matching.</span></h1>
       </header>
 
-      {!result ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div className="space-y-8">
-            <div className="p-1 border-b border-white/5 pb-4">
-              <span className="mono text-[10px] text-white/20 uppercase tracking-widest">Step 01 // Credentials</span>
-            </div>
-            <FileUpload onFileSelect={(f) => setFile(f)} isLoading={isAnalyzing} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Inputs */}
+        <div className="space-y-8">
+          <div className="glass rounded-3xl p-8 border border-white/5">
+            <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+              <Upload className="w-5 h-5 text-amber-500" />
+              Upload Resume
+            </h3>
+            <input
+              type="file"
+              id="match-resume"
+              className="hidden"
+              onChange={(e) => setResumeFile(e.target.files?.[0] || null)}
+            />
+            <label
+              htmlFor="match-resume"
+              className={cn(
+                "w-full h-32 border-2 border-dashed rounded-2xl flex flex-col items-center justify-center cursor-pointer transition-all",
+                resumeFile ? "border-amber-500/50 bg-amber-500/5" : "border-white/10 hover:border-amber-500/30 hover:bg-white/5"
+              )}
+            >
+              <FileText className={cn("w-8 h-8 mb-2", resumeFile ? "text-amber-500" : "text-zinc-600")} />
+              <span className="text-sm font-medium">{resumeFile ? resumeFile.name : "Select Resume (PDF/DOCX)"}</span>
+            </label>
           </div>
 
-          <div className="space-y-8">
-            <div className="p-1 border-b border-white/5 pb-4">
-              <span className="mono text-[10px] text-white/20 uppercase tracking-widest">Step 02 // Target Parameters</span>
-            </div>
-            <div className="p-8 rounded-xl glass border-white/5 space-y-6">
-               <div className="flex items-center justify-between">
-                  <h3 className="font-bold font-heading uppercase text-sm">Job Description</h3>
-                  <Target className="w-4 h-4 text-primary" />
-               </div>
-               <textarea 
-                 value={jobDescription}
-                 onChange={(e) => setJobDescription(e.target.value)}
-                 placeholder="Paste the full job description here..."
-                 className="w-full h-64 bg-white/[0.02] border border-white/5 rounded-lg p-6 text-sm focus:outline-none focus:border-primary/30 transition-all font-body resize-none"
-               />
-               <button 
-                 onClick={handleMatch}
-                 disabled={!file || !jobDescription || isAnalyzing}
-                 className="w-full py-5 button-primary rounded-sm text-xs uppercase tracking-[0.2em] disabled:opacity-30 flex items-center justify-center gap-3"
-               >
-                 {isAnalyzing ? "Processing..." : "Execute Alignment"}
-                 <ArrowRight className="w-4 h-4" />
-               </button>
-            </div>
+          <div className="glass rounded-3xl p-8 border border-white/5">
+            <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+              <Search className="w-5 h-5 text-amber-500" />
+              Target Job Description
+            </h3>
+            <textarea
+              value={jobDescription}
+              onChange={(e) => setJobDescription(e.target.value)}
+              placeholder="Paste the job description here..."
+              className="w-full h-64 bg-black/40 border border-white/10 rounded-2xl p-4 focus:border-amber-500/50 outline-none transition-all resize-none text-sm leading-relaxed"
+            />
           </div>
+
+          <button
+            onClick={handleMatch}
+            disabled={isAnalyzing || !resumeFile || !jobDescription}
+            className="w-full py-4 button-primary uppercase tracking-[0.2em] font-bold text-xs disabled:opacity-50"
+          >
+            {isAnalyzing ? "Calculating Alignment..." : "Run Matching Engine"}
+          </button>
         </div>
-      ) : (
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="space-y-12"
-        >
-          {/* Match Score Hero */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-1 p-12 rounded-xl gradient-bg flex flex-col items-center justify-center text-center relative overflow-hidden">
-               <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
-               <div className="relative z-10 space-y-4">
-                  <span className="mono text-[10px] text-primary">Compatibility Rating</span>
-                  <div className="text-8xl font-black font-heading tracking-tighter gold-glow">
-                    {result.skills_match}%
-                  </div>
-                  <p className="text-sm font-bold uppercase tracking-widest opacity-80">Highly Compatible</p>
-               </div>
-            </div>
 
-            <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-               <div className="p-8 rounded-xl glass border-white/5">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
-                      <CheckCircle className="text-emerald-500 w-4 h-4" />
-                    </div>
-                    <h3 className="font-bold font-heading">Key Strengths</h3>
+        {/* Results */}
+        <div className="space-y-8">
+          {matchResult ? (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
+              <div className="glass rounded-3xl p-10 border border-amber-500/20 relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-8">
+                  <div className="text-6xl font-black text-amber-500/10">MATCH</div>
+                </div>
+                <div className="relative z-10">
+                  <div className="text-7xl font-bold tracking-tighter text-amber-500 mb-2">{matchResult.job_match_percentage}%</div>
+                  <div className="text-zinc-400 font-medium">Neural Alignment Score</div>
+                  
+                  <div className="mt-10 h-2 bg-white/5 rounded-full overflow-hidden">
+                    <motion.div 
+                      initial={{ width: 0 }} 
+                      animate={{ width: `${matchResult.job_match_percentage}%` }}
+                      className="h-full bg-gradient-to-r from-amber-400 to-amber-600"
+                    />
                   </div>
-                  <ul className="space-y-4">
-                    {result.summary.split(". ").slice(0, 3).map((point, i) => (
-                      <li key={i} className="text-sm text-white/50 flex gap-3">
-                        <span className="text-emerald-500 font-bold">•</span>
-                        {point}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="glass rounded-2xl p-6 border border-white/5">
+                  <div className="text-xs text-zinc-500 uppercase tracking-widest mb-2 font-bold">Strengths</div>
+                  <ul className="space-y-3">
+                    {matchResult.strengths.slice(0, 3).map((s: string, i: number) => (
+                      <li key={i} className="flex items-start gap-2 text-sm text-white/80">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                        {s}
                       </li>
                     ))}
                   </ul>
-               </div>
-
-               <div className="p-8 rounded-xl glass border-white/5">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center">
-                      <AlertTriangle className="text-amber-500 w-4 h-4" />
-                    </div>
-                    <h3 className="font-bold font-heading">Missing Links</h3>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {result.missing_keywords.map((kw, i) => (
-                      <span key={i} className="px-3 py-1 bg-white/5 border border-white/5 rounded-full text-[10px] mono uppercase text-white/60">
-                        {kw}
-                      </span>
+                </div>
+                <div className="glass rounded-2xl p-6 border border-white/5">
+                  <div className="text-xs text-zinc-500 uppercase tracking-widest mb-2 font-bold">Gaps</div>
+                  <ul className="space-y-3">
+                    {matchResult.missing_keywords.slice(0, 3).map((k: string, i: number) => (
+                      <li key={i} className="flex items-start gap-2 text-sm text-white/80">
+                        <AlertCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+                        {k}
+                      </li>
                     ))}
-                  </div>
-               </div>
+                  </ul>
+                </div>
+              </div>
+            </motion.div>
+          ) : (
+            <div className="h-full flex flex-col items-center justify-center text-center p-12 border-2 border-dashed border-white/5 rounded-3xl">
+              <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mb-6">
+                <Target className="w-8 h-8 text-zinc-700" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">No Analysis Yet</h3>
+              <p className="text-zinc-500 text-sm max-w-xs">Upload your resume and paste a job description to see your alignment score.</p>
             </div>
-          </div>
-
-          {/* Detailed Analysis Section */}
-          <div className="p-10 rounded-xl glass border-white/5 space-y-8">
-             <div className="flex items-center justify-between border-b border-white/5 pb-6">
-                <h3 className="text-xl font-bold font-heading uppercase tracking-tight">Alignment Methodology</h3>
-                <span className="mono text-[10px] text-white/20">Analysis Hash: 0X7F2A...</span>
-             </div>
-             
-             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-                <div className="space-y-4">
-                   <h4 className="mono text-[11px] text-primary">01 // Semantic Match</h4>
-                   <p className="text-sm text-white/40 leading-relaxed">Our AI parses the semantic intent of your experience against the job responsibilities to ensure conceptual alignment.</p>
-                </div>
-                <div className="space-y-4">
-                   <h4 className="mono text-[11px] text-primary">02 // Keyword Density</h4>
-                   <p className="text-sm text-white/40 leading-relaxed">Analysis of technical keyword occurrences and their context within your resume compared to the job description.</p>
-                </div>
-                <div className="space-y-4">
-                   <h4 className="mono text-[11px] text-primary">03 // Role Proximity</h4>
-                   <p className="text-sm text-white/40 leading-relaxed">Calculating the distance between your current career trajectory and the requirements of the target position.</p>
-                </div>
-             </div>
-             
-             <div className="pt-8 flex justify-center">
-                <button 
-                  onClick={() => setResult(null)}
-                  className="px-10 py-4 button-secondary rounded-sm text-xs uppercase tracking-[0.2em] font-bold"
-                >
-                  Analyze New Alignment
-                </button>
-             </div>
-          </div>
-        </motion.div>
-      )}
+          )}
+        </div>
+      </div>
     </div>
   );
 }
