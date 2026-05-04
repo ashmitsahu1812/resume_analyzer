@@ -3,91 +3,61 @@
 @tailwind utilities;
 
 :root {
-  --background: #05070a;
+  --background: #03050a;
   --foreground: #ffffff;
-  --primary: #c4b5fd; /* Soft Lavender Silk */
-  --accent: #10b981; /* Emerald Precision */
+  --primary: #10b981; /* Emerald */
+  --secondary: #8b5cf6; /* Violet */
   --glass: rgba(255, 255, 255, 0.03);
-  --border: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.06);
 }
 
 body {
-  background: radial-gradient(circle at top right, #0a0f1a, #05070a);
+  background: var(--background);
   color: var(--foreground);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* Rich Glassmorphism */
-.glass-card {
+/* Advanced Glassmorphism */
+.glass-panel {
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
 }
 
-.glass-card:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.15);
-  transform: translateY(-4px);
-  transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+.glass-nav {
+  background: rgba(3, 5, 10, 0.7);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Premium Buttons */
-.btn-rich {
-  padding: 1rem 2.5rem;
-  background-color: #ffffff;
-  color: #000000;
-  font-weight: 700;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  border-radius: 1rem;
-  transition: all 0.2s;
-  box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
-}
-
-.btn-rich:hover {
-  transform: scale(1.02);
-}
-
-.btn-glass {
-  padding: 1rem 2.5rem;
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  border-radius: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.2s;
-}
-
-.btn-glass:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Soft Silk Blobs (Natural, not AI) */
-.silk-blob {
-  position: absolute;
-  filter: blur(120px);
-  z-index: -1;
-  opacity: 0.15;
-  border-radius: 50%;
-}
-
-.silk-1 { top: -10%; right: -10%; width: 600px; height: 600px; background: #4f46e5; }
-.silk-2 { bottom: -10%; left: -10%; width: 500px; height: 500px; background: #10b981; }
-
-/* Elegant Typography */
-h1, h2, h3 {
-  letter-spacing: -0.04em;
-}
-
-.text-gradient {
-  background: linear-gradient(to bottom right, #fff 30%, rgba(255,255,255,0.5));
+/* Premium Gradients */
+.text-gradient-rich {
+  background: linear-gradient(135deg, #fff 40%, rgba(255,255,255,0.4) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.emerald-glow {
+  box-shadow: 0 0 40px -10px rgba(16, 185, 129, 0.3);
+}
+
+/* Hero Visual Shadow */
+.hero-visual-shadow {
+  box-shadow: 0 100px 100px -50px rgba(0, 0, 0, 0.8), 0 0 100px -20px rgba(16, 185, 129, 0.1);
+}
+
+/* Custom Buttons */
+.btn-action {
+  @apply px-10 py-5 bg-white text-black font-black text-xs uppercase tracking-[0.2em] rounded-full transition-all hover:scale-105 active:scale-95 shadow-[0_15px_30px_rgba(255,255,255,0.1)];
+}
+
+.btn-secondary {
+  @apply px-10 py-5 bg-white/5 text-white font-black text-xs uppercase tracking-[0.2em] rounded-full border border-white/10 transition-all hover:bg-white/10;
+}
+
+/* Bento Grid */
+.bento-card {
+  @apply glass-panel rounded-[2.5rem] p-8 transition-all hover:border-white/20;
 }
