@@ -5,44 +5,45 @@ export async function analyzeResumeWithAI(
   resumeText: string, 
   jobDescription?: string
 ): Promise<AnalysisResult> {
-  const apiKey = process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   
   if (!apiKey) {
-    throw new Error("GEMINI_API_KEY is missing. Please add it to your environment variables.");
+    throw new Error("GEMINI_API_KEY is missing. Check Vercel Environment Variables.");
   }
 
   const genAI = new GoogleGenerativeAI(apiKey);
   
-  // List of models to try in order of preference
+  // Try the most stable model names
   const modelsToTry = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-pro"];
   let lastError = null;
 
   for (const modelName of modelsToTry) {
     try {
-      console.log(`Attempting analysis with model: ${modelName}`);
-      const model = genAI.getGenerativeModel({ 
-        model: modelName,
-        generationConfig: {
-          responseMimeType: "application/json",
-        }
-      });
+      console.log(`Starting analysis with: ${modelName}`);
+      const model = genAI.getGenerativeModel({ model: modelName });
 
       const prompt = `
-        You are an expert recruiter. Analyze the following resume.
-        ${jobDescription ? `Job Description: ${jobDescription}` : "General analysis."}
-        Resume: ${resumeText}
-        Return STRICT JSON matching: { "ats_score": number, "content_score": number, "format_score": number, "skills_match": number, "strengths": string[], "weaknesses": string[], "suggestions": [{"original": string, "improved": string}], "missing_keywords": string[], "job_match_percentage": number, "summary": string }
+        Act as an ATS Resume Analyzer.
+        ${jobDescription ? `Compare against this Job: ${jobDescription}` : "General analysis."}
+        Resume Text: ${resumeText}
+        
+        IMPORTANT: Return ONLY a JSON object. No extra text.
+        Format: { "ats_score": number, "content_score": number, "format_score": number, "skills_match": number, "strengths": string[], "weaknesses": string[], "suggestions": [{"original": string, "improved": string}], "missing_keywords": string[], "job_match_percentage": number, "summary": string }
       `;
 
       const result = await model.generateContent(prompt);
-      const text = result.response.text();
-      return JSON.parse(text) as AnalysisResult;
+      const response = await result.response;
+      const text = response.text();
+      
+      // Clean up the response if it contains markdown code blocks
+      const jsonStr = text.replace(/```json/g, "").replace(/```/g, "").trim();
+      return JSON.parse(jsonStr) as AnalysisResult;
     } catch (error: any) {
-      console.warn(`Model ${modelName} failed:`, error.message);
+      console.warn(`${modelName} failed:`, error.message);
       lastError = error;
-      continue; // Try next model
+      continue;
     }
   }
 
-  throw new Error(`All Gemini models failed. Last error: ${lastError?.message}`);
+  throw new Error(`CRITICAL: All Gemini models failed. This usually means the API Key is invalid or restricted in your region. Last error: ${lastError?.message}`);
 }
