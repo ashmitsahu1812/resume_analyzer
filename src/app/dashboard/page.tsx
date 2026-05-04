@@ -7,6 +7,7 @@ import { AnalysisPanel, SuggestionsPanel, KeywordsPanel } from "@/components/das
 import { AnalysisResult } from "@/lib/types";
 import { LayoutDashboard, FileText, ChevronRight, Zap, Trophy, ShieldCheck, BarChart3 } from "lucide-react";
 import { AnalysisSkeleton } from "@/components/dashboard/Skeleton";
+import { cn } from "@/lib/utils";
 
 export default function Dashboard() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);

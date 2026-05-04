@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -16,7 +14,7 @@
 body {
   background: radial-gradient(circle at top right, #0a0f1a, #05070a);
   color: var(--foreground);
-  font-family: 'Outfit', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
 }
@@ -38,11 +36,37 @@ body {
 
 /* Premium Buttons */
 .btn-rich {
-  @apply px-10 py-4 bg-white text-black font-bold text-sm uppercase tracking-[0.15em] rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-[0_0_30px_rgba(255,255,255,0.1)];
+  padding: 1rem 2.5rem;
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: 700;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  border-radius: 1rem;
+  transition: all 0.2s;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+.btn-rich:hover {
+  transform: scale(1.02);
 }
 
 .btn-glass {
-  @apply px-10 py-4 bg-white/5 text-white font-bold text-sm uppercase tracking-[0.15em] rounded-2xl border border-white/10 transition-all hover:bg-white/10;
+  padding: 1rem 2.5rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.2s;
+}
+
+.btn-glass:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Soft Silk Blobs (Natural, not AI) */
