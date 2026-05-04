@@ -33,7 +33,8 @@ export async function analyzeResumeWithAI(
         }
       ],
       "missing_keywords": string[],
-      "job_match_percentage": number (0-100)
+      "job_match_percentage": number (0-100),
+      "summary": string (a professional, 2-3 sentence overview of the analysis and match quality)
     }
 
     Rules:

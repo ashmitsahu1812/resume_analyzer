@@ -13,6 +13,7 @@ export interface AnalysisResult {
   suggestions: Suggestion[];
   missing_keywords: string[];
   job_match_percentage: number;
+  summary: string;
 }
 
 export const mockAnalysisData: AnalysisResult = {
@@ -47,5 +48,6 @@ export const mockAnalysisData: AnalysisResult = {
     }
   ],
   missing_keywords: ["Cloud Architecture", "System Design", "Microservices", "Docker", "Kubernetes", "GraphQL"],
-  job_match_percentage: 72
+  job_match_percentage: 72,
+  summary: "Your profile demonstrates a strong technical foundation in full-stack development. You align well with the core requirements, particularly in leadership and project delivery. To reach a 90%+ match, focus on adding specific cloud-native keywords mentioned in the target description."
 };
