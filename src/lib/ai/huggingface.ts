@@ -6,19 +6,16 @@ export async function analyzeResumeWithAI(
 ): Promise<AnalysisResult> {
   const apiKey = process.env.HUGGINGFACE_API_KEY;
   
-  // Using Llama-3-8B which is very stable on the free tier
-  const model = "meta-llama/Meta-Llama-3-8B-Instruct";
+  // Using Zephyr-7B which is open (non-gated) and highly reliable
+  const model = "HuggingFaceH4/zephyr-7b-beta";
   const apiUrl = `https://api-inference.huggingface.co/models/${model}`;
 
-  const prompt = `<|begin_of_text|><|start_header_id|>system<|end_header_id|>
-  You are an expert ATS Resume Analyzer. You only respond with valid JSON.
-  <|eot_id|><|start_header_id|>user<|end_header_id|>
-  Analyze this resume. ${jobDescription ? `Compare it to this job: ${jobDescription}` : ""}
-  Resume Text: ${resumeText.substring(0, 5000)}
-  
-  Return a JSON object exactly like this:
-  { "ats_score": 85, "content_score": 90, "format_score": 80, "skills_match": 75, "strengths": ["list"], "weaknesses": ["list"], "suggestions": [{"original": "line", "improved": "new line"}], "missing_keywords": ["keyword"], "job_match_percentage": 70, "summary": "brief summary" }
-  <|eot_id|><|start_header_id|>assistant<|end_header_id|>`;
+  const prompt = `<|system|>
+You are an expert ATS Resume Analyzer. Return ONLY valid JSON.<|user|>
+Analyze this resume. ${jobDescription ? `Compare it to this job: ${jobDescription}` : ""}
+Resume Text: ${resumeText.substring(0, 5000)}
+
+Return JSON: { "ats_score": 85, "content_score": 90, "format_score": 80, "skills_match": 75, "strengths": ["list"], "weaknesses": ["list"], "suggestions": [{"original": "line", "improved": "new line"}], "missing_keywords": ["keyword"], "job_match_percentage": 70, "summary": "brief summary" }<|assistant|>`;
 
   try {
     const response = await fetch(apiUrl, {
@@ -33,12 +30,18 @@ export async function analyzeResumeWithAI(
       }),
     });
 
+    const rawResponse = await response.text();
+    
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || "Hugging Face API Error");
+      // If it's HTML, extract the title or first 100 chars
+      if (rawResponse.includes("<!DOCTYPE") || rawResponse.includes("<html")) {
+        const title = rawResponse.match(/<title>(.*?)<\/title>/)?.[1] || "HTML Error Page";
+        throw new Error(`AI Server Error (${response.status}): ${title}`);
+      }
+      throw new Error(rawResponse || "AI Engine failed to respond.");
     }
 
-    const data = await response.json();
+    const data = JSON.parse(rawResponse);
     const text = Array.isArray(data) ? data[0].generated_text : data.generated_text;
     
     // Extract JSON
@@ -49,6 +52,6 @@ export async function analyzeResumeWithAI(
     return JSON.parse(jsonStr) as AnalysisResult;
   } catch (error: any) {
     console.error("Analysis Failure:", error);
-    throw new Error(`Neural Engine Offline: ${error.message}`);
+    throw new Error(error.message || "Neural Engine Offline");
   }
 }
