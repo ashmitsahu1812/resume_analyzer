@@ -4,8 +4,7 @@ export async function analyzeResumeWithAI(
   resumeText: string, 
   jobDescription?: string
 ): Promise<AnalysisResult> {
-  // Use the key provided by the user directly as a fallback to ensure immediate success
-  const apiKey = process.env.HUGGINGFACE_API_KEY || "REDACTED_API_KEY";
+  const apiKey = process.env.HUGGINGFACE_API_KEY;
   
   const model = "mistralai/Mistral-7B-Instruct-v0.2";
   const apiUrl = `https://api-inference.huggingface.co/models/${model}`;
