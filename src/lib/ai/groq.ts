@@ -13,11 +13,21 @@ export async function analyzeResumeWithAI(
   const model = "llama-3.1-8b-instant";
   const apiUrl = "https://api.groq.com/openai/v1/chat/completions";
 
-  const prompt = `You are an expert ATS Resume Analyzer. 
-  Analyze this resume. ${jobDescription ? `Compare it to this job: ${jobDescription}` : "General analysis."}
-  Resume Text: ${resumeText.substring(0, 8000)}
+  const prompt = `You are a Senior Executive Recruiter and ATS Optimization Expert. 
+  Your goal is to provide a RUTHLESSLY PROFESSIONAL analysis of this resume.
+  
+  SCORING RUBRIC:
+  1. ATS Score: Evaluate technical parseability, standard headers, and keyword density.
+  2. Content Score: Evaluate "Impact vs. Activity". Does the candidate use numbers and percentages? (e.g. "Increased revenue by 15%" = High Score; "Helped with revenue" = Low Score).
+  3. Format Score: Evaluate professional layout, contact info presence, and logical flow.
+  4. Skills Match: Evaluate the depth of technical and soft skills relative to the industry.
 
-  Return ONLY a valid JSON object. No markdown, no intro.
+  ${jobDescription ? `SPECIFIC JOB CONTEXT: ${jobDescription}` : "GENERAL INDUSTRY STANDARDS"}
+  
+  RESUME TEXT:
+  ${resumeText.substring(0, 8000)}
+
+  Return ONLY a valid JSON object. 
   Format: { "ats_score": number, "content_score": number, "format_score": number, "skills_match": number, "strengths": string[], "weaknesses": string[], "suggestions": [{"original": string, "improved": string}], "missing_keywords": string[], "job_match_percentage": number, "summary": string }`;
 
   try {
