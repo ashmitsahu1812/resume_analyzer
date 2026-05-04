@@ -1,38 +1,41 @@
 "use client";
 
 export function AnalysisSkeleton() {
+  const card: React.CSSProperties = { background: "rgba(24,24,27,0.5)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 16, padding: 20 };
+  const bar = (w: string, h = 12): React.CSSProperties => ({ width: w, height: h, borderRadius: 6 });
+
   return (
-    <div className="space-y-5">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16 }} className="score-grid">
         {[1, 2, 3, 4].map(i => (
-          <div key={i} className="rounded-2xl border border-white/8 bg-zinc-900/50 p-5 space-y-3">
-            <div className="shimmer h-3 w-20 rounded" />
-            <div className="shimmer h-8 w-16 rounded" />
-            <div className="shimmer h-1.5 w-full rounded-full mt-2" />
+          <div key={i} style={card}>
+            <div className="shimmer" style={bar("60%")} />
+            <div className="shimmer" style={{ ...bar("40%", 32), marginTop: 12 }} />
+            <div className="shimmer" style={{ ...bar("100%", 4), marginTop: 12, borderRadius: 2 }} />
           </div>
         ))}
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="analysis-grid">
         {[1, 2].map(i => (
-          <div key={i} className="rounded-2xl border border-white/8 bg-zinc-900/50 p-6 space-y-4">
-            <div className="shimmer h-4 w-24 rounded" />
-            <div className="shimmer h-3 w-full rounded" />
-            <div className="shimmer h-3 w-5/6 rounded" />
-            <div className="shimmer h-3 w-4/6 rounded" />
+          <div key={i} style={{ ...card, display: "flex", flexDirection: "column", gap: 12 }}>
+            <div className="shimmer" style={bar("40%")} />
+            <div className="shimmer" style={bar("100%")} />
+            <div className="shimmer" style={bar("85%")} />
+            <div className="shimmer" style={bar("70%")} />
           </div>
         ))}
       </div>
-      <div className="rounded-2xl border border-white/8 bg-zinc-900/50 p-6 space-y-4">
-        <div className="shimmer h-4 w-28 rounded" />
+      <div style={{ ...card, display: "flex", flexDirection: "column", gap: 12 }}>
+        <div className="shimmer" style={bar("30%")} />
         {[1, 2, 3].map(i => (
-          <div key={i} className="rounded-xl border border-white/5 overflow-hidden">
-            <div className="bg-zinc-900 p-4 space-y-2">
-              <div className="shimmer h-3 w-full rounded" />
-              <div className="shimmer h-3 w-3/4 rounded" />
+          <div key={i} style={{ borderRadius: 12, border: "1px solid rgba(255,255,255,0.05)", overflow: "hidden" }}>
+            <div style={{ background: "#18181b", padding: 16, display: "flex", flexDirection: "column", gap: 8 }}>
+              <div className="shimmer" style={bar("100%")} />
+              <div className="shimmer" style={bar("75%")} />
             </div>
-            <div className="bg-zinc-800/50 p-4 space-y-2">
-              <div className="shimmer h-3 w-full rounded" />
-              <div className="shimmer h-3 w-2/3 rounded" />
+            <div style={{ background: "rgba(39,39,42,0.5)", padding: 16, display: "flex", flexDirection: "column", gap: 8 }}>
+              <div className="shimmer" style={bar("100%")} />
+              <div className="shimmer" style={bar("60%")} />
             </div>
           </div>
         ))}

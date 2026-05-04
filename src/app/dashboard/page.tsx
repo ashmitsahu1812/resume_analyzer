@@ -53,35 +53,43 @@ export default function Dashboard() {
   ] : [];
 
   return (
-    <div className="max-w-5xl mx-auto px-8 py-10">
+    <div style={{ maxWidth: 960, margin: "0 auto", padding: "40px 32px" }}>
       {/* Header */}
-      <div className="mb-10">
-        <h1 className="text-2xl font-bold text-white tracking-tight mb-1.5">Resume Analysis</h1>
-        <p className="text-[14px] text-zinc-500">Upload your resume to get an instant AI-powered analysis and optimization report.</p>
+      <div style={{ marginBottom: 40 }}>
+        <h1 style={{ fontSize: 26, fontWeight: 700, color: "white", letterSpacing: "-0.03em", marginBottom: 6 }}>
+          Resume Analysis
+        </h1>
+        <p style={{ fontSize: 14, color: "#71717a" }}>
+          Upload your resume to get an instant AI-powered analysis and optimization report.
+        </p>
       </div>
 
       {/* Upload state */}
       {!result && !analyzing && (
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-          className="grid grid-cols-1 lg:grid-cols-5 gap-5">
-          <div className="lg:col-span-2">
-            <div className="h-full rounded-2xl border border-white/8 bg-zinc-900/50 p-6">
-              <p className="text-[13px] font-semibold text-white mb-0.5">Upload Resume</p>
-              <p className="text-[11px] font-semibold tracking-widest uppercase text-zinc-600 mb-5">PDF or DOCX · Max 10MB</p>
-              <FileUpload onFileSelect={handleFile} />
-            </div>
+          style={{ display: "grid", gridTemplateColumns: "2fr 3fr", gap: 20 }} className="upload-grid">
+          <div style={{ background: "rgba(24,24,27,0.5)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 16, padding: 24 }}>
+            <p style={{ fontSize: 13, fontWeight: 600, color: "white", marginBottom: 4 }}>Upload Resume</p>
+            <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#52525b", marginBottom: 20 }}>PDF or DOCX · Max 10MB</p>
+            <FileUpload onFileSelect={handleFile} />
           </div>
-          <div className="lg:col-span-3">
-            <div className="h-full rounded-2xl border border-white/8 bg-zinc-900/50 p-6 flex flex-col">
-              <p className="text-[13px] font-semibold text-white mb-0.5">Job Description</p>
-              <p className="text-[11px] font-semibold tracking-widest uppercase text-zinc-600 mb-5">Optional — enables match scoring</p>
-              <textarea
-                value={jobDesc}
-                onChange={(e) => setJobDesc(e.target.value)}
-                placeholder="Paste the job description here to get a precise match score and targeted keyword analysis..."
-                className="flex-1 min-h-[200px] w-full rounded-xl border border-white/8 bg-zinc-800/50 px-4 py-3 text-[13.5px] text-zinc-200 placeholder-zinc-600 outline-none resize-none leading-relaxed transition-all focus:border-indigo-500/50 focus:bg-zinc-800 focus:ring-2 focus:ring-indigo-500/15"
-              />
-            </div>
+          <div style={{ background: "rgba(24,24,27,0.5)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 16, padding: 24, display: "flex", flexDirection: "column" }}>
+            <p style={{ fontSize: 13, fontWeight: 600, color: "white", marginBottom: 4 }}>Job Description</p>
+            <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#52525b", marginBottom: 20 }}>Optional — enables match scoring</p>
+            <textarea
+              value={jobDesc}
+              onChange={(e) => setJobDesc(e.target.value)}
+              placeholder="Paste the job description here to get a precise match score and targeted keyword analysis..."
+              style={{
+                flex: 1, minHeight: 200, width: "100%", background: "rgba(39,39,42,0.5)",
+                border: "1px solid rgba(255,255,255,0.07)", borderRadius: 10,
+                padding: "12px 16px", fontSize: 13.5, color: "#d4d4d8",
+                fontFamily: "inherit", outline: "none", resize: "none", lineHeight: 1.6,
+                transition: "border-color 0.2s",
+              }}
+              onFocus={e => (e.target.style.borderColor = "rgba(99,102,241,0.5)")}
+              onBlur={e => (e.target.style.borderColor = "rgba(255,255,255,0.07)")}
+            />
           </div>
         </motion.div>
       )}
@@ -89,32 +97,27 @@ export default function Dashboard() {
       {analyzing && <AnalysisSkeleton />}
 
       {result && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-5">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           {/* Score cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }} className="score-grid">
             {scores.map((s, i) => (
               <motion.div key={i}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.07 }}
-                className="rounded-2xl border border-white/8 bg-zinc-900/50 p-5"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <p className="text-[10px] font-semibold tracking-widest uppercase text-zinc-600">{s.label}</p>
-                  <div className="w-7 h-7 rounded-lg flex items-center justify-center"
-                    style={{ background: `${scoreColor(s.val)}18` }}>
-                    <s.icon className="w-3.5 h-3.5" style={{ color: scoreColor(s.val) }} />
+                style={{ background: "rgba(24,24,27,0.5)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 16, padding: 20 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+                  <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#52525b" }}>{s.label}</p>
+                  <div style={{ width: 28, height: 28, borderRadius: 8, background: `${scoreColor(s.val)}18`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <s.icon size={14} color={scoreColor(s.val)} />
                   </div>
                 </div>
-                <p className="text-[2rem] font-bold tracking-tight leading-none mb-1"
-                  style={{ color: scoreColor(s.val) }}>
-                  {s.val}<span className="text-base font-normal text-zinc-700">%</span>
+                <p style={{ fontSize: "2rem", fontWeight: 700, letterSpacing: "-0.04em", lineHeight: 1, marginBottom: 4, color: scoreColor(s.val) }}>
+                  {s.val}<span style={{ fontSize: "1rem", fontWeight: 400, color: "#3f3f46" }}>%</span>
                 </p>
-                <p className="text-[11px] text-zinc-600 mb-3">{s.desc}</p>
-                <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                <p style={{ fontSize: 11, color: "#52525b", marginBottom: 12 }}>{s.desc}</p>
+                <div style={{ height: 4, background: "#27272a", borderRadius: 2, overflow: "hidden" }}>
                   <motion.div
-                    className="h-full rounded-full"
-                    style={{ background: scoreColor(s.val) }}
+                    style={{ height: "100%", borderRadius: 2, background: scoreColor(s.val) }}
                     initial={{ width: 0 }}
                     animate={{ width: `${s.val}%` }}
                     transition={{ duration: 1.3, ease: [0.4, 0, 0.2, 1], delay: i * 0.1 }}
@@ -128,11 +131,12 @@ export default function Dashboard() {
           <SuggestionsPanel suggestions={result.suggestions} />
           <KeywordsPanel keywords={result.missing_keywords} />
 
-          <div className="flex justify-center pt-6 pb-10">
+          <div style={{ display: "flex", justifyContent: "center", paddingTop: 24, paddingBottom: 40 }}>
             <button onClick={() => setResult(null)}
-              className="flex items-center gap-2 px-5 py-2.5 text-[13px] font-medium text-zinc-400 rounded-lg border border-white/8 hover:border-white/15 hover:text-white hover:bg-white/5 transition-all">
-              <RotateCcw className="w-4 h-4" />
-              Start new analysis
+              style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 20px", fontSize: 13, fontWeight: 500, color: "#71717a", background: "transparent", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 10, cursor: "pointer", transition: "all 0.15s" }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "white"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.15)"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "#71717a"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)"; }}>
+              <RotateCcw size={15} /> Start new analysis
             </button>
           </div>
         </motion.div>

@@ -14,68 +14,73 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
+  const navStyle: React.CSSProperties = {
+    position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
+    transition: "all 0.3s",
+    background: scrolled ? "rgba(9,9,11,0.85)" : "transparent",
+    backdropFilter: scrolled ? "blur(20px)" : "none",
+    borderBottom: scrolled ? "1px solid rgba(255,255,255,0.06)" : "none",
+  };
+
   return (
-    <header
-      className="fixed top-0 inset-x-0 z-50 transition-all duration-300"
-      style={{
-        background: scrolled ? "rgba(9,9,11,0.85)" : "transparent",
-        backdropFilter: scrolled ? "blur(20px)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.06)" : "none",
-      }}
-    >
-      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-lg bg-indigo-500 flex items-center justify-center">
-            <Zap className="w-4 h-4 text-white fill-white" />
+    <header style={navStyle}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+          <div style={{ width: 28, height: 28, borderRadius: 8, background: "#6366f1", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Zap size={15} color="white" fill="white" />
           </div>
-          <span className="text-[15px] font-semibold text-white tracking-tight">Aura</span>
+          <span style={{ fontSize: 15, fontWeight: 600, color: "white", letterSpacing: "-0.02em" }}>Aura</span>
         </Link>
 
-        {/* Desktop */}
-        <nav className="hidden md:flex items-center gap-1">
+        <nav style={{ display: "flex", alignItems: "center", gap: 4 }} className="hidden md:flex">
           {[["#features", "Features"], ["#how-it-works", "How it works"]].map(([href, label]) => (
-            <Link key={href} href={href}
-              className="px-4 py-2 text-[13px] font-medium text-zinc-400 hover:text-white rounded-lg hover:bg-white/5 transition-all">
+            <Link key={href} href={href} style={{
+              padding: "8px 16px", fontSize: 13, fontWeight: 500, color: "#a1a1aa",
+              borderRadius: 8, textDecoration: "none", transition: "all 0.15s",
+            }}
+              onMouseEnter={e => { (e.target as HTMLElement).style.color = "white"; (e.target as HTMLElement).style.background = "rgba(255,255,255,0.05)"; }}
+              onMouseLeave={e => { (e.target as HTMLElement).style.color = "#a1a1aa"; (e.target as HTMLElement).style.background = "transparent"; }}>
               {label}
             </Link>
           ))}
         </nav>
 
-        <div className="hidden md:flex items-center gap-3">
-          <Link href="/dashboard"
-            className="px-4 py-2 text-[13px] font-medium text-zinc-300 rounded-lg border border-white/10 hover:border-white/20 hover:bg-white/5 transition-all">
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }} className="hidden md:flex">
+          <Link href="/dashboard" style={{
+            padding: "8px 16px", fontSize: 13, fontWeight: 500, color: "#d4d4d8",
+            borderRadius: 8, border: "1px solid rgba(255,255,255,0.1)", textDecoration: "none", transition: "all 0.15s",
+          }}>
             Sign in
           </Link>
-          <Link href="/dashboard"
-            className="px-4 py-2 text-[13px] font-semibold text-white rounded-lg bg-indigo-500 hover:bg-indigo-400 transition-all shadow-lg shadow-indigo-500/25">
+          <Link href="/dashboard" style={{
+            padding: "8px 16px", fontSize: 13, fontWeight: 600, color: "white",
+            borderRadius: 8, background: "#6366f1", textDecoration: "none", transition: "all 0.15s",
+            boxShadow: "0 4px 15px rgba(99,102,241,0.3)",
+          }}>
             Get started free
           </Link>
         </div>
 
-        <button className="md:hidden text-zinc-400 hover:text-white p-1 transition-colors"
-          onClick={() => setOpen(!open)}>
+        <button className="md:hidden" onClick={() => setOpen(!open)}
+          style={{ background: "none", border: "none", color: "#a1a1aa", cursor: "pointer", padding: 4 }}>
           {open ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
       {open && (
-        <div className="md:hidden px-6 py-4 space-y-1 border-t border-white/5"
-          style={{ background: "rgba(9,9,11,0.95)", backdropFilter: "blur(20px)" }}>
+        <div style={{ background: "rgba(9,9,11,0.95)", backdropFilter: "blur(20px)", borderTop: "1px solid rgba(255,255,255,0.06)", padding: "16px 24px" }}
+          className="md:hidden">
           {[["#features", "Features"], ["#how-it-works", "How it works"], ["/dashboard", "Dashboard"]].map(([href, label]) => (
-            <Link key={href} href={href}
-              className="block py-2.5 text-[14px] text-zinc-400 hover:text-white transition-colors"
-              onClick={() => setOpen(false)}>
-              {label}
-            </Link>
+            <Link key={href} href={href} style={{ display: "block", padding: "10px 0", fontSize: 14, color: "#a1a1aa", textDecoration: "none" }}
+              onClick={() => setOpen(false)}>{label}</Link>
           ))}
-          <div className="pt-3">
-            <Link href="/dashboard"
-              className="block w-full text-center py-3 text-[14px] font-semibold text-white rounded-lg bg-indigo-500 hover:bg-indigo-400 transition-all"
-              onClick={() => setOpen(false)}>
-              Get started free
-            </Link>
-          </div>
+          <Link href="/dashboard" style={{
+            display: "block", marginTop: 12, padding: "12px 0", textAlign: "center",
+            fontSize: 14, fontWeight: 600, color: "white", background: "#6366f1",
+            borderRadius: 8, textDecoration: "none",
+          }} onClick={() => setOpen(false)}>
+            Get started free
+          </Link>
         </div>
       )}
     </header>

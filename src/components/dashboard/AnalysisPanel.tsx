@@ -5,40 +5,44 @@ import { CheckCircle2, AlertCircle, Sparkles, Copy, Tag } from "lucide-react";
 import { AnalysisResult, Suggestion } from "@/lib/types";
 import { useState } from "react";
 
+const card: React.CSSProperties = {
+  background: "rgba(24,24,27,0.5)",
+  border: "1px solid rgba(255,255,255,0.07)",
+  borderRadius: 16,
+  padding: 24,
+};
+
 export function AnalysisPanel({ data }: { data: AnalysisResult }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-        className="rounded-2xl border border-white/8 bg-zinc-900/50 p-6">
-        <div className="flex items-center gap-2.5 mb-5">
-          <div className="w-7 h-7 rounded-lg bg-emerald-500/12 flex items-center justify-center">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="analysis-grid">
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} style={card}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
+          <div style={{ width: 28, height: 28, borderRadius: 8, background: "rgba(34,197,94,0.12)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <CheckCircle2 size={15} color="#22c55e" />
           </div>
-          <h3 className="text-[14px] font-semibold text-white">Strengths</h3>
+          <h3 style={{ fontSize: 14, fontWeight: 600, color: "white" }}>Strengths</h3>
         </div>
-        <ul className="space-y-3">
+        <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 12 }}>
           {data.strengths.map((s, i) => (
-            <li key={i} className="flex gap-3 text-[13.5px] text-zinc-400 leading-relaxed">
-              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/50 mt-2 shrink-0" />
+            <li key={i} style={{ display: "flex", gap: 12, fontSize: 13.5, color: "#a1a1aa", lineHeight: 1.6 }}>
+              <div style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(34,197,94,0.5)", marginTop: 7, flexShrink: 0 }} />
               {s}
             </li>
           ))}
         </ul>
       </motion.div>
 
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.05 }}
-        className="rounded-2xl border border-white/8 bg-zinc-900/50 p-6">
-        <div className="flex items-center gap-2.5 mb-5">
-          <div className="w-7 h-7 rounded-lg bg-amber-500/12 flex items-center justify-center">
-            <AlertCircle className="w-4 h-4 text-amber-400" />
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} style={card}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
+          <div style={{ width: 28, height: 28, borderRadius: 8, background: "rgba(245,158,11,0.12)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <AlertCircle size={15} color="#f59e0b" />
           </div>
-          <h3 className="text-[14px] font-semibold text-white">Improvements</h3>
+          <h3 style={{ fontSize: 14, fontWeight: 600, color: "white" }}>Improvements</h3>
         </div>
-        <ul className="space-y-3">
+        <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 12 }}>
           {data.weaknesses.map((w, i) => (
-            <li key={i} className="flex gap-3 text-[13.5px] text-zinc-400 leading-relaxed">
-              <div className="w-1.5 h-1.5 rounded-full bg-amber-500/50 mt-2 shrink-0" />
+            <li key={i} style={{ display: "flex", gap: 12, fontSize: 13.5, color: "#a1a1aa", lineHeight: 1.6 }}>
+              <div style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(245,158,11,0.5)", marginTop: 7, flexShrink: 0 }} />
               {w}
             </li>
           ))}
@@ -57,38 +61,35 @@ export function SuggestionsPanel({ suggestions }: { suggestions: Suggestion[] })
   };
 
   return (
-    <div className="rounded-2xl border border-white/8 bg-zinc-900/50 p-6">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-lg bg-violet-500/12 flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-violet-400" />
+    <div style={card}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{ width: 28, height: 28, borderRadius: 8, background: "rgba(192,132,252,0.12)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Sparkles size={15} color="#c084fc" />
           </div>
-          <h3 className="text-[14px] font-semibold text-white">AI Rewrites</h3>
+          <h3 style={{ fontSize: 14, fontWeight: 600, color: "white" }}>AI Rewrites</h3>
         </div>
-        <span className="px-2.5 py-1 rounded-full bg-indigo-500/12 border border-indigo-500/20 text-[11px] font-medium text-indigo-400">
+        <span style={{ padding: "3px 10px", borderRadius: 999, background: "rgba(99,102,241,0.12)", border: "1px solid rgba(99,102,241,0.2)", fontSize: 11, fontWeight: 500, color: "#a5b4fc" }}>
           {suggestions.length} suggestions
         </span>
       </div>
 
-      <div className="space-y-3">
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         {suggestions.map((s, i) => (
-          <motion.div key={i}
-            initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.05 }}
-            className="rounded-xl border border-white/5 overflow-hidden">
-            <div className="bg-zinc-900 px-5 py-4 border-b border-white/5">
-              <p className="text-[10px] font-semibold tracking-widest uppercase text-zinc-600 mb-2">Original</p>
-              <p className="text-[13px] text-zinc-500 italic leading-relaxed">"{s.original}"</p>
+          <motion.div key={i} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
+            style={{ borderRadius: 12, border: "1px solid rgba(255,255,255,0.05)", overflow: "hidden" }}>
+            <div style={{ background: "#18181b", padding: "16px 20px", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+              <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#52525b", marginBottom: 8 }}>Original</p>
+              <p style={{ fontSize: 13, color: "#52525b", fontStyle: "italic", lineHeight: 1.6 }}>"{s.original}"</p>
             </div>
-            <div className="bg-zinc-800/50 px-5 py-4 relative group">
-              <p className="text-[10px] font-semibold tracking-widest uppercase text-indigo-400 mb-2">Improved</p>
-              <p className="text-[13.5px] text-zinc-200 leading-relaxed pr-10">{s.improved}</p>
+            <div style={{ background: "rgba(39,39,42,0.5)", padding: "16px 20px", position: "relative" }}
+              onMouseEnter={e => { const btn = e.currentTarget.querySelector('button') as HTMLElement; if (btn) btn.style.opacity = "1"; }}
+              onMouseLeave={e => { const btn = e.currentTarget.querySelector('button') as HTMLElement; if (btn) btn.style.opacity = "0"; }}>
+              <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#818cf8", marginBottom: 8 }}>Improved</p>
+              <p style={{ fontSize: 13.5, color: "#d4d4d8", lineHeight: 1.6, paddingRight: 40 }}>{s.improved}</p>
               <button onClick={() => copy(s.improved, i)}
-                className="absolute top-4 right-4 w-8 h-8 rounded-lg bg-zinc-700 hover:bg-zinc-600 border border-white/8 flex items-center justify-center transition-all opacity-0 group-hover:opacity-100">
-                {copied === i
-                  ? <span className="text-[10px] text-emerald-400 font-bold">✓</span>
-                  : <Copy className="w-3.5 h-3.5 text-zinc-400" />
-                }
+                style={{ position: "absolute", top: 16, right: 16, width: 32, height: 32, borderRadius: 8, background: "#27272a", border: "1px solid rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", opacity: 0, transition: "opacity 0.15s" }}>
+                {copied === i ? <span style={{ fontSize: 10, color: "#22c55e", fontWeight: 700 }}>✓</span> : <Copy size={13} color="#71717a" />}
               </button>
             </div>
           </motion.div>
@@ -100,27 +101,26 @@ export function SuggestionsPanel({ suggestions }: { suggestions: Suggestion[] })
 
 export function KeywordsPanel({ keywords }: { keywords: string[] }) {
   return (
-    <div className="rounded-2xl border border-white/8 bg-zinc-900/50 p-6">
-      <div className="flex items-center justify-between mb-5">
-        <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-lg bg-sky-500/12 flex items-center justify-center">
-            <Tag className="w-4 h-4 text-sky-400" />
+    <div style={card}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{ width: 28, height: 28, borderRadius: 8, background: "rgba(56,189,248,0.12)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Tag size={15} color="#38bdf8" />
           </div>
-          <h3 className="text-[14px] font-semibold text-white">Missing Keywords</h3>
+          <h3 style={{ fontSize: 14, fontWeight: 600, color: "white" }}>Missing Keywords</h3>
         </div>
-        <span className="px-2.5 py-1 rounded-full bg-indigo-500/12 border border-indigo-500/20 text-[11px] font-medium text-indigo-400">
+        <span style={{ padding: "3px 10px", borderRadius: 999, background: "rgba(99,102,241,0.12)", border: "1px solid rgba(99,102,241,0.2)", fontSize: 11, fontWeight: 500, color: "#a5b4fc" }}>
           {keywords.length} found
         </span>
       </div>
-      <div className="flex flex-wrap gap-2 mb-4">
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
         {keywords.map((kw, i) => (
-          <span key={i}
-            className="px-3 py-1.5 rounded-full border border-white/8 bg-zinc-800/50 text-[12.5px] font-medium text-zinc-400 hover:border-white/15 hover:text-zinc-200 transition-all cursor-default">
+          <span key={i} style={{ padding: "5px 14px", borderRadius: 999, background: "rgba(39,39,42,0.5)", border: "1px solid rgba(255,255,255,0.07)", fontSize: 12.5, fontWeight: 500, color: "#a1a1aa", cursor: "default" }}>
             {kw}
           </span>
         ))}
       </div>
-      <p className="text-[12.5px] text-zinc-600 leading-relaxed">
+      <p style={{ fontSize: 12.5, color: "#52525b", lineHeight: 1.6 }}>
         Add these keywords naturally to your experience and skills sections to improve ATS compatibility.
       </p>
     </div>

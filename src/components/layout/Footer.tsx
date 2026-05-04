@@ -5,43 +5,47 @@ import { Zap } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/5 py-16 px-6 bg-[#09090b]">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-          <div className="md:col-span-2 space-y-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-lg bg-indigo-500 flex items-center justify-center">
-                <Zap className="w-4 h-4 text-white fill-white" />
+    <footer style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "64px 24px", background: "#09090b" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 48, marginBottom: 48 }} className="grid-footer">
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+              <div style={{ width: 28, height: 28, borderRadius: 8, background: "#6366f1", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Zap size={15} color="white" fill="white" />
               </div>
-              <span className="text-[15px] font-semibold text-white">Aura</span>
+              <span style={{ fontSize: 15, fontWeight: 600, color: "white" }}>Aura</span>
             </div>
-            <p className="text-[13.5px] text-zinc-600 leading-relaxed max-w-xs">
+            <p style={{ fontSize: 13.5, color: "#52525b", lineHeight: 1.7, maxWidth: 280 }}>
               The smartest way to optimize your resume. Powered by AI, built for job seekers who want results.
             </p>
           </div>
           <div>
-            <p className="text-[11px] font-semibold tracking-widest uppercase text-zinc-600 mb-5">Product</p>
-            <ul className="space-y-3">
+            <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#52525b", marginBottom: 20 }}>Product</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {[["#features", "Features"], ["/dashboard", "Dashboard"], ["/dashboard/interview", "Interview Prep"]].map(([href, label]) => (
-                <li key={href}>
-                  <Link href={href} className="text-[13.5px] text-zinc-600 hover:text-white transition-colors">{label}</Link>
-                </li>
+                <Link key={href} href={href} style={{ fontSize: 13.5, color: "#52525b", textDecoration: "none", transition: "color 0.15s" }}
+                  onMouseEnter={e => (e.target as HTMLElement).style.color = "white"}
+                  onMouseLeave={e => (e.target as HTMLElement).style.color = "#52525b"}>
+                  {label}
+                </Link>
               ))}
-            </ul>
+            </div>
           </div>
           <div>
-            <p className="text-[11px] font-semibold tracking-widest uppercase text-zinc-600 mb-5">Legal</p>
-            <ul className="space-y-3">
+            <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#52525b", marginBottom: 20 }}>Legal</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {[["#", "Privacy"], ["#", "Terms"], ["#", "Security"]].map(([href, label]) => (
-                <li key={label}>
-                  <Link href={href} className="text-[13.5px] text-zinc-600 hover:text-white transition-colors">{label}</Link>
-                </li>
+                <Link key={label} href={href} style={{ fontSize: 13.5, color: "#52525b", textDecoration: "none", transition: "color 0.15s" }}
+                  onMouseEnter={e => (e.target as HTMLElement).style.color = "white"}
+                  onMouseLeave={e => (e.target as HTMLElement).style.color = "#52525b"}>
+                  {label}
+                </Link>
               ))}
-            </ul>
+            </div>
           </div>
         </div>
-        <div className="h-px bg-white/5 mb-8" />
-        <p className="text-[12px] text-zinc-700">© 2024 Aura Intelligence. All rights reserved.</p>
+        <div style={{ height: 1, background: "rgba(255,255,255,0.06)", marginBottom: 32 }} />
+        <p style={{ fontSize: 12, color: "#3f3f46" }}>© 2024 Aura Intelligence. All rights reserved.</p>
       </div>
     </footer>
   );

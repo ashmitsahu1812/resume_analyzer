@@ -15,31 +15,40 @@ export default function Sidebar() {
   const path = usePathname();
 
   return (
-    <aside className="fixed left-0 top-0 bottom-0 w-56 z-40 flex flex-col bg-[#111113] border-r border-white/5">
+    <aside style={{
+      position: "fixed", left: 0, top: 0, bottom: 0, width: 224,
+      background: "#111113", borderRight: "1px solid rgba(255,255,255,0.06)",
+      display: "flex", flexDirection: "column", zIndex: 40,
+    }}>
       {/* Logo */}
-      <div className="px-5 py-5 border-b border-white/5">
-        <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-lg bg-indigo-500 flex items-center justify-center">
-            <Zap className="w-4 h-4 text-white fill-white" />
+      <div style={{ padding: "20px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+          <div style={{
+            width: 28, height: 28, borderRadius: 8, background: "#6366f1",
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}>
+            <Zap size={15} color="white" fill="white" />
           </div>
-          <span className="text-[15px] font-semibold text-white tracking-tight">Aura</span>
+          <span style={{ fontSize: 15, fontWeight: 600, color: "white", letterSpacing: "-0.02em" }}>Aura</span>
         </Link>
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 p-3 space-y-0.5">
-        <p className="px-3 py-2 text-[10px] font-semibold tracking-widest uppercase text-zinc-600 mt-1">
+      <nav style={{ flex: 1, padding: "12px", display: "flex", flexDirection: "column", gap: 2 }}>
+        <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#52525b", padding: "8px 12px 4px" }}>
           Navigation
         </p>
         {nav.map((item) => {
           const active = path === item.href;
           return (
-            <Link key={item.href} href={item.href}
-              className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-[13.5px] font-medium transition-all ${active
-                  ? "bg-indigo-500/12 text-indigo-300"
-                  : "text-zinc-400 hover:text-white hover:bg-white/5"
-                }`}>
-              <item.icon className={`w-4 h-4 shrink-0 ${active ? "text-indigo-400" : ""}`} />
+            <Link key={item.href} href={item.href} style={{
+              display: "flex", alignItems: "center", gap: 10,
+              padding: "9px 12px", borderRadius: 8, textDecoration: "none",
+              fontSize: 13.5, fontWeight: 500, transition: "all 0.15s",
+              background: active ? "rgba(99,102,241,0.12)" : "transparent",
+              color: active ? "#a5b4fc" : "#71717a",
+            }}>
+              <item.icon size={15} color={active ? "#818cf8" : "#52525b"} />
               {item.label}
             </Link>
           );
@@ -47,16 +56,21 @@ export default function Sidebar() {
       </nav>
 
       {/* Credits */}
-      <div className="p-4 border-t border-white/5">
-        <div className="rounded-xl border border-white/8 bg-white/3 p-4 space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-[12px] font-medium text-zinc-400">Credits</span>
-            <span className="text-[12px] font-semibold text-white">97/100</span>
+      <div style={{ padding: 16, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+        <div style={{
+          background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)",
+          borderRadius: 12, padding: 16,
+        }}>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+            <span style={{ fontSize: 12, color: "#71717a", fontWeight: 500 }}>Credits</span>
+            <span style={{ fontSize: 12, color: "white", fontWeight: 600 }}>97/100</span>
           </div>
-          <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden">
-            <div className="h-full bg-indigo-500 rounded-full" style={{ width: "97%" }} />
+          <div style={{ height: 4, background: "#27272a", borderRadius: 2, overflow: "hidden" }}>
+            <div style={{ width: "97%", height: "100%", background: "#6366f1", borderRadius: 2 }} />
           </div>
-          <p className="text-[10px] font-semibold tracking-widest uppercase text-zinc-600">Free plan</p>
+          <p style={{ fontSize: 10, color: "#52525b", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", marginTop: 8 }}>
+            Free plan
+          </p>
         </div>
       </div>
     </aside>

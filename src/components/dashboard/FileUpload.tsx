@@ -43,49 +43,49 @@ export default function FileUpload({ onFileSelect, isLoading }: Props) {
     <div
       onClick={() => !file && ref.current?.click()}
       onDragEnter={onDrag} onDragLeave={onDrag} onDragOver={onDrag} onDrop={onDrop}
-      className={`relative flex flex-col items-center justify-center text-center min-h-[180px] rounded-xl border-2 border-dashed transition-all cursor-pointer p-8 ${drag
-          ? "border-indigo-500 bg-indigo-500/8"
-          : "border-white/10 bg-zinc-800/30 hover:border-white/20 hover:bg-zinc-800/50"
-        }`}
+      style={{
+        display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+        textAlign: "center", minHeight: 180, borderRadius: 12, cursor: "pointer", padding: 32,
+        border: `2px dashed ${drag ? "#6366f1" : "rgba(255,255,255,0.1)"}`,
+        background: drag ? "rgba(99,102,241,0.06)" : "rgba(39,39,42,0.3)",
+        transition: "all 0.2s",
+      }}
     >
-      <input ref={ref} type="file" accept=".pdf,.docx" className="hidden"
+      <input ref={ref} type="file" accept=".pdf,.docx" style={{ display: "none" }}
         onChange={(e) => e.target.files?.[0] && pick(e.target.files[0])} />
 
       <AnimatePresence mode="wait">
         {!file ? (
           <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="space-y-3">
-            <div className="w-12 h-12 rounded-2xl bg-zinc-800 border border-white/8 flex items-center justify-center mx-auto">
-              <Upload className="w-5 h-5 text-zinc-500" />
+            style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+            <div style={{ width: 48, height: 48, borderRadius: 14, background: "#27272a", border: "1px solid rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Upload size={20} color="#52525b" />
             </div>
             <div>
-              <p className="text-[14px] font-medium text-white">Drop your resume here</p>
-              <p className="text-[12px] text-zinc-600 mt-1">or click to browse files</p>
+              <p style={{ fontSize: 14, fontWeight: 500, color: "white", marginBottom: 4 }}>Drop your resume here</p>
+              <p style={{ fontSize: 12, color: "#52525b" }}>or click to browse files</p>
             </div>
-            <div className="flex items-center justify-center gap-2 pt-1">
-              <span className="px-2.5 py-1 rounded-full bg-indigo-500/12 border border-indigo-500/20 text-[11px] font-medium text-indigo-400">PDF</span>
-              <span className="px-2.5 py-1 rounded-full bg-indigo-500/12 border border-indigo-500/20 text-[11px] font-medium text-indigo-400">DOCX</span>
+            <div style={{ display: "flex", gap: 8, marginTop: 4 }}>
+              {["PDF", "DOCX"].map(t => (
+                <span key={t} style={{ padding: "3px 10px", borderRadius: 999, background: "rgba(99,102,241,0.12)", border: "1px solid rgba(99,102,241,0.2)", fontSize: 11, fontWeight: 500, color: "#a5b4fc" }}>{t}</span>
+              ))}
             </div>
           </motion.div>
         ) : (
           <motion.div key="file" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="space-y-3 w-full">
-            <div className="w-12 h-12 rounded-2xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center mx-auto">
-              {isLoading
-                ? <Loader2 className="w-5 h-5 text-indigo-400 animate-spin" />
-                : <FileText className="w-5 h-5 text-indigo-400" />
-              }
+            style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, width: "100%" }}>
+            <div style={{ width: 48, height: 48, borderRadius: 14, background: "rgba(99,102,241,0.15)", border: "1px solid rgba(99,102,241,0.3)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              {isLoading ? <Loader2 size={20} color="#818cf8" className="animate-spin" /> : <FileText size={20} color="#818cf8" />}
             </div>
             <div>
-              <p className="text-[14px] font-medium text-white truncate max-w-[200px] mx-auto">{file.name}</p>
-              <p className="text-[12px] text-zinc-600 mt-0.5">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+              <p style={{ fontSize: 14, fontWeight: 500, color: "white", maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{file.name}</p>
+              <p style={{ fontSize: 12, color: "#52525b", marginTop: 2 }}>{(file.size / 1024 / 1024).toFixed(2)} MB</p>
             </div>
             {isLoading
-              ? <p className="text-[13px] text-indigo-400 font-medium">Analyzing your resume...</p>
+              ? <p style={{ fontSize: 13, color: "#818cf8", fontWeight: 500 }}>Analyzing your resume...</p>
               : (
-                <button onClick={clear}
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-[12px] font-medium text-zinc-400 rounded-lg border border-white/8 hover:border-white/15 hover:text-white transition-all mx-auto">
-                  <X className="w-3.5 h-3.5" /> Remove
+                <button onClick={clear} style={{ display: "flex", alignItems: "center", gap: 6, padding: "6px 14px", fontSize: 12, fontWeight: 500, color: "#71717a", background: "transparent", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 8, cursor: "pointer" }}>
+                  <X size={13} /> Remove
                 </button>
               )
             }
