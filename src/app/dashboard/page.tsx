@@ -41,22 +41,29 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="space-y-10 pb-20">
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <div className="space-y-16 pb-20">
+      <header className="flex flex-col md:flex-row md:items-center justify-between gap-10 border-b border-white/5 pb-10">
         <div>
-          <h1 className="text-4xl font-extrabold tracking-tight mb-2 flex items-center gap-3">
-            <LayoutDashboard className="text-primary w-8 h-8" />
-            Analysis Dashboard
+          <div className="mono text-secondary mb-2 flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
+            System / Dashboard / Live
+          </div>
+          <h1 className="text-5xl font-bold tracking-tighter font-heading mb-4">
+            Analysis <br /> Terminal.
           </h1>
-          <p className="text-muted-foreground">
-            Upload your resume and get professional feedback in seconds.
+          <p className="text-white/40 max-w-md font-body">
+            Central command for resume optimization. Upload your credentials below to begin structural analysis.
           </p>
         </div>
         
-        <div className="flex items-center gap-3">
-          <div className="px-4 py-2 rounded-xl glass border-primary/20 flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm font-bold">3 Analysis Credits Left</span>
+        <div className="flex flex-col items-end gap-3">
+          <div className="px-6 py-3 border border-white/5 bg-white/[0.02] flex items-center gap-4">
+            <span className="mono text-[10px] text-white/30">Auth Status</span>
+            <span className="mono text-emerald-500 font-bold">Verified</span>
+          </div>
+          <div className="px-6 py-3 border border-white/5 bg-white/[0.02] flex items-center gap-4">
+            <span className="mono text-[10px] text-white/30">Analysis Credits</span>
+            <span className="mono text-white font-bold">03 // 100</span>
           </div>
         </div>
       </header>

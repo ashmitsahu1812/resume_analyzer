@@ -57,32 +57,32 @@ const features = [
 
 export default function Features() {
   return (
-    <section id="features" className="py-24 px-6 relative">
+    <section id="features" className="py-40 px-6 relative border-t border-white/5">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight">Everything you need to <span className="gradient-text">get hired</span></h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Powerful tools designed by recruiters and powered by the latest AI models to give you a competitive edge.
-          </p>
+        <div className="text-left mb-24 space-y-4">
+          <span className="mono text-secondary">Core Capabilities</span>
+          <h2 className="text-5xl font-bold tracking-tighter font-heading">The platform <br /> infrastructure.</h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="p-10 rounded-[2.5rem] glass glass-hover border-white/5 transition-all duration-500 group relative overflow-hidden"
+              className="p-12 border-white/5 border-r border-b group hover:bg-white/[0.02] transition-colors relative"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 gradient-bg opacity-0 group-hover:opacity-10 blur-3xl transition-opacity" />
-              
-              <div className={`w-16 h-16 ${feature.bg} rounded-[1.5rem] flex items-center justify-center mb-8 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500`}>
-                <feature.icon className={`w-10 h-10 ${feature.color}`} />
+              <div className="absolute top-4 left-4 mono text-[10px] text-white/20 group-hover:text-secondary transition-colors">
+                0{i + 1} //
               </div>
-              <h3 className="text-2xl font-black mb-4 tracking-tight">{feature.title}</h3>
-              <p className="text-white/60 leading-relaxed font-medium">
+              
+              <div className={`w-12 h-12 mb-8 flex items-center justify-center transition-transform group-hover:scale-110`}>
+                <feature.icon className={`w-6 h-6 text-white/40 group-hover:text-secondary transition-colors`} />
+              </div>
+              <h3 className="text-xl font-bold mb-4 tracking-tight font-heading">{feature.title}</h3>
+              <p className="text-white/40 text-sm leading-relaxed font-body">
                 {feature.description}
               </p>
             </motion.div>

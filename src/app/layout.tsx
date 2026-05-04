@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -7,14 +7,19 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const outfit = Outfit({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-outfit",
+  variable: "--font-jakarta",
+});
+
+const jetbrains = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
 });
 
 export const metadata: Metadata = {
-  title: "AI Resume Analyzer | Optimize Your Career",
-  description: "Get deep, actionable feedback on your resume with our AI-powered ATS analyzer. Improve your hiring chances today.",
+  title: "Aura Resume | Professional AI Analysis",
+  description: "A precision-engineered platform for modern career optimization.",
 };
 
 export default function RootLayout({
@@ -23,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${outfit.variable} antialiased dark`}>
+    <html lang="en" className={`${inter.variable} ${jakarta.variable} ${jetbrains.variable} antialiased dark`}>
       <body className="min-h-screen bg-background text-foreground selection:bg-primary/30">
         {children}
       </body>
