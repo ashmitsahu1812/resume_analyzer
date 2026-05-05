@@ -133,3 +133,227 @@ body {
 ::selection {
   background: rgba(255, 255, 255, 0.15);
 }
+
+/* ─────────────────────────────────────────
+   RESPONSIVE LAYOUT HELPERS
+   All multi-column grids collapse to 1 col
+   on mobile, 2 col on tablet where needed.
+───────────────────────────────────────── */
+
+/* Stats: 4-col → 2-col → 2-col */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 640px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+
+  .stats-grid>div {
+    border-right: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 24px 16px !important;
+  }
+
+  .stats-grid>div:nth-child(odd) {
+    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .stats-grid>div:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+}
+
+/* About: 2-col → 1-col */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+}
+
+/* Contact: 2-col → 1-col */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Upload grid: 2fr 3fr → 1-col */
+.upload-grid {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .upload-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Score cards: 4-col → 2-col → 2-col */
+.score-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  .score-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Analysis panels: 2-col → 1-col */
+.analysis-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .analysis-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Interview: sidebar + content → 1-col */
+.interview-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .interview-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Settings: content + sidebar → 1-col */
+.settings-grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Settings fields: 2-col → 1-col */
+.settings-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .settings-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Footer: 2fr 1fr 1fr → 1-col */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 56px;
+}
+
+@media (max-width: 640px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+/* Dashboard sidebar: hide on mobile, show toggle */
+.dashboard-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 224px;
+  z-index: 40;
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .dashboard-sidebar {
+    transform: translateX(-100%);
+  }
+
+  .dashboard-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .dashboard-main {
+    margin-left: 0 !important;
+  }
+}
+
+/* Section padding: reduce on mobile */
+@media (max-width: 640px) {
+  .section-pad {
+    padding-top: 80px !important;
+    padding-bottom: 80px !important;
+  }
+
+  .section-pad-lg {
+    padding-top: 100px !important;
+    padding-bottom: 100px !important;
+  }
+}
+
+/* Hero nav: hide links on mobile (already using hidden md:flex) */
+@media (max-width: 768px) {
+  .hero-nav-links {
+    display: none;
+  }
+}
+
+/* Features grid: auto-fill already responsive, but min-width fix */
+@media (max-width: 480px) {
+  .features-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* CTA section padding */
+@media (max-width: 640px) {
+  .cta-card {
+    padding: 48px 24px !important;
+  }
+}
+
+/* Dashboard page padding */
+@media (max-width: 640px) {
+  .dash-pad {
+    padding: 32px 16px !important;
+  }
+}

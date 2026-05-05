@@ -36,7 +36,7 @@ const sections = [
 
 export default function SettingsPage() {
   return (
-    <div style={{ maxWidth: 960, margin: "0 auto", padding: "48px 32px", paddingBottom: 80 }}>
+    <div className="dash-pad" style={{ maxWidth: 960, margin: "0 auto", padding: "48px 32px", paddingBottom: 80 }}>
       {/* Header */}
       <div style={{ marginBottom: 48, paddingBottom: 32, borderBottom: `1px solid ${BORDER}` }}>
         <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 12 }}>
@@ -71,7 +71,7 @@ export default function SettingsPage() {
               </div>
 
               {/* Fields */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+              <div className="settings-fields">
                 {section.fields.map((field, j) => (
                   <div key={j}>
                     <label style={{ display: "block", fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", color: MUTED, fontFamily: "var(--font-body)", marginBottom: 8 }}>

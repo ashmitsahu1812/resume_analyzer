@@ -10,12 +10,7 @@ export default function Footer() {
       background: "hsl(201 100% 13%)",
     }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "2fr 1fr 1fr",
-          gap: 48,
-          marginBottom: 56,
-        }}>
+        <div className="footer-grid">
           {/* Brand */}
           <div>
             <span style={{

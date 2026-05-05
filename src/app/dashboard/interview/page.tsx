@@ -34,7 +34,7 @@ export default function InterviewPrepPage() {
   };
 
   return (
-    <div style={{ maxWidth: 960, margin: "0 auto", padding: "48px 32px" }}>
+    <div className="dash-pad" style={{ maxWidth: 960, margin: "0 auto", padding: "48px 32px" }}>
       {/* Header */}
       <div style={{ marginBottom: 48, paddingBottom: 32, borderBottom: `1px solid ${BORDER}` }}>
         <p style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED, fontFamily: "var(--font-body)", marginBottom: 12 }}>
