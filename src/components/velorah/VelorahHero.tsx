@@ -7,9 +7,9 @@ const VIDEO_URL =
 
 const NAV_LINKS = [
   { label: "Home", href: "#", active: true },
-  { label: "Studio", href: "#studio", active: false },
+  { label: "Features", href: "#features", active: false },
   { label: "About", href: "#about", active: false },
-  { label: "Journal", href: "#journal", active: false },
+  { label: "Dashboard", href: "/dashboard", active: false },
   { label: "Reach Us", href: "#reach-us", active: false },
 ];
 
@@ -60,72 +60,60 @@ export default function VelorahHero() {
         }}
       >
         {/* Logo */}
-        <span
-          style={{
-            fontFamily: "'Instrument Serif', serif",
-            fontSize: "1.875rem",
-            letterSpacing: "-0.025em",
-            color: "hsl(0 0% 100%)",
-            lineHeight: 1,
-          }}
-        >
-          Velorah
-          <sup style={{ fontSize: "0.75rem", verticalAlign: "super" }}>®</sup>
-        </span>
+        <Link href="/" style={{ textDecoration: "none" }}>
+          <span
+            style={{
+              fontFamily: "'Instrument Serif', serif",
+              fontSize: "1.875rem",
+              letterSpacing: "-0.025em",
+              color: "hsl(0 0% 100%)",
+              lineHeight: 1,
+            }}
+          >
+            Aura<sup style={{ fontSize: "0.75rem", verticalAlign: "super" }}>®</sup>
+          </span>
+        </Link>
 
         {/* Nav links — hidden on mobile */}
-        <div
-          className="hidden md:flex"
-          style={{ alignItems: "center", gap: 32 }}
-        >
+        <div className="hidden md:flex" style={{ alignItems: "center", gap: 32 }}>
           {NAV_LINKS.map((link) => (
-            <a
+            <Link
               key={link.label}
               href={link.href}
               style={{
                 fontSize: "0.875rem",
-                color: link.active
-                  ? "hsl(0 0% 100%)"
-                  : "hsl(240 4% 66%)",
+                color: link.active ? "hsl(0 0% 100%)" : "hsl(240 4% 66%)",
                 textDecoration: "none",
                 transition: "color 0.2s",
               }}
-              onMouseEnter={(e) =>
-                ((e.target as HTMLElement).style.color = "hsl(0 0% 100%)")
-              }
-              onMouseLeave={(e) =>
-              ((e.target as HTMLElement).style.color = link.active
-                ? "hsl(0 0% 100%)"
-                : "hsl(240 4% 66%)")
-              }
+              onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "hsl(0 0% 100%)")}
+              onMouseLeave={(e) => ((e.target as HTMLElement).style.color = link.active ? "hsl(0 0% 100%)" : "hsl(240 4% 66%)")}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </div>
 
         {/* CTA */}
-        <button
-          className="liquid-glass"
-          style={{
-            borderRadius: 9999,
-            padding: "10px 24px",
-            fontSize: "0.875rem",
-            color: "hsl(0 0% 100%)",
-            background: "rgba(255,255,255,0.01)",
-            border: "none",
-            cursor: "pointer",
-            transition: "transform 0.2s",
-          }}
-          onMouseEnter={(e) =>
-            ((e.currentTarget as HTMLElement).style.transform = "scale(1.03)")
-          }
-          onMouseLeave={(e) =>
-            ((e.currentTarget as HTMLElement).style.transform = "scale(1)")
-          }
-        >
-          Begin Journey
-        </button>
+        <Link href="/dashboard" style={{ textDecoration: "none" }}>
+          <button
+            className="liquid-glass"
+            style={{
+              borderRadius: 9999,
+              padding: "10px 24px",
+              fontSize: "0.875rem",
+              color: "hsl(0 0% 100%)",
+              background: "rgba(255,255,255,0.01)",
+              border: "none",
+              cursor: "pointer",
+              transition: "transform 0.2s",
+            }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.transform = "scale(1.03)")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.transform = "scale(1)")}
+          >
+            Analyze Resume
+          </button>
+        </Link>
       </nav>
 
       {/* ── Hero Section ── */}
@@ -157,11 +145,11 @@ export default function VelorahHero() {
         >
           Where{" "}
           <em className="not-italic" style={{ color: "hsl(240 4% 66%)" }}>
-            dreams
+            your career
           </em>{" "}
-          rise{" "}
+          rises{" "}
           <em className="not-italic" style={{ color: "hsl(240 4% 66%)" }}>
-            through the silence.
+            through the noise.
           </em>
         </h1>
 
@@ -177,34 +165,29 @@ export default function VelorahHero() {
             fontFamily: "var(--font-body)",
           }}
         >
-          We&apos;re designing tools for deep thinkers, bold creators, and quiet
-          rebels. Amid the chaos, we build digital spaces for sharp focus and
-          inspired work.
+          AI-powered resume analysis for deep thinkers and bold creators. Upload your resume, get an instant ATS score, keyword gaps, and AI-rewritten bullet points — in seconds.
         </p>
 
         {/* Hero CTA */}
-        <button
-          className="liquid-glass animate-fade-rise-delay-2"
-          style={{
-            borderRadius: 9999,
-            padding: "20px 56px",
-            fontSize: "1rem",
-            color: "hsl(0 0% 100%)",
-            background: "rgba(255,255,255,0.01)",
-            border: "none",
-            cursor: "pointer",
-            marginTop: 48,
-            transition: "transform 0.2s",
-          }}
-          onMouseEnter={(e) =>
-            ((e.currentTarget as HTMLElement).style.transform = "scale(1.03)")
-          }
-          onMouseLeave={(e) =>
-            ((e.currentTarget as HTMLElement).style.transform = "scale(1)")
-          }
-        >
-          Begin Journey
-        </button>
+        <Link href="/dashboard" style={{ textDecoration: "none", marginTop: 48 }}>
+          <button
+            className="liquid-glass animate-fade-rise-delay-2"
+            style={{
+              borderRadius: 9999,
+              padding: "20px 56px",
+              fontSize: "1rem",
+              color: "hsl(0 0% 100%)",
+              background: "rgba(255,255,255,0.01)",
+              border: "none",
+              cursor: "pointer",
+              transition: "transform 0.2s",
+            }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.transform = "scale(1.03)")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.transform = "scale(1)")}
+          >
+            Analyze My Resume
+          </button>
+        </Link>
       </section>
     </div>
   );
