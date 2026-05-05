@@ -1,123 +1,140 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { User, Shield, Key, Bell, CreditCard, ExternalLink, Zap } from "lucide-react";
+import { User, Shield, Key, CreditCard, ExternalLink, Zap } from "lucide-react";
+
+const BORDER = "rgba(255,255,255,0.07)";
+const MUTED = "rgba(255,255,255,0.4)";
+
+const sections = [
+  {
+    title: "Profile Information", icon: User,
+    description: "Manage your account identity and professional details.",
+    fields: [
+      { label: "Display Name", value: "Ashmit Sahu", type: "text" },
+      { label: "Email Address", value: "ashmit@example.com", type: "email" },
+      { label: "Professional Role", value: "Full Stack Engineer", type: "text" },
+    ],
+  },
+  {
+    title: "API Configuration", icon: Key,
+    description: "Configure your neural engine parameters and access keys.",
+    fields: [
+      { label: "OpenAI API Key", value: "sk-••••••••••••••••••••", type: "password" },
+      { label: "Analysis Model", value: "GPT-4o (Standard)", type: "select" },
+    ],
+  },
+  {
+    title: "Security & Access", icon: Shield,
+    description: "Control your data residency and platform encryption settings.",
+    fields: [
+      { label: "Two-Factor Auth", value: "Enabled", type: "toggle" },
+      { label: "Vault Encryption", value: "AES-256", type: "readonly" },
+    ],
+  },
+];
 
 export default function SettingsPage() {
-  const sections = [
-    {
-      title: "Profile Information",
-      icon: User,
-      description: "Manage your account identity and professional details.",
-      fields: [
-        { label: "Display Name", value: "Ashmit Sahu", type: "text" },
-        { label: "Email Address", value: "ashmit@example.com", type: "email" },
-        { label: "Professional Role", value: "Full Stack Engineer", type: "text" },
-      ]
-    },
-    {
-      title: "API Configuration",
-      icon: Key,
-      description: "Configure your neural engine parameters and access keys.",
-      fields: [
-        { label: "OpenAI API Key", value: "sk-••••••••••••••••••••", type: "password" },
-        { label: "Analysis Model", value: "GPT-4o (Standard)", type: "select" },
-      ]
-    },
-    {
-      title: "Security & Access",
-      icon: Shield,
-      description: "Control your data residency and platform encryption settings.",
-      fields: [
-        { label: "Two-Factor Auth", value: "Enabled", type: "toggle" },
-        { label: "Vault Encryption", value: "AES-256", type: "readonly" },
-      ]
-    }
-  ];
-
   return (
-    <div className="space-y-12 pb-20">
-      <header className="border-b border-white/5 pb-10">
-        <div className="mono text-primary mb-2 flex items-center gap-2">
-            <Zap className="w-3 h-3" />
+    <div style={{ maxWidth: 960, margin: "0 auto", padding: "48px 32px", paddingBottom: 80 }}>
+      {/* Header */}
+      <div style={{ marginBottom: 48, paddingBottom: 32, borderBottom: `1px solid ${BORDER}` }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 12 }}>
+          <Zap size={11} color={MUTED} />
+          <p style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED, fontFamily: "var(--font-body)" }}>
             System Configuration
+          </p>
         </div>
-        <h1 className="text-5xl font-bold tracking-tighter font-heading">
-          Platform <br /> Settings.
+        <h1 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "clamp(2.2rem, 4vw, 3.2rem)", fontWeight: 400, letterSpacing: "-0.03em", lineHeight: 1.05, color: "#ffffff", marginBottom: 12 }}>
+          Platform{" "}
+          <em className="not-italic" style={{ color: MUTED }}>Settings.</em>
         </h1>
-        <p className="text-white/40 max-w-md mt-4">
+        <p style={{ fontSize: 13.5, color: MUTED, maxWidth: 440, lineHeight: 1.65, fontFamily: "var(--font-body)" }}>
           Adjust your neural analysis parameters and manage your secure credential vault.
         </p>
-      </header>
+      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-        <div className="lg:col-span-2 space-y-12">
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 32, alignItems: "start" }} className="settings-grid">
+        {/* Left — form sections */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
           {sections.map((section, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              className="space-y-6"
-            >
-              <div className="flex items-center gap-4 border-b border-white/5 pb-4">
-                <div className="w-10 h-10 rounded-sm bg-primary/10 flex items-center justify-center">
-                  <section.icon className="text-primary w-5 h-5" />
+            <motion.div key={i} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
+              {/* Section header */}
+              <div style={{ display: "flex", alignItems: "center", gap: 12, paddingBottom: 16, marginBottom: 20, borderBottom: `1px solid ${BORDER}` }}>
+                <div style={{ width: 32, height: 32, borderRadius: 8, border: `1px solid ${BORDER}`, background: "rgba(255,255,255,0.03)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <section.icon size={14} color={MUTED} />
                 </div>
                 <div>
-                  <h3 className="font-bold font-heading uppercase text-sm tracking-widest">{section.title}</h3>
-                  <p className="text-[10px] text-white/20 mono">{section.description}</p>
+                  <p style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "#ffffff", fontFamily: "var(--font-body)", fontWeight: 500 }}>{section.title}</p>
+                  <p style={{ fontSize: 11, color: MUTED, fontFamily: "var(--font-body)", marginTop: 2 }}>{section.description}</p>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+              {/* Fields */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                 {section.fields.map((field, j) => (
-                  <div key={j} className="space-y-2">
-                    <label className="mono text-[9px] text-white/30 uppercase">{field.label}</label>
-                    <div className="px-6 py-4 bg-white/[0.02] border border-white/5 rounded-sm flex items-center justify-between group focus-within:border-primary/30 transition-all">
-                      <span className="text-sm font-medium">{field.value}</span>
-                      <button className="mono text-[8px] text-primary opacity-0 group-hover:opacity-100 transition-opacity">Edit</button>
+                  <div key={j}>
+                    <label style={{ display: "block", fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", color: MUTED, fontFamily: "var(--font-body)", marginBottom: 8 }}>
+                      {field.label}
+                    </label>
+                    <div className="liquid-glass" style={{ borderRadius: 10, padding: "12px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}
+                      onMouseEnter={(e) => { const b = e.currentTarget.querySelector("button") as HTMLElement; if (b) b.style.opacity = "1"; }}
+                      onMouseLeave={(e) => { const b = e.currentTarget.querySelector("button") as HTMLElement; if (b) b.style.opacity = "0"; }}>
+                      <span style={{ fontSize: 13.5, color: "rgba(255,255,255,0.8)", fontFamily: "var(--font-body)" }}>{field.value}</span>
+                      <button style={{ fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase", color: MUTED, background: "none", border: "none", cursor: "pointer", opacity: 0, transition: "opacity 0.15s", fontFamily: "var(--font-body)" }}>
+                        Edit
+                      </button>
                     </div>
                   </div>
                 ))}
               </div>
             </motion.div>
           ))}
-          
-          <div className="pt-10 flex justify-end">
-             <button className="px-12 py-5 button-primary rounded-sm text-xs uppercase tracking-[0.2em]">
-                Save System State
-             </button>
+
+          {/* Save */}
+          <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: 8 }}>
+            <button className="liquid-glass" style={{ padding: "14px 40px", fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: "#ffffff", background: "rgba(255,255,255,0.01)", border: "none", borderRadius: 9999, cursor: "pointer", fontFamily: "var(--font-body)", transition: "all 0.2s" }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)")}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.01)")}>
+              Save System State
+            </button>
           </div>
         </div>
 
-        <div className="space-y-8">
-           <div className="p-1 border-b border-white/5 pb-4">
-              <span className="mono text-[10px] text-white/20 uppercase tracking-widest">Billing & Tier</span>
-           </div>
-           <div className="p-8 rounded-xl glass border-primary/20 space-y-6 relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-3xl -mr-16 -mt-16" />
-              <div className="relative z-10">
-                 <div className="flex items-center justify-between mb-8">
-                    <span className="mono text-primary font-bold">Premium Tier</span>
-                    <CreditCard className="w-5 h-5 text-primary" />
-                 </div>
-                 <h3 className="text-3xl font-bold font-heading mb-2">Executive</h3>
-                 <p className="text-sm text-white/40 mb-8 leading-relaxed font-body">Your account is currently in the executive tier with unlimited neural matching capabilities.</p>
-                 <button className="w-full py-4 button-secondary rounded-sm text-[10px] mono tracking-widest flex items-center justify-center gap-2 group">
-                    Manage Subscription
-                    <ExternalLink className="w-3 h-3 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                 </button>
-              </div>
-           </div>
-           
-           <div className="p-8 rounded-xl bg-rose-500/5 border border-rose-500/10 space-y-4">
-              <h4 className="mono text-[10px] text-rose-500 font-bold">Danger Zone</h4>
-              <p className="text-[10px] text-white/20">Permanently delete your account and all analyzed resume data from the vault.</p>
-              <button className="w-full py-3 bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 rounded-sm text-[10px] mono tracking-widest transition-colors font-bold">
-                 Purge Data Archive
-              </button>
-           </div>
+        {/* Right — billing + danger */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <p style={{ fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", color: MUTED, fontFamily: "var(--font-body)", paddingBottom: 12, borderBottom: `1px solid ${BORDER}` }}>
+            Billing & Tier
+          </p>
+
+          <div className="liquid-glass" style={{ borderRadius: 16, padding: 24 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+              <p style={{ fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase", color: MUTED, fontFamily: "var(--font-body)" }}>Premium Tier</p>
+              <CreditCard size={13} color={MUTED} />
+            </div>
+            <h3 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "2rem", fontWeight: 400, color: "#ffffff", marginBottom: 10 }}>Executive</h3>
+            <p style={{ fontSize: 12.5, color: MUTED, lineHeight: 1.65, marginBottom: 20, fontFamily: "var(--font-body)" }}>
+              Your account is currently in the executive tier with unlimited neural matching capabilities.
+            </p>
+            <button className="liquid-glass" style={{ width: "100%", padding: "11px 0", fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", color: MUTED, background: "rgba(255,255,255,0.01)", border: "none", borderRadius: 9999, cursor: "pointer", fontFamily: "var(--font-body)", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, transition: "all 0.2s" }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#ffffff")}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = MUTED)}>
+              Manage Subscription <ExternalLink size={10} />
+            </button>
+          </div>
+
+          {/* Danger zone */}
+          <div style={{ borderRadius: 16, padding: 24, background: "rgba(255,255,255,0.02)", border: `1px solid rgba(255,255,255,0.06)` }}>
+            <p style={{ fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,100,100,0.7)", fontFamily: "var(--font-body)", marginBottom: 10 }}>Danger Zone</p>
+            <p style={{ fontSize: 12, color: MUTED, lineHeight: 1.65, marginBottom: 16, fontFamily: "var(--font-body)" }}>
+              Permanently delete your account and all analyzed resume data from the vault.
+            </p>
+            <button style={{ width: "100%", padding: "10px 0", fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,100,100,0.7)", background: "rgba(255,80,80,0.06)", border: "1px solid rgba(255,80,80,0.15)", borderRadius: 9999, cursor: "pointer", fontFamily: "var(--font-body)", transition: "all 0.2s" }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "rgba(255,80,80,0.12)")}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "rgba(255,80,80,0.06)")}>
+              Purge Data Archive
+            </button>
+          </div>
         </div>
       </div>
     </div>

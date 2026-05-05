@@ -3,144 +3,127 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Target, Search, Upload, FileText, CheckCircle2, AlertCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { parsePDFOnClient, parseDOCXOnClient } from "@/lib/utils/client-parser";
+
+const BORDER = "rgba(255,255,255,0.07)";
+const MUTED = "rgba(255,255,255,0.4)";
+const CARD: React.CSSProperties = { background: "rgba(255,255,255,0.03)", border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 };
 
 export default function JobMatchPage() {
   const [resumeFile, setResumeFile] = useState<File | null>(null);
-  const [jobDescription, setJobDescription] = useState("");
+  const [jobDescription, setJobDesc] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [matchResult, setMatchResult] = useState<any>(null);
 
   const handleMatch = async () => {
     if (!resumeFile || !jobDescription) return;
     setIsAnalyzing(true);
-
     try {
-      let resumeText = "";
       const { parsePDFOnClient, parseDOCXOnClient } = await import("@/lib/utils/client-parser");
-      
-      if (resumeFile.type === "application/pdf") {
-        resumeText = await parsePDFOnClient(resumeFile);
-      } else {
-        resumeText = await parseDOCXOnClient(resumeFile);
-      }
-
-      const response = await fetch("/api/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const resumeText = resumeFile.type === "application/pdf"
+        ? await parsePDFOnClient(resumeFile)
+        : await parseDOCXOnClient(resumeFile);
+      const res = await fetch("/api/analyze", {
+        method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ resumeText, jobDescription }),
       });
-
-      if (!response.ok) throw new Error("Match Engine failed");
-      const data = await response.json();
-      setMatchResult(data);
-    } catch (error: any) {
-      alert(`Matching failed: ${error.message}`);
-    } finally {
-      setIsAnalyzing(false);
-    }
+      if (!res.ok) throw new Error("Match Engine failed");
+      setMatchResult(await res.json());
+    } catch (e: any) { alert(`Matching failed: ${e.message}`); }
+    finally { setIsAnalyzing(false); }
   };
 
   return (
-    <div className="space-y-12 max-w-5xl mx-auto py-10">
-      <header>
-        <div className="flex items-center gap-3 text-amber-500 mb-4">
-          <Target className="w-5 h-5" />
-          <span className="mono text-xs uppercase tracking-[0.3em]">Neural System / Alignment</span>
-        </div>
-        <h1 className="text-6xl font-bold tracking-tighter text-white">Neural Job <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">Matching.</span></h1>
-      </header>
+    <div style={{ maxWidth: 960, margin: "0 auto", padding: "48px 32px" }}>
+      {/* Header */}
+      <div style={{ marginBottom: 48, paddingBottom: 32, borderBottom: `1px solid ${BORDER}` }}>
+        <p style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED, fontFamily: "var(--font-body)", marginBottom: 12 }}>
+          Neural System / Alignment
+        </p>
+        <h1 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "clamp(2.2rem, 4vw, 3.2rem)", fontWeight: 400, letterSpacing: "-0.03em", lineHeight: 1.05, color: "#ffffff" }}>
+          Neural Job{" "}
+          <em className="not-italic" style={{ color: MUTED }}>Matching.</em>
+        </h1>
+      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }} className="upload-grid">
         {/* Inputs */}
-        <div className="space-y-8">
-          <div className="glass rounded-3xl p-8 border border-white/5">
-            <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-              <Upload className="w-5 h-5 text-amber-500" />
-              Upload Resume
-            </h3>
-            <input
-              type="file"
-              id="match-resume"
-              className="hidden"
-              onChange={(e) => setResumeFile(e.target.files?.[0] || null)}
-            />
-            <label
-              htmlFor="match-resume"
-              className={cn(
-                "w-full h-32 border-2 border-dashed rounded-2xl flex flex-col items-center justify-center cursor-pointer transition-all",
-                resumeFile ? "border-amber-500/50 bg-amber-500/5" : "border-white/10 hover:border-amber-500/30 hover:bg-white/5"
-              )}
-            >
-              <FileText className={cn("w-8 h-8 mb-2", resumeFile ? "text-amber-500" : "text-zinc-600")} />
-              <span className="text-sm font-medium">{resumeFile ? resumeFile.name : "Select Resume (PDF/DOCX)"}</span>
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          {/* Upload */}
+          <div className="liquid-glass" style={{ borderRadius: 16, padding: 24 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
+              <Upload size={13} color={MUTED} />
+              <p style={{ fontFamily: "'Instrument Serif', serif", fontSize: "1rem", color: "#ffffff" }}>Upload Resume</p>
+            </div>
+            <input type="file" id="match-resume" style={{ display: "none" }}
+              onChange={(e) => setResumeFile(e.target.files?.[0] || null)} />
+            <label htmlFor="match-resume" style={{
+              display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+              height: 100, borderRadius: 10, cursor: "pointer", transition: "all 0.2s",
+              border: `1.5px dashed ${resumeFile ? "rgba(255,255,255,0.2)" : BORDER}`,
+              background: resumeFile ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.02)",
+            }}>
+              <FileText size={20} color={resumeFile ? "rgba(255,255,255,0.7)" : MUTED} style={{ marginBottom: 8 }} />
+              <span style={{ fontSize: 12, color: resumeFile ? "rgba(255,255,255,0.8)" : MUTED, fontFamily: "var(--font-body)" }}>
+                {resumeFile ? resumeFile.name : "Select Resume (PDF/DOCX)"}
+              </span>
             </label>
           </div>
 
-          <div className="glass rounded-3xl p-8 border border-white/5">
-            <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-              <Search className="w-5 h-5 text-amber-500" />
-              Target Job Description
-            </h3>
-            <textarea
-              value={jobDescription}
-              onChange={(e) => setJobDescription(e.target.value)}
+          {/* Job desc */}
+          <div className="liquid-glass" style={{ borderRadius: 16, padding: 24, flex: 1 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
+              <Search size={13} color={MUTED} />
+              <p style={{ fontFamily: "'Instrument Serif', serif", fontSize: "1rem", color: "#ffffff" }}>Target Job Description</p>
+            </div>
+            <textarea value={jobDescription} onChange={(e) => setJobDesc(e.target.value)}
               placeholder="Paste the job description here..."
-              className="w-full h-64 bg-black/40 border border-white/10 rounded-2xl p-4 focus:border-amber-500/50 outline-none transition-all resize-none text-sm leading-relaxed"
-            />
+              style={{ width: "100%", height: 180, background: "rgba(255,255,255,0.03)", border: `1px solid ${BORDER}`, borderRadius: 10, padding: "12px 14px", fontSize: 13, color: "#ffffff", fontFamily: "var(--font-body)", outline: "none", resize: "none", lineHeight: 1.65, transition: "border-color 0.2s" }}
+              onFocus={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.2)")}
+              onBlur={(e) => (e.target.style.borderColor = BORDER)} />
           </div>
 
-          <button
-            onClick={handleMatch}
-            disabled={isAnalyzing || !resumeFile || !jobDescription}
-            className="w-full py-4 button-primary uppercase tracking-[0.2em] font-bold text-xs disabled:opacity-50"
-          >
+          {/* Run button */}
+          <button onClick={handleMatch} disabled={isAnalyzing || !resumeFile || !jobDescription}
+            className="liquid-glass"
+            style={{ padding: "14px 0", width: "100%", fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: isAnalyzing || !resumeFile || !jobDescription ? MUTED : "#ffffff", background: "rgba(255,255,255,0.01)", border: "none", borderRadius: 9999, cursor: "pointer", fontFamily: "var(--font-body)", transition: "all 0.2s" }}>
             {isAnalyzing ? "Calculating Alignment..." : "Run Matching Engine"}
           </button>
         </div>
 
         {/* Results */}
-        <div className="space-y-8">
+        <div>
           {matchResult ? (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
-              <div className="glass rounded-3xl p-10 border border-amber-500/20 relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-8">
-                  <div className="text-6xl font-black text-amber-500/10">MATCH</div>
-                </div>
-                <div className="relative z-10">
-                  <div className="text-7xl font-bold tracking-tighter text-amber-500 mb-2">{matchResult.job_match_percentage}%</div>
-                  <div className="text-zinc-400 font-medium">Neural Alignment Score</div>
-                  
-                  <div className="mt-10 h-2 bg-white/5 rounded-full overflow-hidden">
-                    <motion.div 
-                      initial={{ width: 0 }} 
-                      animate={{ width: `${matchResult.job_match_percentage}%` }}
-                      className="h-full bg-gradient-to-r from-amber-400 to-amber-600"
-                    />
-                  </div>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {/* Score */}
+              <div className="liquid-glass" style={{ borderRadius: 16, padding: 32 }}>
+                <p style={{ fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", color: MUTED, fontFamily: "var(--font-body)", marginBottom: 12 }}>Neural Alignment Score</p>
+                <p style={{ fontFamily: "'Instrument Serif', serif", fontSize: "4rem", fontWeight: 400, color: "#ffffff", lineHeight: 1, marginBottom: 16 }}>
+                  {matchResult.job_match_percentage}<span style={{ fontSize: "1.5rem", color: MUTED }}>%</span>
+                </p>
+                <div style={{ height: 2, background: "rgba(255,255,255,0.06)", borderRadius: 1, overflow: "hidden" }}>
+                  <motion.div style={{ height: "100%", background: "rgba(255,255,255,0.4)", borderRadius: 1 }}
+                    initial={{ width: 0 }} animate={{ width: `${matchResult.job_match_percentage}%` }}
+                    transition={{ duration: 1.3, ease: [0.4, 0, 0.2, 1] }} />
                 </div>
               </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="glass rounded-2xl p-6 border border-white/5">
-                  <div className="text-xs text-zinc-500 uppercase tracking-widest mb-2 font-bold">Strengths</div>
-                  <ul className="space-y-3">
+              {/* Strengths / Gaps */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <div style={CARD}>
+                  <p style={{ fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", color: MUTED, fontFamily: "var(--font-body)", marginBottom: 14 }}>Strengths</p>
+                  <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10 }}>
                     {matchResult.strengths.slice(0, 3).map((s: string, i: number) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-white/80">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                        {s}
+                      <li key={i} style={{ display: "flex", gap: 8, fontSize: 12.5, color: MUTED, lineHeight: 1.5, fontFamily: "var(--font-body)" }}>
+                        <CheckCircle2 size={12} color="rgba(255,255,255,0.5)" style={{ marginTop: 2, flexShrink: 0 }} />{s}
                       </li>
                     ))}
                   </ul>
                 </div>
-                <div className="glass rounded-2xl p-6 border border-white/5">
-                  <div className="text-xs text-zinc-500 uppercase tracking-widest mb-2 font-bold">Gaps</div>
-                  <ul className="space-y-3">
+                <div style={CARD}>
+                  <p style={{ fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", color: MUTED, fontFamily: "var(--font-body)", marginBottom: 14 }}>Gaps</p>
+                  <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10 }}>
                     {matchResult.missing_keywords.slice(0, 3).map((k: string, i: number) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-white/80">
-                        <AlertCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
-                        {k}
+                      <li key={i} style={{ display: "flex", gap: 8, fontSize: 12.5, color: MUTED, lineHeight: 1.5, fontFamily: "var(--font-body)" }}>
+                        <AlertCircle size={12} color="rgba(255,255,255,0.35)" style={{ marginTop: 2, flexShrink: 0 }} />{k}
                       </li>
                     ))}
                   </ul>
@@ -148,12 +131,12 @@ export default function JobMatchPage() {
               </div>
             </motion.div>
           ) : (
-            <div className="h-full flex flex-col items-center justify-center text-center p-12 border-2 border-dashed border-white/5 rounded-3xl">
-              <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mb-6">
-                <Target className="w-8 h-8 text-zinc-700" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">No Analysis Yet</h3>
-              <p className="text-zinc-500 text-sm max-w-xs">Upload your resume and paste a job description to see your alignment score.</p>
+            <div className="liquid-glass" style={{ height: "100%", minHeight: 300, borderRadius: 16, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: 40 }}>
+              <Target size={32} color="rgba(255,255,255,0.12)" style={{ marginBottom: 20 }} />
+              <h3 style={{ fontFamily: "'Instrument Serif', serif", fontSize: "1.2rem", fontWeight: 400, color: "#ffffff", marginBottom: 10 }}>No Analysis Yet</h3>
+              <p style={{ fontSize: 13, color: MUTED, maxWidth: 240, lineHeight: 1.65, fontFamily: "var(--font-body)" }}>
+                Upload your resume and paste a job description to see your alignment score.
+              </p>
             </div>
           )}
         </div>
