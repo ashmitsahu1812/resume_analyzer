@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Aura — AI Resume Intelligence",
-  description: "Analyze, optimize, and perfect your resume with AI.",
+  title: "Velorah",
+  description: "Where dreams rise through the silence.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
