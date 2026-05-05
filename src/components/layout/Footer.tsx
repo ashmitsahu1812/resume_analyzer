@@ -1,51 +1,115 @@
 "use client";
 
 import Link from "next/link";
-import { Zap } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "64px 24px", background: "#09090b" }}>
+    <footer style={{
+      borderTop: "1px solid rgba(255,255,255,0.07)",
+      padding: "64px 24px 48px",
+      background: "hsl(201 100% 13%)",
+    }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 48, marginBottom: 48 }} className="grid-footer">
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "2fr 1fr 1fr",
+          gap: 48,
+          marginBottom: 56,
+        }}>
+          {/* Brand */}
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-              <div style={{ width: 28, height: 28, borderRadius: 8, background: "#6366f1", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <Zap size={15} color="white" fill="white" />
-              </div>
-              <span style={{ fontSize: 15, fontWeight: 600, color: "white" }}>Aura</span>
-            </div>
-            <p style={{ fontSize: 13.5, color: "#52525b", lineHeight: 1.7, maxWidth: 280 }}>
-              The smartest way to optimize your resume. Powered by AI, built for job seekers who want results.
+            <span style={{
+              fontFamily: "'Instrument Serif', serif",
+              fontSize: "1.5rem",
+              color: "hsl(0 0% 100%)",
+              letterSpacing: "-0.02em",
+              display: "block",
+              marginBottom: 16,
+            }}>
+              Aura<sup style={{ fontSize: "0.6rem", verticalAlign: "super" }}>®</sup>
+            </span>
+            <p style={{
+              fontSize: 13.5,
+              color: "hsl(240 4% 45%)",
+              lineHeight: 1.75,
+              maxWidth: 280,
+              fontFamily: "var(--font-body)",
+            }}>
+              AI-powered resume intelligence for deep thinkers and bold creators who refuse to be filtered out.
             </p>
           </div>
+
+          {/* Product */}
           <div>
-            <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#52525b", marginBottom: 20 }}>Product</p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <p style={{
+              fontSize: 10,
+              fontWeight: 500,
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+              color: "hsl(240 4% 45%)",
+              marginBottom: 20,
+              fontFamily: "var(--font-body)",
+            }}>
+              Product
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {[["#features", "Features"], ["/dashboard", "Dashboard"], ["/dashboard/interview", "Interview Prep"]].map(([href, label]) => (
-                <Link key={href} href={href} style={{ fontSize: 13.5, color: "#52525b", textDecoration: "none", transition: "color 0.15s" }}
-                  onMouseEnter={e => (e.target as HTMLElement).style.color = "white"}
-                  onMouseLeave={e => (e.target as HTMLElement).style.color = "#52525b"}>
+                <Link key={href} href={href} style={{
+                  fontSize: 13.5,
+                  color: "hsl(240 4% 45%)",
+                  textDecoration: "none",
+                  fontFamily: "var(--font-body)",
+                  transition: "color 0.2s",
+                }}
+                  onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "hsl(0 0% 100%)")}
+                  onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "hsl(240 4% 45%)")}>
                   {label}
                 </Link>
               ))}
             </div>
           </div>
+
+          {/* Legal */}
           <div>
-            <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#52525b", marginBottom: 20 }}>Legal</p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <p style={{
+              fontSize: 10,
+              fontWeight: 500,
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+              color: "hsl(240 4% 45%)",
+              marginBottom: 20,
+              fontFamily: "var(--font-body)",
+            }}>
+              Legal
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {[["#", "Privacy"], ["#", "Terms"], ["#", "Security"]].map(([href, label]) => (
-                <Link key={label} href={href} style={{ fontSize: 13.5, color: "#52525b", textDecoration: "none", transition: "color 0.15s" }}
-                  onMouseEnter={e => (e.target as HTMLElement).style.color = "white"}
-                  onMouseLeave={e => (e.target as HTMLElement).style.color = "#52525b"}>
+                <Link key={label} href={href} style={{
+                  fontSize: 13.5,
+                  color: "hsl(240 4% 45%)",
+                  textDecoration: "none",
+                  fontFamily: "var(--font-body)",
+                  transition: "color 0.2s",
+                }}
+                  onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "hsl(0 0% 100%)")}
+                  onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "hsl(240 4% 45%)")}>
                   {label}
                 </Link>
               ))}
             </div>
           </div>
         </div>
-        <div style={{ height: 1, background: "rgba(255,255,255,0.06)", marginBottom: 32 }} />
-        <p style={{ fontSize: 12, color: "#3f3f46" }}>© 2024 Aura Intelligence. All rights reserved.</p>
+
+        {/* Bottom bar */}
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: 28 }}>
+          <p style={{
+            fontSize: 12,
+            color: "hsl(240 4% 35%)",
+            fontFamily: "var(--font-body)",
+          }}>
+            © 2024 Aura Intelligence. All rights reserved.
+          </p>
+        </div>
       </div>
     </footer>
   );
