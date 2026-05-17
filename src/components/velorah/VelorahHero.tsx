@@ -12,7 +12,6 @@ const NAV_LINKS = [
   { label: "Features", href: "#features", active: false },
   { label: "About", href: "#about", active: false },
   { label: "Dashboard", href: "/dashboard", active: false },
-  { label: "Reach Us", href: "#reach-us", active: false },
 ];
 
 export default function VelorahHero() {
